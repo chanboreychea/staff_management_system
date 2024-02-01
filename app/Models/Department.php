@@ -20,4 +20,9 @@ class Department extends Model
     {
         return $this->hasMany(Office::class, "departmentId");
     }
+
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class, "departmentId");
+    }
 }

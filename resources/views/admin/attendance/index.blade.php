@@ -1,5 +1,7 @@
 @extends('template.master')
 
+
+
 @section('content')
     <div class="card" style="margin-top: -30px">
         <div class="card-header card bg-primary text-white m-2 d-flex justify-content-center"
@@ -13,22 +15,50 @@
             <h5 class="card-title">
                 <form action="/attendances">
                     <div class="row">
-                        {{-- search --}}
+
+                        {{-- user --}}
                         <div class="col">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">Search</span>
-                                </div>
-                                <input type="text" name="search" class="form-control" placeholder="អត្តលេខ"
-                                    aria-label="Username" aria-describedby="basic-addon1">
+                            <div class="btn-group" style="width: 100%">
+                                <button type="button" class="btn btn-secondary">មន្ត្រី</button>
+                                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    @foreach ($departments as $department)
+                                        <li class="dropdown-item">
+                                            <input type="checkbox" name="departmentId[]" class="departmentId"
+                                                value="{{ $department->id }}">
+                                            {{ $department->departmentNameKh }}
+                                            <ul>
+                                                @foreach ($users as $user)
+                                                    @if ($department->id == $user->departmentId)
+                                                        <li class="dropdown-item">
+                                                            <input type="checkbox" class="uid" name="uid[]"
+                                                                value="{{ $user->id }}" id="">
+                                                            {{ $user->lastNameKh }} {{ $user->firstNameKh }}
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        </li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
+                        {{-- search --}}
+                        <div class="col">
+
+                            <input type="text" name="search" class="form-control" placeholder="អត្តលេខ"
+                                aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+
                         {{-- from date --}}
                         <div class="col">
                             <div class="input-group mb-3">
 
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">Form</span>
+                                    <span class="input-group-text" id="basic-addon1">From</span>
                                 </div>
                                 <input type="date" name="fromDate" class="form-control" placeholder=""
                                     aria-label="Username" aria-describedby="basic-addon1">
@@ -49,9 +79,6 @@
                             <input class="btn btn-success" type="submit" value="Save">
                         </div>
                     </div>
-
-
-
 
                 </form>
             </h5>
@@ -117,4 +144,12 @@
 
         </div>
     </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function() {
+            $('input[name="departmentId[]"]').bind('click', function() {
+                $('input[type=checkbox]', $(this).parent('li')).attr('checked', ($(this).is(':checked')));
+            });
+        });
+    </script>
 @endsection

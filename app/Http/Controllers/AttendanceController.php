@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\User;
 use Rats\Zkteco\Lib\ZKTeco;
 use Illuminate\Http\Request;
@@ -33,18 +34,27 @@ class AttendanceController extends Controller
 
     public function attendances(Request $request)
     {
-        $this->setAttendances();
+        // $this->setAttendances();
 
         $userIdCard = $request->input('search');
         $fromDate = $request->input('fromDate');
         $toDate = $request->input('toDate');
+        $uid = $request->input('uid');
+        $departmentId = $request->input('departmentId');
 
         $query = DB::table('attendances')->join('users', 'users.idCard', '=', 'attendances.userId')
-            ->select('attendances.id', 'users.firstNameKh', 'users.lastNameKh', 'userId', 'date', 'checkIn', 'checkOut', 'total');
+            ->select('users.id', 'attendances.id', 'users.departmentId', 'users.firstNameKh', 'users.lastNameKh', 'userId', 'date', 'checkIn', 'checkOut', 'total');
         $today = Carbon::today();
+
+        $departments = Department::all();
+        $users = User::all();
 
         if ($userIdCard) {
             $query->where('userId', $userIdCard);
+        }
+
+        if ($uid) {
+            $query->whereIn('users.id', $uid);
         }
 
         if ($fromDate && $toDate) {
@@ -53,9 +63,13 @@ class AttendanceController extends Controller
             $query->whereDate('date', Carbon::parse($today)->format('Y-m-d'));
         }
 
-        $attendances = $query->orderBy('id', 'desc')->get();
+        if ($departmentId) {
+            $query->whereIn('users.departmentId', $departmentId);
+        }
 
-        return view('admin.attendance.index', compact('attendances'));
+        $attendances = $query->orderBy('attendances.id', 'desc')->get();
+
+        return view('admin.attendance.index', compact('attendances', 'users', 'departments'));
     }
 
     public function showAttendanceByUserId(Request $request, string $userId)
