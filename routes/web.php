@@ -63,4 +63,13 @@ Route::middleware(['authm'])->group(function () {
 
     Route::get('/attendances', [AttendanceController::class, 'attendances']);
     Route::get('/attendances/{userId}', [AttendanceController::class, 'showAttendanceByUserId']);
+
+    Route::get('/user/user_information/{id}',[UserController::class,'user_information'])->name('user_information');
+    // Route::get('/user/user_information',[UserController::class,'add_user_information'])->name('add_user_information');
+
+    Route::get('/user/user_work_history',[UserController::class,'user_work_history']);
+    Route::get('/user/user_medal_certificate_of_application',[UserController::class,'user_medal_certificate_of_application']);
+    Route::get('/user/user_general_education_level_vacational_and_continuing_education',[UserController::class,'user_general_education_level_vacational_and_continuing_education']);
+    Route::get('/user/user_foreign_language_ability',[UserController::class,'user_foreign_language_ability']);
+    Route::get('/user/user_family_status',[UserController::class,'user_family_status']);
 });

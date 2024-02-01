@@ -264,4 +264,29 @@ class UserController extends Controller
 
         return redirect('/users');
     }
+    public function user_information($id=null,Request $request){
+        $id=$id;
+       
+        return view('admin.user.user_information',compact('id'));
+    }
+    // public function add_user_information(Request $request){
+    //     echo 'hello';
+       
+    //     // return view('admin.user.user_information',compact('id'));
+    // }
+    public function user_work_history(){
+        return view('admin.user.user_work_history');
+    }
+    public function user_medal_certificate_of_application(){
+        return view('admin.user.user_medal_certificate_of_application');
+    }
+    public function user_general_education_level_vacational_and_continuing_education(){
+        return view('admin.user.user_general_education_level_vacational_and_continuing_education');
+    }
+    public function user_foreign_language_ability(){
+        return view('admin.user.user_foreign_language_ability');
+    }
+    public function user_family_status(){
+        return view('admin.user.user_family_status');
+    }
 }

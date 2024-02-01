@@ -2,6 +2,22 @@
 @section('title', 'User')
 @section('content')
     <div class="card">
+    <div class="d-flex flex-sm-row flex-column">
+           
+           <a href="{{ route('user_information',['id'=>$user->id] ) }}" class="p-2 border text-size blue white a_hover">ព័ត៍មានអំពីស្ថានភាព</a>
+           
+           <a href="#" class="p-2 border text-size blue white a_hover">ប្រវត្តិការងារ</a>
+
+           <a href="#" class="p-2 border text-size blue white a_hover">គ្រឿងឥស្សរិយយស​​ ប័ណ្ណសរសើរ ឬទណ្ខកម្មវិន័យ</a>
+
+           <a href="#" class="p-2 border text-size blue white a_hover">កម្រិតវប្បធម៍ទូទៅ ការបណ្តុះបណ្តាលវិជ្ជាជីវៈ និងការបន្តុះបណ្តាលបន្ត</a>
+
+           <a href="#" class="p-2 border text-size blue white a_hover">សមត្ថភាពភាសាបរទេស</a>
+
+           <a href="#" class="p-2 border text-size blue white a_hover" >ស្ថានភាពគ្រួសា</a>
+   
+
+       </div>
         <div class="card-header">
             <h5 class="m-0"><a class="btn btn-dark btn-sm" href="/users">ថយក្រោយ</a></h5>
         </div>
