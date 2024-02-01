@@ -1,0 +1,100 @@
+a {
+    text-decoration: none;
+}
+
+a .a_hover:hover {
+    color: white;
+}
+
+
+/* ------------------------------------------Form-------------------------------------------- */
+
+.form-main {
+    box-shadow: 0 0 1px rgba(0, 0, 0, .125), 0 1px 3px rgba(0, 0, 0, .2);
+    margin-bottom: 1rem;
+    background: white;
+    border-radius: 4px;
+}
+
+.form-top-header {
+    font-family: Khmer OS Muol;
+}
+
+.form-header {
+    background: #232150;
+    font-family: Khmer OS Muol;
+    color: white;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.form-content {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+}
+
+
+/* ---------------------------------------------- */
+
+.btn-submit {
+    /* background: #232150;
+    color: white;
+    font-weight: bold; */
+    background-image: linear-gradient(to right, #232150 0%, #264ada 51%, #232150 100%);
+    /* margin: 10px;
+    padding: 15px 45px; */
+    text-align: center;
+    /* text-transform: uppercase; */
+    font-weight: bold;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+}
+
+
+/* --------------------color------------------------- */
+
+.blue {
+    background: #232150;
+}
+
+
+/* -----------------------text color-------------------------------- */
+
+.white {
+    color: white;
+}
+
+
+/* ----------------------button----------------------------- */
+
+.btn-submit:hover {
+    /* background-color: #2321508c;
+    color: white;
+    font-weight: bold; */
+    background-position: right center;
+    /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.text_limit_1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    /* number of lines to show */
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.text-size {
+    font-size: 10px;
+}
