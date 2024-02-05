@@ -2,72 +2,116 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Department;
+use App\Exports\AttendanceExport;
 use App\Models\User;
+use App\Models\Department;
 use Rats\Zkteco\Lib\ZKTeco;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\URL;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AttendanceController extends Controller
 {
 
-    public function getAtt()
+    public function getAtt(Request $request)
     {
-        $zk = new ZKTeco('172.16.15.184', 4370);
-        $zk->connect();
-        $zk->disableDevice();
-        $users = $zk->getUser();
+        $ip = $request->input('ip');
+        $port = $request->input('port');
 
-        $u = [];
+        if ($request->input('getAtt')) {
 
-        foreach ($users as $user) {
+            dd('get attendances' . ' - ' . $ip . ' - ' . $port);
+        } else {
 
-            $u[] = [
-                'user' => $user['name'] . ' - ' . $user['userid']
-            ];
+            return redirect('/attendances')->with('successMsg', 'Property is updated .');
+            // dd('test' . ' - ' . $ip . ' - ' . $port);
+        }
+        // $zk = new ZKTeco('172.16.15.184', 4370);
+        // $zk->connect();
+        // $zk->disableDevice();
+        // $users = $zk->getUser();
+        // $u = [];
+        // foreach ($users as $user) {
+        //     $u[] = [
+        //         'user' => $user['name'] . ' - ' . $user['userid']
+        //     ];
+        // }
+
+        // return view('hrauoffsa.test', compact('u'));
+    }
+
+    public function export(Request $request)
+    {
+        $previousUrl = URL::previous();
+        $parsedUrl = parse_url($previousUrl);
+
+        if (isset($parsedUrl['query'])) {
+            parse_str($parsedUrl['query'], $queryParams);
+        } else {
+            $query = DB::table('attendances')->join('users', 'users.idCard', '=', 'attendances.userId')
+                ->select('users.id', 'attendances.id', 'users.lastNameKh', 'users.firstNameKh', 'userId', 'date', 'checkIn', 'checkOut', 'total');
+            $attendances = $query->whereDate('date', Carbon::parse('2024-02-01'))->orderBy('attendances.id', 'desc')->get();
+            return Excel::download(new AttendanceExport($attendances), 'attendances.xlsx');
         }
 
-        return view('hrauoffsa.test', compact('u'));
+        $fromDate = $queryParams['fromDate'];
+        $toDate = $queryParams['toDate'];
+
+        $query = DB::table('attendances')->join('users', 'users.idCard', '=', 'attendances.userId')
+            ->select('users.id', 'attendances.id', 'users.lastNameKh', 'users.firstNameKh', 'userId', 'date', 'checkIn', 'checkOut', 'total');
+
+        if (isset($queryParams['uid'])) {
+            $query->whereIn('users.idCard', $queryParams['uid']);
+        }
+
+        if ($fromDate && $toDate) {
+            $query->whereBetween('date', [$fromDate, $toDate]);
+        }
+
+        $attendances = $query->orderBy('date', 'desc')->get();
+
+        return Excel::download(new AttendanceExport($attendances), 'attendances.xlsx');
     }
 
     public function attendances(Request $request)
     {
-        // $this->setAttendances();
-
-        $userIdCard = $request->input('search');
         $fromDate = $request->input('fromDate');
         $toDate = $request->input('toDate');
         $uid = $request->input('uid');
-        $departmentId = $request->input('departmentId');
 
-        $query = DB::table('attendances')->join('users', 'users.idCard', '=', 'attendances.userId')
-            ->select('users.id', 'attendances.id', 'users.departmentId', 'users.firstNameKh', 'users.lastNameKh', 'userId', 'date', 'checkIn', 'checkOut', 'total');
         $today = Carbon::today();
-
         $departments = Department::all();
         $users = User::all();
 
-        if ($userIdCard) {
-            $query->where('userId', $userIdCard);
-        }
+        $query = DB::table('attendances')
+            ->join('users', 'users.idCard', '=', 'attendances.userId')
+            ->select(
+                'users.id',
+                'attendances.id',
+                'users.idCard',
+                'users.lastNameKh',
+                'users.firstNameKh',
+                'userId',
+                'date',
+                'checkIn',
+                'checkOut',
+                'total'
+            );
 
         if ($uid) {
-            $query->whereIn('users.id', $uid);
+            $query->whereIn('users.idCard', $uid);
         }
 
         if ($fromDate && $toDate) {
             $query->whereBetween('date', [$fromDate, $toDate]);
         } else {
-            $query->whereDate('date', Carbon::parse($today)->format('Y-m-d'));
+            $thisWeek = $this->getDatesByPeriodName('this_month', Carbon::now());
+            $query->whereBetween('date', [Carbon::parse($thisWeek[0])->format('Y-m-d'), Carbon::parse($thisWeek[1])->format('Y-m-d')]);
         }
 
-        if ($departmentId) {
-            $query->whereIn('users.departmentId', $departmentId);
-        }
-
-        $attendances = $query->orderBy('attendances.id', 'desc')->get();
+        $attendances = $query->orderBy('date', 'desc')->get();
 
         return view('admin.attendance.index', compact('attendances', 'users', 'departments'));
     }

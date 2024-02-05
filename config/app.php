@@ -162,6 +162,7 @@ return [
          */
 
         Jenssegers\Agent\AgentServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -186,6 +187,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         // 'Example' => App\Facades\Example::class,
         'date_format' => env('DATE_FORMAT', 'Y-m-d'),
     ])->toArray(),

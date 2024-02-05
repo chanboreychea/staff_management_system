@@ -22,7 +22,7 @@ class UserController extends Controller
     {
         // $agent = new Agent();
         // $device = $agent->device();
-        $this->setAttendances();
+        // $this->setAttendances();
         $users = User::all();
         return view('admin.user.index', compact('users'));
     }

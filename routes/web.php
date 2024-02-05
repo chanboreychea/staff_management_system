@@ -63,4 +63,5 @@ Route::middleware(['authm'])->group(function () {
 
     Route::get('/attendances', [AttendanceController::class, 'attendances']);
     Route::get('/attendances/{userId}', [AttendanceController::class, 'showAttendanceByUserId']);
+    Route::get('/attendaces/export/excel', [AttendanceController::class, 'export']);
 });
