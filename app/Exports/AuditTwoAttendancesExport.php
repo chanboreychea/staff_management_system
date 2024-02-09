@@ -3,17 +3,17 @@
 namespace App\Exports;
 
 use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\WithTitle;
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithStyles;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\WithDrawings;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
-use Maatwebsite\Excel\Concerns\WithTitle;
 
-class AttendanceExport implements WithTitle, WithDrawings, WithHeadings, WithCustomStartCell, WithStyles, FromArray
+class AuditTwoAttendancesExport implements WithTitle, WithDrawings, WithHeadings, WithCustomStartCell, WithStyles, FromArray
 {
     use Exportable;
 
@@ -26,7 +26,7 @@ class AttendanceExport implements WithTitle, WithDrawings, WithHeadings, WithCus
 
     public function title(): string
     {
-        return 'attendances';
+        return 'នាយកដ្ឋានសវនកម្មទី២';
     }
 
     public function styles(Worksheet $sheet)
@@ -71,31 +71,24 @@ class AttendanceExport implements WithTitle, WithDrawings, WithHeadings, WithCus
     public function headings(): array
     {
         return [
-            [' ', ' ', ' ', ' ', 'បញ្ជីស្រង់វត្តមានមន្ត្រីនៃអង្គភាព អសហ'],
+            [' ', ' ', ' ', ' ', 'បញ្ជីស្រង់វត្តមានមន្ត្រីនៃនាយកដ្ឋាន សវន​​កម្មទី​ ២'],
             [' '], [
                 'លរ',
                 'ឈ្មោះ',
-                'អត្តលេខ',
-                'កាលបរិច្ឆេទ',
-                'ច្បាប់',
-                'ម៉ោងចូល',
-                'ចូលយឺត',
-                'ម៉ោងចេញ',
-                'ចេញយឺត',
-                'ម៉ោងធ្វើការ',
-                'បេសកកម្ម',
+                'ភេទ', 'ថ្ងៃខែឆ្នាំកំណើត', 'តួនាទី', 'លេខទូរស័ព្ទ', 'ចំនួនថ្ងៃមកធ្វើការ', 'វត្តមាន មានច្បាប់', 'វត្តមាន​ ឥតច្បាប់', 'បេសកកម្ម'
             ],
             [
                 'No',
-                'User Name',
-                'User ID',
-                'Date',
-                'Leave',
-                'Check In',
+                'Name',
+                'Sex',
+                'Date Of Birth',
+                'Position',
+                'Contact',
+                'Work Day',
+                'Absent (allow)',
+                'Absent (not allow)',
                 'Late In',
-                'Check Out',
                 'Late Out',
-                'Actual Work',
                 'Mission',
             ]
         ];
@@ -104,21 +97,31 @@ class AttendanceExport implements WithTitle, WithDrawings, WithHeadings, WithCus
     public function array(): array
     {
         $attendances = [];
+        $no = 1;
         foreach ($this->data as $key => $item) {
 
-            $attendances[] = [
-                $key + 1,
-                $item->lastNameKh . ' ' . $item->firstNameKh,
-                $item->userId,
-                $item->date,
-                '',
-                $item->checkIn,
-                '',
-                $item->checkOut,
-                '',
-                $item->total,
-                ''
-            ];
+            if ($item->gender == 'm') {
+                $gender = 'ប្រុស';
+            } else {
+                $gender = 'ស្រី';
+            }
+
+            if ($item->departmentNameKh == "សវនកម្មទី២") {
+                $attendances[] = [
+                    $no++,
+                    $item->lastNameKh . ' ' . $item->firstNameKh,
+                    $gender,
+                    $item->dateOfBirth,
+                    $item->roleNameKh,
+                    $item->phoneNumber,
+                    $item->total,
+                    $item->leave,
+                    '',
+                    $item->lateIn,
+                    $item->lateOut,
+                    $item->mission
+                ];
+            }
         }
         return $attendances;
     }

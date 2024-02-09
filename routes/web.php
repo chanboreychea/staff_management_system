@@ -63,5 +63,7 @@ Route::middleware(['authm'])->group(function () {
 
     Route::get('/attendances', [AttendanceController::class, 'attendances']);
     Route::get('/attendances/{userId}', [AttendanceController::class, 'showAttendanceByUserId']);
+    Route::patch('/attendances/{attendanceId}',[AttendanceController::class, 'updateLateInAndLateOut']);
     Route::get('/attendaces/export/excel', [AttendanceController::class, 'export']);
+    Route::get('/att', [AttendanceController::class, 'attendancesByDepartmentAndRole']);
 });

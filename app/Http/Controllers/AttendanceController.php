@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\AttendanceExport;
 use App\Models\User;
+use App\Models\Attendance;
 use App\Models\Department;
 use Rats\Zkteco\Lib\ZKTeco;
 use Illuminate\Http\Request;
@@ -11,6 +11,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\AttendanceExportMuiltpleSheets;
 
 class AttendanceController extends Controller
 {
@@ -22,24 +23,35 @@ class AttendanceController extends Controller
 
         if ($request->input('getAtt')) {
 
-            dd('get attendances' . ' - ' . $ip . ' - ' . $port);
+            $this->setAttendances();
+            return redirect('/attendances');
+
+            // dd('get attendances' . ' - ' . $ip . ' - ' . $port);
         } else {
 
-            return redirect('/attendances')->with('successMsg', 'Property is updated .');
+            $zk = new ZKTeco('172.16.15.184', 4370);
+            $zk->connect();
+            $zk->disableDevice();
+            $users = $zk->getUser();
+            $att = $zk->getAttendance();
+            $a = [];
+            foreach ($att as $i) {
+                if ($i['timestamp'] > Carbon::parse('2024-02-05 00:00:00')) {
+                    $a[] = [
+                        'attendance' => $i['id'] . ' - ' . $i['timestamp']
+                    ];
+                }
+            }
+
+            $u = [];
+            foreach ($users as $i) {
+                $u[] = [
+                    'user' => $i['userid'] . ' - ' . $i['name']
+                ];
+            }
+            return view('hrauoffsa.test', compact('u', 'a'))->with('successMsg', 'Property is updated .');
             // dd('test' . ' - ' . $ip . ' - ' . $port);
         }
-        // $zk = new ZKTeco('172.16.15.184', 4370);
-        // $zk->connect();
-        // $zk->disableDevice();
-        // $users = $zk->getUser();
-        // $u = [];
-        // foreach ($users as $user) {
-        //     $u[] = [
-        //         'user' => $user['name'] . ' - ' . $user['userid']
-        //     ];
-        // }
-
-        // return view('hrauoffsa.test', compact('u'));
     }
 
     public function export(Request $request)
@@ -53,7 +65,7 @@ class AttendanceController extends Controller
             $query = DB::table('attendances')->join('users', 'users.idCard', '=', 'attendances.userId')
                 ->select('users.id', 'attendances.id', 'users.lastNameKh', 'users.firstNameKh', 'userId', 'date', 'checkIn', 'checkOut', 'total');
             $attendances = $query->whereDate('date', Carbon::parse('2024-02-01'))->orderBy('attendances.id', 'desc')->get();
-            return Excel::download(new AttendanceExport($attendances), 'attendances.xlsx');
+            return Excel::download(new AttendanceExportMuiltpleSheets($attendances), 'attendances.xlsx');
         }
 
         $fromDate = $queryParams['fromDate'];
@@ -68,11 +80,44 @@ class AttendanceController extends Controller
 
         if ($fromDate && $toDate) {
             $query->whereBetween('date', [$fromDate, $toDate]);
+        } else {
+            $thisMonth = $this->getDatesByPeriodName('this_month', Carbon::now());
+            $query->whereBetween('date', [Carbon::parse($thisMonth[0])->format('Y-m-d'), Carbon::parse($thisMonth[1])->format('Y-m-d')]);
         }
 
         $attendances = $query->orderBy('date', 'desc')->get();
 
-        return Excel::download(new AttendanceExport($attendances), 'attendances.xlsx');
+        return Excel::download(new AttendanceExportMuiltpleSheets($attendances), 'attendances.xlsx');
+    }
+
+    public function attendancesByDepartmentAndRole(Request $request)
+    {
+        //get attendances by department
+        $thisMonth = $this->getDatesByPeriodName('this_month', Carbon::now());
+        $query = Attendance::join('users', 'users.idCard', '=', 'attendances.userId')
+            ->leftJoin('roles', 'roles.id', '=', 'users.roleId')
+            ->leftjoin('departments', 'departments.id', '=', 'users.departmentId')
+            ->groupBy('users.idCard')
+            ->select(
+                'users.lastNameKh',
+                'users.firstNameKh',
+                'users.gender',
+                'users.dateOfBirth',
+                'users.phoneNumber',
+                'roles.roleNameKh',
+                'departments.departmentNameKh',
+                DB::raw(
+                    ' count(`leave`) as `leave`, count(total) as total, count(lateIn) as lateIn, count(lateOut) as lateOut, count(mission) as mission'
+                )
+            );
+
+        $query->whereBetween('date', [Carbon::parse($thisMonth[0])->format('Y-m-d'), Carbon::parse($thisMonth[1])->format('Y-m-d')]);
+
+        $attendances = $query->get();
+
+        // dd($attendances);
+
+        return Excel::download(new AttendanceExportMuiltpleSheets($attendances), 'attendances.xlsx');
     }
 
     public function attendances(Request $request)
@@ -95,8 +140,11 @@ class AttendanceController extends Controller
                 'users.firstNameKh',
                 'userId',
                 'date',
+                'leave',
                 'checkIn',
                 'checkOut',
+                'lateIn',
+                'lateOut',
                 'total'
             );
 
@@ -107,13 +155,55 @@ class AttendanceController extends Controller
         if ($fromDate && $toDate) {
             $query->whereBetween('date', [$fromDate, $toDate]);
         } else {
-            $thisWeek = $this->getDatesByPeriodName('this_month', Carbon::now());
-            $query->whereBetween('date', [Carbon::parse($thisWeek[0])->format('Y-m-d'), Carbon::parse($thisWeek[1])->format('Y-m-d')]);
+            $thisMonth = $this->getDatesByPeriodName('this_month', Carbon::now());
+            $query->whereBetween('date', [Carbon::parse($thisMonth[0])->format('Y-m-d'), Carbon::parse($thisMonth[1])->format('Y-m-d')]);
         }
 
         $attendances = $query->orderBy('date', 'desc')->get();
 
         return view('admin.attendance.index', compact('attendances', 'users', 'departments'));
+    }
+
+    public function updateLateInAndLateOut(Request $request, string $attendanceId)
+    {
+        // dd(Carbon::parse($request->input('lateOut')));
+        $attendance = Attendance::findOrFail($attendanceId);
+
+        if ($request->input('lateIn')) {
+            if (is_null($attendance->checkIn)) {
+                $attendance->checkIn = Carbon::parse($request->input('lateIn'))->format('H:i:s');
+                $attendance->lateIn = 'លិខិតយឺត';
+            } else {
+                $attendance->lateIn = 'លិខិតយឺត';
+            }
+        }
+
+        if ($request->input('lateOut')) {
+            $lateOut = Carbon::parse($request->input('lateOut'))->format('H:i:s');
+            if (is_null($attendance->checkOut)) {
+
+                if ($attendance->checkIn) {
+                    $date1 = Carbon::parse($attendance->checkIn);
+                    $date2 = Carbon::parse($request->input('lateOut'));
+                    $result = $date1->diff($date2);
+                    $totals = Carbon::parse($result->h . ':' . $result->i . ':' . $result->s)->format('H:i:s');
+
+                    $attendance->checkOut = $lateOut;
+                    if ($lateOut >= Carbon::parse('17:30:00')->format('H:i:s')) {
+                        $attendance->lateOut = 'លិខិតយឺត';
+                    }
+                    $attendance->total = $totals;
+                } else {
+                    $attendance->checkOut = $lateOut;
+                    $attendance->lateOut = 'លិខិតយឺត';
+                }
+            } else {
+                $attendance->lateOut = 'លិខិតយឺត';
+            }
+        }
+
+        $attendance->save();
+        return redirect()->back();
     }
 
     public function showAttendanceByUserId(Request $request, string $userId)

@@ -60,7 +60,7 @@ class Controller extends BaseController
                         'date' => $record['date'],
                         'checkIn' => $record['checkIn'],
                     ]);
-                } elseif ($record['checkIn'] >= Carbon::parse('13:00:00')->format('H:i:s') && $record['checkIn'] <= Carbon::parse('17:30:00')->format('H:i:s')) {
+                } elseif ($record['checkIn'] >= Carbon::parse('13:00:00')->format('H:i:s')) {
                     Attendance::create([
                         'userId' => $record['userId'],
                         'date' => $record['date'],
@@ -76,13 +76,12 @@ class Controller extends BaseController
                 }
             } else {
 
-                if ($record['checkIn'] >= Carbon::parse('13:00:00')->format('H:i:s') && $record['checkIn'] <= Carbon::parse('17:30:00')->format('H:i:s')) {
+                if ($record['checkOut'] >= Carbon::parse('13:00:00')->format('H:i:s') ) {
 
                     $date1 = Carbon::parse($checkAttendance->checkIn);
                     $date2 = Carbon::parse($record['checkOut']);
                     $total = $date1->diff($date2);
                     $totals = Carbon::parse($total->h . ':' . $total->i . ':' . $total->s)->format('H:i:s');
-                    // dd($totals . ' - ' . $key);
 
                     Attendance::where('userId', $record['userId'])
                         ->where('date', $record['date'])

@@ -1,8 +1,5 @@
 @extends('template.master')
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
 @section('content')
     <div class="card" style="margin-top: -30px">
         <div class="card-header card bg-primary text-white m-2 d-flex justify-content-center"
@@ -137,9 +134,13 @@
                     <th scope="col">ឈ្មោះមន្ត្រី</th>
                     <th scope="col">អត្តលេខ</th>
                     <th scope="col">កាលបរិច្ឆេទ</th>
+                    <th scope="col">ច្បាប់</th>
                     <th scope="col">ម៉ោងចូល</th>
+                    <th scope="col">ចូលយឺត</th>
                     <th scope="col">ម៉ោងចេញ</th>
+                    <th scope="col">ចេញយឺត</th>
                     <th scope="col">សរុប</th>
+                    <th scope="col">សកម្មភាព</th>
                 </tr>
             </thead>
             <tbody>
@@ -151,31 +152,34 @@
                         </td>
                         <td>{{ $item->userId }}</td>
                         <td>{{ $item->date }}</td>
-                        @php
-                            $late = '(យឺតយ៉ាវ)';
-                        @endphp
-                        <td>
-                            @if ($item->checkIn)
-                                @if ($item->checkIn > '09:00:00')
-                                    {{ $item->checkIn }}​ {{ $late }}
-                                @else
-                                    {{ $item->checkIn }}
-                                @endif
+                        <td style="color: red">{{ $item->leave }}</td>
+
+                        @if ($item->checkIn)
+                            @if ($item->checkIn > '09:00:00')
+                                <td style="color: red">{{ $item->checkIn }}​</td>
                             @else
-                                --:--:--
+                                <td>{{ $item->checkIn }}</td>
                             @endif
-                        </td>
-                        <td>
-                            @if ($item->checkOut)
-                                @if ($item->checkOut < '04:00:00' && $item->checkOut > '17:30:00')
-                                    {{ $item->checkOut }}​ {{ $late }}
-                                @else
-                                    {{ $item->checkOut }}
-                                @endif
+                        @else
+                            <td>--:--:--</td>
+                        @endif
+
+                        <td style="color: red">{{ $item->lateIn }}</td>
+
+                        @if ($item->checkOut)
+                            @if ($item->checkOut < '04:00:00' && $item->checkOut > '17:30:00')
+                                <td style="color: red">{{ $item->checkOut }}</td>
+                            @elseif ($item->checkOut > '17:30:00')
+                                <td style="color: red">{{ $item->checkOut }}</td>​
                             @else
-                                --:--:--
+                                <td>{{ $item->checkOut }}</td>
                             @endif
-                        </td>
+                        @else
+                            <td>--:--:--</td>
+                        @endif
+
+                        <td style="color: red">{{ $item->lateOut }}</td>
+                        
                         <td>
                             @if ($item->total)
                                 {{ $item->total }}
@@ -183,6 +187,58 @@
                                 --:--:--
                             @endif
                         </td>
+                        <th>
+
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#exampleModal{{ $item->id }}">
+                                កែប្រែ
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal{{ $item->id }}" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">លិខិតចេញ​-ចូលយឺត</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="/attendances/{{ $item->id }}" method="POST">
+                                            <div class="modal-body">
+
+                                                @csrf
+                                                <input type="hidden" name="_method" value="PATCH">
+
+                                                <div class="mb-3">
+                                                    <label for="exampleInputEmail1" class="form-label">មកយឺត</label>
+                                                    <input type="time" class="form-control" name="lateIn"
+                                                        value="{{ $item->lateIn }}" min="06:00:00" max="12:00:00"
+                                                        id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="exampleInputPassword1" class="form-label">ចេញយឺត</label>
+                                                    <input type="time" class="form-control" name="lateOut"
+                                                        value="{{ $item->lateOut }}" min="16:00:00"
+                                                        id="exampleInputPassword1">
+                                                </div>
+
+
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">ថយក្រោយ</button>
+                                                <button type="submit" class="btn btn-primary">ធ្វើបច្ចុប្បន្នភាព</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
                     </tr>
                 @endforeach
 
@@ -190,7 +246,8 @@
         </table>
 
     </div>
-    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script>
         $(document).ready(function() {
@@ -198,7 +255,6 @@
                 $('input[type=checkbox]', $(this).parent('li')).attr('checked', $(this).is(':checked'));
 
             });
-
         });
     </script>
 @endsection

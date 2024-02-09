@@ -18,6 +18,15 @@
         @endforeach
 
     </table>
+    <table>
+
+        @foreach ($a as $i)
+            <tr>
+                <td>{{ $i['attendance'] }}</td>
+            </tr>
+        @endforeach
+
+    </table>
 </body>
 
 </html>

@@ -16,9 +16,13 @@ return new class extends Migration
             // $table->foreignId('userId')->constrained('users')->onDelete('cascade');
             $table->string('userId');
             $table->string('date');
+            $table->string('leave')->nullable();
             $table->string('checkIn')->nullable();
+            $table->string('lateIn')->nullable();
             $table->string('checkOut')->nullable();
+            $table->string('lateOut')->nullable();
             $table->string('total')->nullable();
+            $table->string('mission')->nullable();
             $table->timestamps();
         });
     }
