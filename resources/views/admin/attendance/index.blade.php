@@ -25,6 +25,22 @@
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu">
+                                    <li class="dropdown-item">
+                                        <input type="checkbox" class="departmentId">
+                                        ថ្នាក់ដឹកនាំ
+                                        <ul>
+                                            @foreach ($users as $user)
+                                                @if ($user->departmentId == null && $user->officeId == null)
+                                                    <li class="dropdown-item">
+                                                        <input type="checkbox" class="uid" name="uid[]"
+                                                            value="{{ $user->idCard }}" id="">
+                                                        {{ $user->lastNameKh }} {{ $user->firstNameKh }}
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </li>
+
                                     @foreach ($departments as $department)
                                         <li class="dropdown-item">
                                             <input type="checkbox" class="departmentId">
@@ -42,6 +58,8 @@
                                             </ul>
                                         </li>
                                     @endforeach
+
+
                                 </ul>
                             </div>
                         </div>
@@ -179,7 +197,7 @@
                         @endif
 
                         <td style="color: red">{{ $item->lateOut }}</td>
-                        
+
                         <td>
                             @if ($item->total)
                                 {{ $item->total }}
@@ -190,7 +208,7 @@
                         <th>
 
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
                                 data-target="#exampleModal{{ $item->id }}">
                                 កែប្រែ
                             </button>
@@ -213,20 +231,27 @@
                                                 @csrf
                                                 <input type="hidden" name="_method" value="PATCH">
 
-                                                <div class="mb-3">
-                                                    <label for="exampleInputEmail1" class="form-label">មកយឺត</label>
-                                                    <input type="time" class="form-control" name="lateIn"
-                                                        value="{{ $item->lateIn }}" min="06:00:00" max="12:00:00"
-                                                        id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="mb-3">
+                                                            <label for="exampleInputEmail1"
+                                                                class="form-label">មកយឺត</label>
+                                                            <input type="time" class="form-control" name="lateIn"
+                                                                step="1" value="{{ $item->checkIn }}"
+                                                                min="06:00:00" max="12:00:00" id="exampleInputEmail1"
+                                                                aria-describedby="emailHelp">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="mb-3">
+                                                            <label for="exampleInputPassword1"
+                                                                class="form-label">ចេញយឺត</label>
+                                                            <input type="time" class="form-control" name="lateOut"
+                                                                step="1" value="{{ $item->checkOut }}"
+                                                                min="16:00:00" id="exampleInputPassword1">
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="exampleInputPassword1" class="form-label">ចេញយឺត</label>
-                                                    <input type="time" class="form-control" name="lateOut"
-                                                        value="{{ $item->lateOut }}" min="16:00:00"
-                                                        id="exampleInputPassword1">
-                                                </div>
-
-
 
                                             </div>
                                             <div class="modal-footer">

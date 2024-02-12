@@ -17,9 +17,9 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function setAttendances()
+    public function setAttendances($ip, $port)
     {
-        $zk = new ZKTeco('172.16.15.184', 4370);
+        $zk = new ZKTeco($ip, $port);
         $zk->connect();
         $zk->disableDevice();
         $attendances = $zk->getAttendance();
@@ -76,7 +76,7 @@ class Controller extends BaseController
                 }
             } else {
 
-                if ($record['checkOut'] >= Carbon::parse('13:00:00')->format('H:i:s') ) {
+                if ($record['checkOut'] >= Carbon::parse('13:00:00')->format('H:i:s')) {
 
                     $date1 = Carbon::parse($checkAttendance->checkIn);
                     $date2 = Carbon::parse($record['checkOut']);
@@ -246,6 +246,29 @@ class Controller extends BaseController
             ];
         }
         return $date;
+    }
+
+    public function getDaysExcludingWeekend($year, $month) {
+        // Get the number of days in the given month
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+
+        $count = 0;
+
+        // Iterate over each day in the month
+        for ($day = 1; $day <= $daysInMonth; $day++) {
+            // Create a DateTime object for the current day
+            $date = new DateTime("$year-$month-$day");
+
+            // Get the day of the week (0 = Sunday, 6 = Saturday)
+            $dayOfWeek = (int)$date->format('w');
+
+            // Check if the day is not Sunday (0) or Saturday (6)
+            if ($dayOfWeek !== 0 && $dayOfWeek !== 6) {
+                $count++;
+            }
+        }
+
+        return $count;
     }
 
     public function checkIn($date)

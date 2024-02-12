@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,11 +43,9 @@ Route::get('/ip', function (Request $request) {
 });
 
 Route::get('/h', function () {
-    $date1 = Carbon::parse('2024-01-12 08:23:03');
-    $date2 = Carbon::parse('2024-01-12 17:25:23');
-    $difference = $date1->diff($date2);
-    // dd($difference);
-    return view('hrauoffsa.index', compact('difference'));
+    $date = Carbon::now();
+    $at = new Controller();
+    dd($at->getDaysExcludingWeekend($date->format('Y'), $date->format('m')));
 });
 
 Route::get('/getAtt', [AttendanceController::class, 'getAtt']);
@@ -63,7 +62,6 @@ Route::middleware(['authm'])->group(function () {
 
     Route::get('/attendances', [AttendanceController::class, 'attendances']);
     Route::get('/attendances/{userId}', [AttendanceController::class, 'showAttendanceByUserId']);
-    Route::patch('/attendances/{attendanceId}',[AttendanceController::class, 'updateLateInAndLateOut']);
+    Route::patch('/attendances/{attendanceId}', [AttendanceController::class, 'updateLateInAndLateOut']);
     Route::get('/attendaces/export/excel', [AttendanceController::class, 'export']);
-    Route::get('/att', [AttendanceController::class, 'attendancesByDepartmentAndRole']);
 });

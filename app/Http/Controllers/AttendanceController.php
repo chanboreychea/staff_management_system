@@ -23,10 +23,9 @@ class AttendanceController extends Controller
 
         if ($request->input('getAtt')) {
 
-            $this->setAttendances();
+            $this->setAttendances($ip, $port);
             return redirect('/attendances');
 
-            // dd('get attendances' . ' - ' . $ip . ' - ' . $port);
         } else {
 
             $zk = new ZKTeco('172.16.15.184', 4370);
@@ -62,17 +61,31 @@ class AttendanceController extends Controller
         if (isset($parsedUrl['query'])) {
             parse_str($parsedUrl['query'], $queryParams);
         } else {
-            $query = DB::table('attendances')->join('users', 'users.idCard', '=', 'attendances.userId')
-                ->select('users.id', 'attendances.id', 'users.lastNameKh', 'users.firstNameKh', 'userId', 'date', 'checkIn', 'checkOut', 'total');
-            $attendances = $query->whereDate('date', Carbon::parse('2024-02-01'))->orderBy('attendances.id', 'desc')->get();
-            return Excel::download(new AttendanceExportMuiltpleSheets($attendances), 'attendances.xlsx');
+            return $this->userAttendancesByDepartmentAndRole($request);
         }
 
         $fromDate = $queryParams['fromDate'];
         $toDate = $queryParams['toDate'];
 
-        $query = DB::table('attendances')->join('users', 'users.idCard', '=', 'attendances.userId')
-            ->select('users.id', 'attendances.id', 'users.lastNameKh', 'users.firstNameKh', 'userId', 'date', 'checkIn', 'checkOut', 'total');
+        // $query = DB::table('attendances')->join('users', 'users.idCard', '=', 'attendances.userId')
+        //     ->select('users.id', 'attendances.id', 'users.lastNameKh', 'users.firstNameKh', 'userId', 'date', 'checkIn', 'checkOut', 'total');
+
+        $query = Attendance::join('users', 'users.idCard', '=', 'attendances.userId')
+            ->leftJoin('roles', 'roles.id', '=', 'users.roleId')
+            ->leftjoin('departments', 'departments.id', '=', 'users.departmentId')
+            ->groupBy('users.idCard')
+            ->select(
+                'users.lastNameKh',
+                'users.firstNameKh',
+                'users.gender',
+                'users.dateOfBirth',
+                'users.phoneNumber',
+                'roles.roleNameKh',
+                'departments.departmentNameKh',
+                DB::raw(
+                    ' count(`leave`) as `leave`, count(total) as total, count(lateIn) as lateIn, count(lateOut) as lateOut, count(mission) as mission'
+                )
+            );
 
         if (isset($queryParams['uid'])) {
             $query->whereIn('users.idCard', $queryParams['uid']);
@@ -85,12 +98,12 @@ class AttendanceController extends Controller
             $query->whereBetween('date', [Carbon::parse($thisMonth[0])->format('Y-m-d'), Carbon::parse($thisMonth[1])->format('Y-m-d')]);
         }
 
-        $attendances = $query->orderBy('date', 'desc')->get();
+        $attendances = $query->get();
 
         return Excel::download(new AttendanceExportMuiltpleSheets($attendances), 'attendances.xlsx');
     }
 
-    public function attendancesByDepartmentAndRole(Request $request)
+    public function userAttendancesByDepartmentAndRole(Request $request)
     {
         //get attendances by department
         $thisMonth = $this->getDatesByPeriodName('this_month', Carbon::now());
@@ -114,8 +127,6 @@ class AttendanceController extends Controller
         $query->whereBetween('date', [Carbon::parse($thisMonth[0])->format('Y-m-d'), Carbon::parse($thisMonth[1])->format('Y-m-d')]);
 
         $attendances = $query->get();
-
-        // dd($attendances);
 
         return Excel::download(new AttendanceExportMuiltpleSheets($attendances), 'attendances.xlsx');
     }
@@ -166,13 +177,22 @@ class AttendanceController extends Controller
 
     public function updateLateInAndLateOut(Request $request, string $attendanceId)
     {
-        // dd(Carbon::parse($request->input('lateOut')));
         $attendance = Attendance::findOrFail($attendanceId);
 
         if ($request->input('lateIn')) {
             if (is_null($attendance->checkIn)) {
-                $attendance->checkIn = Carbon::parse($request->input('lateIn'))->format('H:i:s');
-                $attendance->lateIn = 'លិខិតយឺត';
+                if ($attendance->checkOut) {
+                    $date2 = Carbon::parse($attendance->checkOut);
+                    $date1 = Carbon::parse($request->input('lateIn'));
+                    $result = $date1->diff($date2);
+                    $totals = Carbon::parse($result->h . ':' . $result->i . ':' . $result->s)->format('H:i:s');
+                    $attendance->checkIn = Carbon::parse($request->input('lateIn'))->format('H:i:s');
+                    $attendance->lateIn = 'លិខិតយឺត';
+                    $attendance->total = $totals;
+                } else {
+                    $attendance->checkIn = Carbon::parse($request->input('lateIn'))->format('H:i:s');
+                    $attendance->lateIn = 'លិខិតយឺត';
+                }
             } else {
                 $attendance->lateIn = 'លិខិតយឺត';
             }

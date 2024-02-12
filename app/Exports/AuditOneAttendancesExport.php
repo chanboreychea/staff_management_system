@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use Illuminate\Support\Collection;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -31,14 +32,29 @@ class AuditOneAttendancesExport implements WithTitle, WithDrawings, WithHeadings
 
     public function styles(Worksheet $sheet)
     {
-        return [
-            // Style the first row as bold text.
-            'E6'    => ['font' => ['bold' => true, 'Fasthand' => true]],
-
-            // Styling a specific cell by coordinate.
-            'B' => ['font' => ['Fasthand' => true]],
+        $styleArray = [
+            'borders' => [
+                'outline' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['argb' => '0000ff'],
+                ],
+                'inside' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['argb' => '0000ff'],
+                ],
+            ],
 
         ];
+
+        $sheet->getTabColor()->setRGB('0000ff');
+        $sheet->getStyle('A7:L7')->getFont()->getColor()->setARGB('FFFFFF');
+        $sheet->getStyle("A7:L7")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('FF0000');
+        $sheet->getStyle("A1:L6")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('FFA500');
+        for ($i = 0; $i <= count($this->array()) + 1; $i++) {
+            $row = $i + 7;
+            $sheet->getStyle("A$row:L$row")->getFont()->setSize(10);
+            $sheet->getStyle("A$row:L$row")->applyFromArray($styleArray);
+        }
     }
 
     public function drawings()
@@ -75,7 +91,7 @@ class AuditOneAttendancesExport implements WithTitle, WithDrawings, WithHeadings
             [' '], [
                 'លរ',
                 'ឈ្មោះ',
-                'ភេទ', 'ថ្ងៃខែឆ្នាំកំណើត', 'តួនាទី', 'លេខទូរស័ព្ទ', 'ចំនួនថ្ងៃមកធ្វើការ', 'វត្តមាន មានច្បាប់', 'វត្តមាន​ ឥតច្បាប់', 'បេសកកម្ម'
+                'ភេទ', 'ថ្ងៃខែឆ្នាំកំណើត', 'តួនាទី', 'លេខទូរស័ព្ទ', 'ចំនួនថ្ងៃមកធ្វើការ', 'វត្តមាន មានច្បាប់', 'វត្តមាន​ ឥតច្បាប់', 'ចូលយឺត', 'ចេញយឺត', 'បេសកកម្ម'
             ],
             [
                 'No',

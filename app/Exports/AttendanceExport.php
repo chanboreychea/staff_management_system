@@ -3,15 +3,18 @@
 namespace App\Exports;
 
 use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\Exportable;
+use PhpOffice\PhpSpreadsheet\Style\Font;
 use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\WithTitle;
+use PhpOffice\PhpSpreadsheet\Style\Style;
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithStyles;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Style\Border;
 use Maatwebsite\Excel\Concerns\WithDrawings;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
-use Maatwebsite\Excel\Concerns\WithTitle;
 
 class AttendanceExport implements WithTitle, WithDrawings, WithHeadings, WithCustomStartCell, WithStyles, FromArray
 {
@@ -31,27 +34,33 @@ class AttendanceExport implements WithTitle, WithDrawings, WithHeadings, WithCus
 
     public function styles(Worksheet $sheet)
     {
-        return [
-            // Style the first row as bold text.
-            'E6'    => ['font' => ['bold' => true, 'Fasthand' => true]],
 
-            // Styling a specific cell by coordinate.
-            'B' => ['font' => ['Fasthand' => true]],
-
-        ];
+        // $sheet->getStyle('A7:K7')->applyFromArray(
+        //     [
+        //         'borders' => [
+        //             'outline' => [
+        //                 'borderStyle' => Border::BORDER_THICK,
+        //                 'color' => [
+        //                     'rgb' => '808080'
+        //                 ]
+        //             ],
+        //         ],
+        //         'quotePrefix'    => true
+        //     ]
+        // );
     }
 
     public function drawings()
     {
         $drawing = new Drawing();
-        $drawing->setName('Logo');
+        $drawing->setName('audit');
         $drawing->setDescription('This is my logo');
         $drawing->setPath(public_path('/images/logo3.png'));
         $drawing->setHeight(50);
         $drawing->setCoordinates('B2');
 
         $drawing2 = new Drawing();
-        $drawing2->setName('Other image');
+        $drawing2->setName('headofcambodian');
         $drawing2->setDescription('This is a second image');
         $drawing2->setPath(public_path('/images/headofcambodian.png'));
         $drawing2->setHeight(50);
