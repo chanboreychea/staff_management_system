@@ -45,15 +45,34 @@ class AuditTwoAttendancesExport implements WithTitle, WithDrawings, WithHeadings
             ],
 
         ];
-
+        $sheet->getStyle("A1:L100")->getFont()->setName('Khmer');
         $sheet->getTabColor()->setRGB('0000ff');
-        $sheet->getStyle('A7:L7')->getFont()->getColor()->setARGB('FFFFFF');
-        $sheet->getStyle("A7:L7")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('FF0000');
-        $sheet->getStyle("A1:L6")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('FFA500');
+        $sheet->getStyle('A5:L5')->getFont()->getColor()->setARGB('FFFFFF');
+        $sheet->getStyle("A5:L5")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('FF0000');
+        $sheet->getStyle("A1:L4")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('FFA500');
         for ($i = 0; $i <= count($this->array()) + 1; $i++) {
-            $row = $i + 7;
-            $sheet->getStyle("A$row:L$row")->getFont()->setSize(10);
+            $row = $i + 5;
+            $sheet->getStyle("A$row:L$row")->getFont()->setSize(9);
             $sheet->getStyle("A$row:L$row")->applyFromArray($styleArray);
+
+            if ($i == count($this->array())) {
+                $see = $row + 2;
+                $date = $see + 1;
+                $locate = $date + 1;
+                $last = $locate + 1;
+
+                $sheet->getCell("C$see")->setValue('បានឃើញ និងឯកភាព');
+
+                $sheet->getCell("B$date")->setValue('ថ្ងៃ            ខែ            ឆ្នាំ          ព.ស ២៥');
+                $sheet->getCell("H$date")->setValue('ថ្ងៃ            ខែ            ឆ្នាំ          ព.ស ២៥ ');
+
+                $sheet->getCell("B$locate")->setValue('     រាជធានីភ្នំពេញ ថ្ងៃទី         ខែ           ឆ្នាំ ២០');
+                $sheet->getCell("H$locate")->setValue('     រាជធានីភ្នំពេញ ថ្ងៃទី         ខែ           ឆ្នាំ​ ២០');
+
+                $sheet->getCell("C$last")->setValue('ការិយាល័យរដ្ឋបាល និងហិរញ្ញវត្ថុ');
+                $sheet->getCell("I$last")->setValue('មន្រ្តីទទួលបន្ទុក');
+                $sheet->getStyle("A$see:L$last")->getFont()->setSize(9);
+            }
         }
     }
     public function drawings()
@@ -80,14 +99,14 @@ class AuditTwoAttendancesExport implements WithTitle, WithDrawings, WithHeadings
 
     public function startCell(): string
     {
-        return 'A5';
+        return 'A4';
     }
 
     public function headings(): array
     {
         return [
-            [' ', ' ', ' ', ' ', 'បញ្ជីស្រង់វត្តមានមន្ត្រីនៃនាយកដ្ឋាន សវន​​កម្មទី​ ២'],
-            [' '], [
+            [' ', ' ', ' ', '    បញ្ជីស្រង់វត្តមានមន្ត្រីនៃនាយកដ្ឋាន កិច្ចការទូទៅ'],
+            [
                 'លរ',
                 'ឈ្មោះ',
                 'ភេទ', 'ថ្ងៃខែឆ្នាំកំណើត', 'តួនាទី', 'លេខទូរស័ព្ទ', 'ចំនួនថ្ងៃមកធ្វើការ', 'វត្តមាន មានច្បាប់', 'វត្តមាន​ ឥតច្បាប់', 'ចូលយឺត', 'ចេញយឺត', 'បេសកកម្ម'
