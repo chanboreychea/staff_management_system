@@ -118,7 +118,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="/getAtt" method="">
+                    <form action="/getAtt" method="GET" id="yourForm">
                         @csrf
                         <div class="modal-body">
                             <div class="mb-3">
@@ -134,10 +134,22 @@
                         </div>
                         <div class="modal-footer">
 
-                            <input type="submit" type="button" class="btn btn-secondary" name="testConnection"
-                                value="Test Connection">
-                            {{-- data-dismiss="modal" use to hide module form --}}
-                            <input type="submit" class="btn btn-primary" name="getAtt" value="ទាញយកវត្តមាន">
+                            <div class="row">
+                                <div class="col">
+                                    <div id="message"></div>
+                                </div>
+                                <div class="col">
+
+                                    <input type="button" type="button" id="testConnection" class="btn btn-secondary"
+                                        name="testConnection" value="Test Connection">
+                                </div>
+                                <div class="col">
+
+                                    {{-- data-dismiss="modal" use to hide module form --}}
+                                    <input type="submit" class="btn btn-primary" name="getAtt" value="ទាញយកវត្តមាន">
+                                </div>
+                            </div>
+
                         </div>
                     </form>
                 </div>
@@ -279,6 +291,36 @@
             $('.departmentId').bind('click', function() {
                 $('input[type=checkbox]', $(this).parent('li')).attr('checked', $(this).is(':checked'));
 
+            });
+        });
+
+        $(document).ready(function() {
+            $("#testConnection").click(function() {
+                // $('#yourForm').submit(function(event) {
+                // Prevent the form from submitting normally
+
+                event.preventDefault();
+                // Collect form data
+                var formData = $(this).serialize();
+
+                // Send Ajax request
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://127.0.0.1:8000/getAtt',
+                    data: formData,
+                    success: function(data) {
+                        // Handle success response
+                        // console.log(data);
+                        document.getElementById("message").innerHTML = data;
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error
+                        // console.error(xhr.responseText);
+                        document.getElementById("message").innerHTML = "Connection Failed";
+                    }
+                });
+                // });
+                // });
             });
         });
     </script>

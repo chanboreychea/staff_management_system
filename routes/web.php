@@ -3,14 +3,15 @@
 use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\authController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,12 @@ use App\Http\Controllers\Controller;
 */
 
 Route::get('/', function () {
+
+    //if cookie return to user
+    if (session('user_id') == 987) {
+        return Redirect::route('user-attendances');
+    }
+
     return view('index');
 })->name('login');
 
@@ -48,7 +55,7 @@ Route::get('/h', function () {
     dd($at->getDaysExcludingWeekend($date->format('Y'), $date->format('m')));
 });
 
-Route::get('/getAtt', [AttendanceController::class, 'getAtt']);
+Route::get('/getAtt', [AttendanceController::class, 'getAtt'])->name('attendance-connection');
 
 
 Route::post('/login', [authController::class, 'login']);
@@ -60,7 +67,7 @@ Route::middleware(['authm'])->group(function () {
     Route::resource('/departments', DepartmentController::class);
     Route::resource('/offices', OfficeController::class);
 
-    Route::get('/attendances', [AttendanceController::class, 'attendances']);
+    Route::get('/attendances', [AttendanceController::class, 'attendances'])->name('user-attendances');
     Route::get('/attendances/{userId}', [AttendanceController::class, 'showAttendanceByUserId']);
     Route::patch('/attendances/{attendanceId}', [AttendanceController::class, 'updateLateInAndLateOut']);
     Route::get('/attendaces/export/excel', [AttendanceController::class, 'export']);

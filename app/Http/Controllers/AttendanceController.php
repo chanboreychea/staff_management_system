@@ -25,30 +25,34 @@ class AttendanceController extends Controller
 
             $this->setAttendances($ip, $port);
             return redirect('/attendances');
-
         } else {
 
             $zk = new ZKTeco('172.16.15.184', 4370);
             $zk->connect();
             $zk->disableDevice();
-            $users = $zk->getUser();
-            $att = $zk->getAttendance();
-            $a = [];
-            foreach ($att as $i) {
-                if ($i['timestamp'] > Carbon::parse('2024-02-05 00:00:00')) {
-                    $a[] = [
-                        'attendance' => $i['id'] . ' - ' . $i['timestamp']
-                    ];
-                }
+            if ($zk->connect()) {
+                return 'Connection Success';
             }
+            return 'Connection Failed';
 
-            $u = [];
-            foreach ($users as $i) {
-                $u[] = [
-                    'user' => $i['userid'] . ' - ' . $i['name']
-                ];
-            }
-            return view('hrauoffsa.test', compact('u', 'a'))->with('successMsg', 'Property is updated .');
+            // $users = $zk->getUser();
+            // $att = $zk->getAttendance();
+            // $a = [];
+            // foreach ($att as $i) {
+            //     if ($i['timestamp'] > Carbon::parse('2024-02-05 00:00:00')) {
+            //         $a[] = [
+            //             'attendance' => $i['id'] . ' - ' . $i['timestamp']
+            //         ];
+            //     }
+            // }
+
+            // $u = [];
+            // foreach ($users as $i) {
+            //     $u[] = [
+            //         'user' => $i['userid'] . ' - ' . $i['name']
+            //     ];
+            // }
+            // return view('hrauoffsa.test', compact('u', 'a'))->with('successMsg', 'Property is updated .');
             // dd('test' . ' - ' . $ip . ' - ' . $port);
         }
     }
@@ -100,7 +104,9 @@ class AttendanceController extends Controller
 
         $attendances = $query->get();
 
-        return Excel::download(new AttendanceExportMuiltpleSheets($attendances), 'attendances.xlsx');
+        dd($attendances);
+
+        //return Excel::download(new AttendanceExportMuiltpleSheets($attendances), 'attendances.xlsx');
     }
 
     public function userAttendancesByDepartmentAndRole(Request $request)
