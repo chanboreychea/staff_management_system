@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <p>hello worddd</p>
+    <p>hello word</p>
 </body>
 
 </html>
