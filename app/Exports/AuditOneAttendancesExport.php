@@ -2,7 +2,6 @@
 
 namespace App\Exports;
 
-use Illuminate\Support\Collection;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\WithTitle;
@@ -20,7 +19,7 @@ class AuditOneAttendancesExport implements WithTitle, WithDrawings, WithHeadings
 
     protected $data;
 
-    public function __construct(Collection $dataa)
+    public function __construct(array $dataa)
     {
         $this->data = $dataa;
     }
@@ -134,26 +133,26 @@ class AuditOneAttendancesExport implements WithTitle, WithDrawings, WithHeadings
         $no = 1;
         foreach ($this->data as $key => $item) {
 
-            if ($item->gender == 'm') {
+            if ($item['gender'] == 'm') {
                 $gender = 'ប្រុស';
             } else {
                 $gender = 'ស្រី';
             }
 
-            if ($item->departmentNameKh == "សវនកម្មទី១") {
+            if ($item['departmentNameKh'] == "សវនកម្មទី១") {
                 $attendances[] = [
                     $no++,
-                    $item->lastNameKh . ' ' . $item->firstNameKh,
+                    $item['name'],
                     $gender,
-                    $item->dateOfBirth,
-                    $item->roleNameKh,
-                    $item->phoneNumber,
-                    $item->total,
-                    $item->leave,
-                    '',
-                    $item->lateIn,
-                    $item->lateOut,
-                    $item->mission
+                    $item['dateOfBirth'],
+                    $item['roleNameKh'],
+                    $item['phoneNumber'],
+                    $item['work'],
+                    $item['leave'],
+                    $item['absent'],
+                    $item['lateIn'],
+                    $item['lateOut'],
+                    $item['mission']
                 ];
             }
         }

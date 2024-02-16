@@ -2,7 +2,6 @@
 
 namespace App\Exports;
 
-use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
@@ -12,7 +11,7 @@ class AttendanceExportMuiltpleSheets implements WithMultipleSheets
 
     protected $data;
 
-    public function __construct(Collection $dataa)
+    public function __construct(array $dataa)
     {
         $this->data = $dataa;
     }

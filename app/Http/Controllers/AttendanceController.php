@@ -74,25 +74,52 @@ class AttendanceController extends Controller
         // $query = DB::table('attendances')->join('users', 'users.idCard', '=', 'attendances.userId')
         //     ->select('users.id', 'attendances.id', 'users.lastNameKh', 'users.firstNameKh', 'userId', 'date', 'checkIn', 'checkOut', 'total');
 
-        $query = Attendance::join('users', 'users.idCard', '=', 'attendances.userId')
-            ->leftJoin('roles', 'roles.id', '=', 'users.roleId')
+        // $query = Attendance::join('users', 'users.idCard', '=', 'attendances.userId')
+        //     ->leftJoin('roles', 'roles.id', '=', 'users.roleId')
+        //     ->leftjoin('departments', 'departments.id', '=', 'users.departmentId')
+        //     ->groupBy('users.idCard')
+        //     ->select(
+        //         'users.lastNameKh',
+        //         'users.firstNameKh',
+        //         'users.gender',
+        //         'users.dateOfBirth',
+        //         'users.phoneNumber',
+        //         'roles.roleNameKh',
+        //         'departments.departmentNameKh',
+        //         DB::raw(
+        //             ' count(`leave`) as `leave`, count(total) as total, count(lateIn) as lateIn, count(lateOut) as lateOut, count(mission) as mission'
+        //         )
+        //     );
+
+        $query = Attendance::select(
+            'userId',
+            'leave',
+            'checkIn',
+            'lateIn',
+            'checkOut',
+            'lateOut',
+            'total',
+            'mission'
+        );
+
+        $queryUser = User::join('roles', 'roles.id', '=', 'users.roleId')
             ->leftjoin('departments', 'departments.id', '=', 'users.departmentId')
-            ->groupBy('users.idCard')
             ->select(
-                'users.lastNameKh',
-                'users.firstNameKh',
-                'users.gender',
-                'users.dateOfBirth',
-                'users.phoneNumber',
-                'roles.roleNameKh',
-                'departments.departmentNameKh',
-                DB::raw(
-                    ' count(`leave`) as `leave`, count(total) as total, count(lateIn) as lateIn, count(lateOut) as lateOut, count(mission) as mission'
-                )
+                'users.id',
+                'idCard',
+                'firstNameKh',
+                'lastNameKh',
+                'gender',
+                'phoneNumber',
+                'dateOfBirth',
+                'roles.roleNameKh as roleNameKh',
+                'departments.departmentNameKh as departmentNameKh'
             );
 
+
         if (isset($queryParams['uid'])) {
-            $query->whereIn('users.idCard', $queryParams['uid']);
+            $query->whereIn('userId', $queryParams['uid']);
+            $queryUser->whereIn('idCard', $queryParams['uid']);
         }
 
         if ($fromDate && $toDate) {
@@ -103,38 +130,158 @@ class AttendanceController extends Controller
         }
 
         $attendances = $query->get();
+        $users = $queryUser->get();
 
-        dd($attendances);
+        $timeIn = Carbon::parse('09:00:00')->format('H:i:s');
+        $timeOutFirst = Carbon::parse('16:00:00')->format('H:i:s');
+        $timeOutSecond = Carbon::parse('17:30:00')->format('H:i:s');
 
-        //return Excel::download(new AttendanceExportMuiltpleSheets($attendances), 'attendances.xlsx');
+        $export = [];
+        foreach ($users as $user) {
+            $leave = 0;
+            $work = 0;
+            $absent = 0;
+            $lateIn = 0;
+            $lateOut = 0;
+            $mission = 0;
+            foreach ($attendances as $item) {
+                if ($user->idCard == $item->userId) {
+
+                    if ($item->leave) {
+                        $leave++;
+                    }
+                    if ($item->lateIn) {
+                        $lateIn++;
+                    }
+                    if ($item->lateOut) {
+                        $lateOut++;
+                    }
+                    if ($item->mission) {
+                        $mission++;
+                    }
+
+                    if ($item->checkIn <= $timeIn && $item->checkOut >= $timeOutFirst && $item->checkOut <= $timeOutSecond) {
+                        $work++;
+                    } elseif ($item->checkIn > $timeIn && $item->lateIn) {
+                        $work++;
+                    } elseif ($item->checkOut < $timeOutFirst && $item->checkOut > $timeOutSecond && $item->lateOut) {
+                        $work++;
+                    } else {
+                        $absent++;
+                    }
+                }
+            }
+
+            $export[] = [
+                'name' => $user->lastNameKh . ' ' . $user->firstNameKh,
+                'gender' => $user->gender,
+                'dateOfBirth' => $user->dateOfBirth,
+                'roleNameKh' => $user->roleNameKh,
+                'departmentNameKh' => $user->departmentNameKh,
+                'phoneNumber' => $user->phoneNumber,
+                'work' => $work,
+                'leave' => $leave,
+                'absent' => $absent,
+                'lateIn' => $lateIn,
+                'lateOut' => $lateOut,
+                'mission' => $mission
+            ];
+        }
+        // dd($export);
+        return Excel::download(new AttendanceExportMuiltpleSheets($export), 'attendances.xlsx');
     }
 
     public function userAttendancesByDepartmentAndRole(Request $request)
     {
         //get attendances by department
         $thisMonth = $this->getDatesByPeriodName('this_month', Carbon::now());
-        $query = Attendance::join('users', 'users.idCard', '=', 'attendances.userId')
-            ->leftJoin('roles', 'roles.id', '=', 'users.roleId')
+
+        $query = Attendance::select(
+            'userId',
+            'leave',
+            'checkIn',
+            'lateIn',
+            'checkOut',
+            'lateOut',
+            'total',
+            'mission'
+        );
+
+        $queryUser = User::join('roles', 'roles.id', '=', 'users.roleId')
             ->leftjoin('departments', 'departments.id', '=', 'users.departmentId')
-            ->groupBy('users.idCard')
             ->select(
-                'users.lastNameKh',
-                'users.firstNameKh',
-                'users.gender',
-                'users.dateOfBirth',
-                'users.phoneNumber',
-                'roles.roleNameKh',
-                'departments.departmentNameKh',
-                DB::raw(
-                    ' count(`leave`) as `leave`, count(total) as total, count(lateIn) as lateIn, count(lateOut) as lateOut, count(mission) as mission'
-                )
+                'users.id',
+                'idCard',
+                'firstNameKh',
+                'lastNameKh',
+                'gender',
+                'phoneNumber',
+                'dateOfBirth',
+                'roles.roleNameKh as roleNameKh',
+                'departments.departmentNameKh as departmentNameKh'
             );
 
         $query->whereBetween('date', [Carbon::parse($thisMonth[0])->format('Y-m-d'), Carbon::parse($thisMonth[1])->format('Y-m-d')]);
-
         $attendances = $query->get();
+        $users = $queryUser->get();
 
-        return Excel::download(new AttendanceExportMuiltpleSheets($attendances), 'attendances.xlsx');
+        $timeIn = Carbon::parse('09:00:00')->format('H:i:s');
+        $timeOutFirst = Carbon::parse('16:00:00')->format('H:i:s');
+        $timeOutSecond = Carbon::parse('17:30:00')->format('H:i:s');
+
+        $export = [];
+        foreach ($users as $user) {
+            $leave = 0;
+            $work = 0;
+            $absent = 0;
+            $lateIn = 0;
+            $lateOut = 0;
+            $mission = 0;
+            foreach ($attendances as $item) {
+                if ($user->idCard == $item->userId) {
+
+                    if ($item->leave) {
+                        $leave++;
+                    }
+                    if ($item->lateIn) {
+                        $lateIn++;
+                    }
+                    if ($item->lateOut) {
+                        $lateOut++;
+                    }
+                    if ($item->mission) {
+                        $mission++;
+                    }
+
+                    if ($item->checkIn <= $timeIn && $item->checkOut >= $timeOutFirst && $item->checkOut <= $timeOutSecond) {
+                        $work++;
+                    } elseif ($item->checkIn > $timeIn && $item->lateIn) {
+                        $work++;
+                    } elseif ($item->checkOut < $timeOutFirst && $item->checkOut > $timeOutSecond && $item->lateOut) {
+                        $work++;
+                    } else {
+                        $absent++;
+                    }
+                }
+            }
+
+            $export[] = [
+                'name' => $user->lastNameKh . ' ' . $user->firstNameKh,
+                'gender' => $user->gender,
+                'dateOfBirth' => $user->dateOfBirth,
+                'roleNameKh' => $user->roleNameKh,
+                'departmentNameKh' => $user->departmentNameKh,
+                'phoneNumber' => $user->phoneNumber,
+                'work' => $work,
+                'leave' => $leave,
+                'absent' => $absent,
+                'lateIn' => $lateIn,
+                'lateOut' => $lateOut,
+                'mission' => $mission
+            ];
+        }
+
+        return Excel::download(new AttendanceExportMuiltpleSheets($export), 'attendances.xlsx');
     }
 
     public function attendances(Request $request)
@@ -148,7 +295,7 @@ class AttendanceController extends Controller
         $users = User::all();
 
         $query = DB::table('attendances')
-            ->join('users', 'users.idCard', '=', 'attendances.userId')
+            ->rightJoin('users', 'users.idCard', '=', 'attendances.userId')
             ->select(
                 'users.id',
                 'attendances.id',
