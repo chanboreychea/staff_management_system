@@ -340,14 +340,15 @@ class AttendanceController extends Controller
                     $result = $date1->diff($date2);
                     $totals = Carbon::parse($result->h . ':' . $result->i . ':' . $result->s)->format('H:i:s');
                     $attendance->checkIn = Carbon::parse($request->input('lateIn'))->format('H:i:s');
-                    $attendance->lateIn = 'លិខិតយឺត';
+                    $attendance->lateIn = Carbon::parse($request->input('lateIn'))->format('H:i:s');
                     $attendance->total = $totals;
                 } else {
                     $attendance->checkIn = Carbon::parse($request->input('lateIn'))->format('H:i:s');
-                    $attendance->lateIn = 'លិខិតយឺត';
+                    $attendance->lateIn = Carbon::parse($request->input('lateIn'))->format('H:i:s');
                 }
             } else {
-                $attendance->lateIn = 'លិខិតយឺត';
+                if ($attendance->checkIn >= Carbon::parse('09:00:00')->format('H:i:s'))
+                    $attendance->lateIn = $attendance->checkIn;
             }
         }
 
@@ -363,15 +364,16 @@ class AttendanceController extends Controller
 
                     $attendance->checkOut = $lateOut;
                     if ($lateOut >= Carbon::parse('17:30:00')->format('H:i:s')) {
-                        $attendance->lateOut = 'លិខិតយឺត';
+                        $attendance->lateOut = $lateOut;
                     }
                     $attendance->total = $totals;
                 } else {
                     $attendance->checkOut = $lateOut;
-                    $attendance->lateOut = 'លិខិតយឺត';
+                    $attendance->lateOut = $lateOut;
                 }
             } else {
-                $attendance->lateOut = 'លិខិតយឺត';
+                if ($attendance->checkOut <= Carbon::parse('16:00:00')->format('H:i:s') || $attendance->checkOut >= Carbon::parse('17:30:00')->format('H:i:s'))
+                    $attendance->lateOut = $attendance->checkOut;
             }
         }
 

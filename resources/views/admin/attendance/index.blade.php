@@ -249,9 +249,8 @@
                                                             <label for="exampleInputEmail1"
                                                                 class="form-label">មកយឺត</label>
                                                             <input type="time" class="form-control" name="lateIn"
-                                                                step="1" value="{{ $item->checkIn }}"
-                                                                min="06:00:00" max="12:00:00" id="exampleInputEmail1"
-                                                                aria-describedby="emailHelp">
+                                                                step="1" min="06:00:00" max="12:00:00"
+                                                                id="exampleInputEmail1" aria-describedby="emailHelp">
                                                         </div>
                                                     </div>
                                                     <div class="col">
@@ -259,8 +258,7 @@
                                                             <label for="exampleInputPassword1"
                                                                 class="form-label">ចេញយឺត</label>
                                                             <input type="time" class="form-control" name="lateOut"
-                                                                step="1" value="{{ $item->checkOut }}"
-                                                                min="16:00:00" id="exampleInputPassword1">
+                                                                step="1" min="16:00:00" id="exampleInputPassword1">
                                                         </div>
                                                     </div>
                                                 </div>
