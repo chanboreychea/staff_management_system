@@ -294,9 +294,6 @@
 
         $(document).ready(function() {
             $("#testConnection").click(function() {
-                // $('#yourForm').submit(function(event) {
-                // Prevent the form from submitting normally
-
                 event.preventDefault();
                 // Collect form data
                 var formData = $(this).serialize();
@@ -307,18 +304,12 @@
                     url: 'http://127.0.0.1:8000/getAtt',
                     data: formData,
                     success: function(data) {
-                        // Handle success response
-                        // console.log(data);
                         document.getElementById("message").innerHTML = data;
                     },
                     error: function(xhr, status, error) {
-                        // Handle error
-                        // console.error(xhr.responseText);
                         document.getElementById("message").innerHTML = "Connection Failed";
                     }
                 });
-                // });
-                // });
             });
         });
     </script>

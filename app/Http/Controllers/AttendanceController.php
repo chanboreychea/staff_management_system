@@ -15,6 +15,9 @@ use App\Exports\AttendanceExportMuiltpleSheets;
 
 class AttendanceController extends Controller
 {
+    public function addUserAttendance(Request $request)
+    {
+    }
 
     public function getAtt(Request $request)
     {
@@ -71,28 +74,9 @@ class AttendanceController extends Controller
         $fromDate = $queryParams['fromDate'];
         $toDate = $queryParams['toDate'];
 
-        // $query = DB::table('attendances')->join('users', 'users.idCard', '=', 'attendances.userId')
-        //     ->select('users.id', 'attendances.id', 'users.lastNameKh', 'users.firstNameKh', 'userId', 'date', 'checkIn', 'checkOut', 'total');
-
-        // $query = Attendance::join('users', 'users.idCard', '=', 'attendances.userId')
-        //     ->leftJoin('roles', 'roles.id', '=', 'users.roleId')
-        //     ->leftjoin('departments', 'departments.id', '=', 'users.departmentId')
-        //     ->groupBy('users.idCard')
-        //     ->select(
-        //         'users.lastNameKh',
-        //         'users.firstNameKh',
-        //         'users.gender',
-        //         'users.dateOfBirth',
-        //         'users.phoneNumber',
-        //         'roles.roleNameKh',
-        //         'departments.departmentNameKh',
-        //         DB::raw(
-        //             ' count(`leave`) as `leave`, count(total) as total, count(lateIn) as lateIn, count(lateOut) as lateOut, count(mission) as mission'
-        //         )
-        //     );
-
         $query = Attendance::select(
             'userId',
+            'date',
             'leave',
             'checkIn',
             'lateIn',
@@ -131,10 +115,10 @@ class AttendanceController extends Controller
 
         $attendances = $query->get();
         $users = $queryUser->get();
-
-        $timeIn = Carbon::parse('09:00:00')->format('H:i:s');
-        $timeOutFirst = Carbon::parse('16:00:00')->format('H:i:s');
-        $timeOutSecond = Carbon::parse('17:30:00')->format('H:i:s');
+        // dd($attendances);
+        $morningStop = Carbon::parse('09:00:00')->format('H:i:s');
+        $eveningStart = Carbon::parse('16:00:00')->format('H:i:s');
+        $eveningStop = Carbon::parse('17:30:00')->format('H:i:s');
 
         $export = [];
         foreach ($users as $user) {
@@ -159,13 +143,18 @@ class AttendanceController extends Controller
                     if ($item->mission) {
                         $mission++;
                     }
-
-                    if ($item->checkIn <= $timeIn && $item->checkOut >= $timeOutFirst && $item->checkOut <= $timeOutSecond) {
+                    //work
+                    if ($item->checkIn != null && $item->checkOut >= $eveningStart && $item->checkOut <= $eveningStop) {
                         $work++;
-                    } elseif ($item->checkIn > $timeIn && $item->lateIn) {
+                        // dd(1);
+                    } elseif ($item->checkIn <= $morningStop && $item->lateOut) {
                         $work++;
-                    } elseif ($item->checkOut < $timeOutFirst && $item->checkOut > $timeOutSecond && $item->lateOut) {
+                    } elseif ($item->lateIn && $item->checkOut >= $eveningStart && $item->checkOut <= $eveningStop) {
                         $work++;
+                        // dd(3);
+                    } elseif ($item->lateIn && $item->lateOut) {
+                        $work++;
+                        // dd(4);
                     } else {
                         $absent++;
                     }
@@ -198,6 +187,7 @@ class AttendanceController extends Controller
 
         $query = Attendance::select(
             'userId',
+            'date',
             'leave',
             'checkIn',
             'lateIn',
@@ -225,9 +215,9 @@ class AttendanceController extends Controller
         $attendances = $query->get();
         $users = $queryUser->get();
 
-        $timeIn = Carbon::parse('09:00:00')->format('H:i:s');
-        $timeOutFirst = Carbon::parse('16:00:00')->format('H:i:s');
-        $timeOutSecond = Carbon::parse('17:30:00')->format('H:i:s');
+        $morningStop = Carbon::parse('09:00:00')->format('H:i:s');
+        $eveningStart = Carbon::parse('16:00:00')->format('H:i:s');
+        $eveningStop = Carbon::parse('17:30:00')->format('H:i:s');
 
         $export = [];
         foreach ($users as $user) {
@@ -253,12 +243,18 @@ class AttendanceController extends Controller
                         $mission++;
                     }
 
-                    if ($item->checkIn <= $timeIn && $item->checkOut >= $timeOutFirst && $item->checkOut <= $timeOutSecond) {
+                    //work
+                    if ($item->checkIn != null && $item->checkOut >= $eveningStart && $item->checkOut <= $eveningStop) {
                         $work++;
-                    } elseif ($item->checkIn > $timeIn && $item->lateIn) {
+                        // dd(1);
+                    } elseif ($item->checkIn <= $morningStop && $item->lateOut) {
                         $work++;
-                    } elseif ($item->checkOut < $timeOutFirst && $item->checkOut > $timeOutSecond && $item->lateOut) {
+                    } elseif ($item->lateIn && $item->checkOut >= $eveningStart && $item->checkOut <= $eveningStop) {
                         $work++;
+                        // dd(3);
+                    } elseif ($item->lateIn && $item->lateOut) {
+                        $work++;
+                        // dd(4);
                     } else {
                         $absent++;
                     }
