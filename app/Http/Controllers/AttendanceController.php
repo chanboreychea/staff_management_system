@@ -17,6 +17,52 @@ class AttendanceController extends Controller
 {
     public function addUserAttendance(Request $request)
     {
+        $uid = $request->input('uid');
+        $date = $request->input('date');
+
+        if ($request->input('checkIn')) {
+            $checkIn = $request->input('checkIn');
+        } else {
+            $checkIn = null;
+        }
+        if ($request->input('checkOut')) {
+            $checkOut = $request->input('checkOut');
+        } else {
+            $checkOut = null;
+        }
+
+        if ($request->input('checkIn') && $request->input('checkOut')) {
+            $date2 = Carbon::parse($checkOut);
+            $date1 = Carbon::parse($checkIn);
+            $result = $date1->diff($date2);
+            $totals = Carbon::parse($result->h . ':' . $result->i . ':' . $result->s)->format('H:i:s');
+        } else {
+            $totals = null;
+        }
+
+        $users = [];
+
+        if ($uid) {
+            foreach ($uid as $user) {
+                $model = Attendance::where('userId', $user)
+                    ->where('date', $date)
+                    ->first();
+                if (!$model) {
+                    $users[] = [
+                        'userId' => $user,
+                        'date' => $date,
+                        'checkIn' => $checkIn,
+                        'checkOut' => $checkOut,
+                        'total' => $totals
+                    ];
+                }
+            }
+        }
+        if ($users) {
+            Attendance::insert($users);
+            return redirect('/attendances')->with('message', 'Insert Successfully');
+        }
+        return redirect('/attendances')->with('message', 'None');
     }
 
     public function getAtt(Request $request)
@@ -108,8 +154,11 @@ class AttendanceController extends Controller
 
         if ($fromDate && $toDate) {
             $query->whereBetween('date', [$fromDate, $toDate]);
+            $amountDays =  $this->businessDaysBetweenDates($fromDate, $toDate);
         } else {
-            $thisMonth = $this->getDatesByPeriodName('this_month', Carbon::now());
+            $date = Carbon::now();
+            $thisMonth = $this->getDatesByPeriodName('this_month', $date);
+            $amountDays =  $this->getDaysExcludingWeekend($date->format('Y'), $date->format('m'));
             $query->whereBetween('date', [Carbon::parse($thisMonth[0])->format('Y-m-d'), Carbon::parse($thisMonth[1])->format('Y-m-d')]);
         }
 
@@ -170,7 +219,7 @@ class AttendanceController extends Controller
                 'phoneNumber' => $user->phoneNumber,
                 'work' => $work,
                 'leave' => $leave,
-                'absent' => $absent,
+                'absent' => $amountDays - ($work + $leave),
                 'lateIn' => $lateIn,
                 'lateOut' => $lateOut,
                 'mission' => $mission
@@ -183,7 +232,9 @@ class AttendanceController extends Controller
     public function userAttendancesByDepartmentAndRole(Request $request)
     {
         //get attendances by department
-        $thisMonth = $this->getDatesByPeriodName('this_month', Carbon::now());
+        $date = Carbon::now();
+        $thisMonth = $this->getDatesByPeriodName('this_month', $date);
+        $amountDays =  $this->getDaysExcludingWeekend($date->format('Y'), $date->format('m'));
 
         $query = Attendance::select(
             'userId',
@@ -270,7 +321,7 @@ class AttendanceController extends Controller
                 'phoneNumber' => $user->phoneNumber,
                 'work' => $work,
                 'leave' => $leave,
-                'absent' => $absent,
+                'absent' => $amountDays - ($work + $leave),
                 'lateIn' => $lateIn,
                 'lateOut' => $lateOut,
                 'mission' => $mission
@@ -324,7 +375,7 @@ class AttendanceController extends Controller
         return view('admin.attendance.index', compact('attendances', 'users', 'departments'));
     }
 
-    public function updateLateInAndLateOut(Request $request, string $attendanceId)
+    public function updateAttendanceById(Request $request, string $attendanceId)
     {
         $attendance = Attendance::findOrFail($attendanceId);
 
@@ -370,6 +421,32 @@ class AttendanceController extends Controller
             } else {
                 if ($attendance->checkOut <= Carbon::parse('16:00:00')->format('H:i:s') || $attendance->checkOut >= Carbon::parse('17:30:00')->format('H:i:s'))
                     $attendance->lateOut = $attendance->checkOut;
+            }
+        }
+
+        if ($request->input('checkIn')) {
+            if ($attendance->checkOut) {
+                $date2 = Carbon::parse($attendance->checkOut);
+                $date1 = Carbon::parse($request->input('checkIn'));
+                $result = $date1->diff($date2);
+                $totals = Carbon::parse($result->h . ':' . $result->i . ':' . $result->s)->format('H:i:s');
+                $attendance->checkIn = Carbon::parse($request->input('checkIn'))->format('H:i:s');
+                $attendance->total = $totals;
+            } else {
+                $attendance->checkIn = $request->input('checkIn');
+            }
+        }
+
+        if ($request->input('checkOut')) {
+            if ($attendance->checkIn) {
+                $date2 = Carbon::parse($request->input('checkOut'));
+                $date1 = Carbon::parse($attendance->checkIn);
+                $result = $date1->diff($date2);
+                $totals = Carbon::parse($result->h . ':' . $result->i . ':' . $result->s)->format('H:i:s');
+                $attendance->checkOut = Carbon::parse($request->input('checkOut'))->format('H:i:s');
+                $attendance->total = $totals;
+            } else {
+                $attendance->checkOut = $request->input('checkOut');
             }
         }
 

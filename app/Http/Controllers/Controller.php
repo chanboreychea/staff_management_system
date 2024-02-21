@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DateTime;
+use DatePeriod;
 use DateInterval;
 use App\Models\User;
 use App\Models\Attendance;
@@ -233,14 +234,14 @@ class Controller extends BaseController
         return $dates;
     }
 
-    public function getFromDateToDate($fromDate, $toDate)
+    public function getFromDateToDate($startDate, $endDate)
     {
         $date = [];
-        $date1 = Carbon::parse($fromDate);
-        $date2 = Carbon::parse($toDate);
+        $date1 = Carbon::parse($startDate);
+        $date2 = Carbon::parse($endDate);
         $dateResult = $date1->diff($date2);
         for ($i = 0; $i < $dateResult->d + 1; $i++) {
-            $periodDate = Carbon::parse($fromDate)->addDays($i)->format('Y-m-d');
+            $periodDate = Carbon::parse($startDate)->addDays($i)->format('Y-m-d');
             $date[] = [
                 'datePeriod' => $periodDate
             ];
@@ -248,7 +249,24 @@ class Controller extends BaseController
         return $date;
     }
 
-    public function getDaysExcludingWeekend($year, $month) {
+    public function businessDaysBetweenDates($startDate, $endDate)
+    {
+        $startDate = new DateTime($startDate);
+        $endDate = new DateTime($endDate);
+        $interval = new DateInterval('P1D'); // 1 day interval
+        $period = new DatePeriod($startDate, $interval, $endDate->modify('+1 day'));
+
+        $businessDays = 0;
+        foreach ($period as $date) {
+            if ($date->format('N') < 6) { // 1-5 are Monday to Friday
+                $businessDays++;
+            }
+        }
+        return $businessDays;
+    }
+
+    public function getDaysExcludingWeekend($year, $month)
+    {
         // Get the number of days in the given month
         $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
