@@ -9,8 +9,47 @@
             overflow-y: auto;
             /* Enable vertical scrolling */
         }
+
+        ul {
+            list-style-type: none;
+        }
+
+        ul ul {
+            margin-left: 20px;
+        }
     </style>
 
+    @if ($errors->any())
+        <div class="container position-relative" id="success-alert">
+
+            <div class="position-absolute top-0 end-0 p-3 success-alert" style="z-index:999;margin-top:-90px; ">
+
+                <div class="toast show ">
+
+                    <div class="toast-header">
+
+                        <strong class="me-auto">នាំចូលនូវវត្តមាន</strong>
+
+                        <button type="button" class="btn-close text-white" data-bs-dismiss="toast"></button>
+
+                    </div>
+
+                    <div class="toast-body text-success">
+
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    @endif
 
     @if ($message = Session::get('message'))
         <div class="container position-relative" id="success-alert">
@@ -55,7 +94,6 @@
                 <form action="/attendances" action="get">
                     @csrf
                     <div class="row">
-
                         <!-- add attendances -->
                         <div class="col-lg-1">
                             <button type="button" class="btn btn-primary w-100" data-toggle="modal"
@@ -63,47 +101,52 @@
                                 Add
                             </button>
                         </div>
-
                         {{-- user --}}
                         <div class="col-lg-1">
                             <div class="dropdown w-100" style="position: relative;">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     មន្ត្រី
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <li class="dropdown-item">
-                                        <input type="checkbox" class="departmentId">
-                                        ថ្នាក់ដឹកនាំ
+                                        <input type="checkbox" id="parent1" />
+                                        <label for="parent1">ជ្រើសទាំងអស់</label>
                                         <ul>
-                                            @foreach ($users as $user)
-                                                @if ($user->departmentId == null && $user->officeId == null)
-                                                    <li class="dropdown-item">
-                                                        <input type="checkbox" class="uid" name="uid[]"
-                                                            value="{{ $user->idCard }}" id="">
-                                                        {{ $user->lastNameKh }} {{ $user->firstNameKh }}
-                                                    </li>
-                                                @endif
+                                            <li>
+                                                <input type="checkbox" class="departmentId">
+                                                ថ្នាក់ដឹកនាំ
+                                                <ul>
+                                                    @foreach ($users as $user)
+                                                        @if ($user->departmentId == null && $user->officeId == null)
+                                                            <li class="dropdown-item">
+                                                                <input type="checkbox" class="uid" name="uid[]"
+                                                                    value="{{ $user->idCard }}" id="">
+                                                                {{ $user->lastNameKh }} {{ $user->firstNameKh }}
+                                                            </li>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>
+                                            </li>
+                                            @foreach ($departments as $department)
+                                                <li>
+                                                    <input type="checkbox" class="departmentId">
+                                                    {{ $department->departmentNameKh }}
+                                                    <ul>
+                                                        @foreach ($users as $user)
+                                                            @if ($department->id == $user->departmentId)
+                                                                <li class="dropdown-item">
+                                                                    <input type="checkbox" class="uid" name="uid[]"
+                                                                        value="{{ $user->idCard }}" id="">
+                                                                    {{ $user->lastNameKh }} {{ $user->firstNameKh }}
+                                                                </li>
+                                                            @endif
+                                                        @endforeach
+                                                    </ul>
+                                                </li>
                                             @endforeach
                                         </ul>
                                     </li>
-                                    @foreach ($departments as $department)
-                                        <li class="dropdown-item">
-                                            <input type="checkbox" class="departmentId">
-                                            {{ $department->departmentNameKh }}
-                                            <ul>
-                                                @foreach ($users as $user)
-                                                    @if ($department->id == $user->departmentId)
-                                                        <li class="dropdown-item">
-                                                            <input type="checkbox" class="uid" name="uid[]"
-                                                                value="{{ $user->idCard }}" id="">
-                                                            {{ $user->lastNameKh }} {{ $user->firstNameKh }}
-                                                        </li>
-                                                    @endif
-                                                @endforeach
-                                            </ul>
-                                        </li>
-                                    @endforeach
                                 </ul>
                             </div>
                         </div>
@@ -132,10 +175,15 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="row">
-                                <div class="col-2"><input class="btn btn-success w-100" type="submit" value="Filter">
+                                <div class="col-2"><input class="btn btn-warning w-100" type="submit" value="Filter">
                                 </div>
                                 <div class="col-2"><a href="attendaces/export/excel"
                                         class="btn btn-danger w-100">Export</a>
+                                </div>
+                                <div class="col-2"><button type="button" class="btn btn-success w-100"
+                                        data-toggle="modal" data-target="#importAttendance">
+                                        Import
+                                    </button>
                                 </div>
                                 <div class="col">
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
@@ -149,8 +197,8 @@
                 </form>
             </h5>
 
-            <div class="modal fade" id="addAttendance" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="addAttendance" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -166,40 +214,25 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="mb-3">
-                                            <label for="exampleInputEmail1" class="form-label">មន្ត្រី</label>
-                                            <div class="col-lg-1">
-                                                <div class="dropdown" style="position: relative;">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                        id="dropdownMenuButton" data-toggle="dropdown"
-                                                        aria-haspopup="true" aria-expanded="false">
-                                                        មន្ត្រី
-                                                    </button>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <li class="dropdown-item">
-                                                            <input type="checkbox" class="departmentId">
-                                                            ថ្នាក់ដឹកនាំ
-                                                            <ul>
-                                                                @foreach ($users as $user)
-                                                                    @if ($user->departmentId == null && $user->officeId == null)
-                                                                        <li class="dropdown-item">
-                                                                            <input type="checkbox" class="uid"
-                                                                                name="uid[]"
-                                                                                value="{{ $user->idCard }}"
-                                                                                id="">
-                                                                            {{ $user->lastNameKh }}
-                                                                            {{ $user->firstNameKh }}
-                                                                        </li>
-                                                                    @endif
-                                                                @endforeach
-                                                            </ul>
-                                                        </li>
-                                                        @foreach ($departments as $department)
-                                                            <li class="dropdown-item">
+                                            <label for="exampleInputPassword1" class="form-label">មន្រ្តី</label>
+                                            <div id="exampleInputPassword1" class="dropdown w-100"
+                                                style="position: relative;">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                    មន្ត្រី
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <li class="dropdown-item">
+                                                        <input type="checkbox" id="parent1" />
+                                                        <label for="parent1">ជ្រើសទាំងអស់</label>
+                                                        <ul>
+                                                            <li>
                                                                 <input type="checkbox" class="departmentId">
-                                                                {{ $department->departmentNameKh }}
+                                                                ថ្នាក់ដឹកនាំ
                                                                 <ul>
                                                                     @foreach ($users as $user)
-                                                                        @if ($department->id == $user->departmentId)
+                                                                        @if ($user->departmentId == null && $user->officeId == null)
                                                                             <li class="dropdown-item">
                                                                                 <input type="checkbox" class="uid"
                                                                                     name="uid[]"
@@ -212,11 +245,32 @@
                                                                     @endforeach
                                                                 </ul>
                                                             </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
+                                                            @foreach ($departments as $department)
+                                                                <li>
+                                                                    <input type="checkbox" class="departmentId">
+                                                                    {{ $department->departmentNameKh }}
+                                                                    <ul>
+                                                                        @foreach ($users as $user)
+                                                                            @if ($department->id == $user->departmentId)
+                                                                                <li class="dropdown-item">
+                                                                                    <input type="checkbox" class="uid"
+                                                                                        name="uid[]"
+                                                                                        value="{{ $user->idCard }}"
+                                                                                        id="">
+                                                                                    {{ $user->lastNameKh }}
+                                                                                    {{ $user->firstNameKh }}
+                                                                                </li>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    </ul>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </li>
+                                                </ul>
                                             </div>
                                         </div>
+
                                     </div>
                                     <div class="col">
                                         <div class="mb-3">
@@ -247,6 +301,34 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">ថយក្រោយ</button>
                                 <button type="submit" class="btn btn-primary">រក្សាទុក</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="importAttendance" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">វត្តមាន
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="/attendances/import/excel" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal-body">
+
+                                <label for="exampleInputEmail1" class="form-label">Attendances</label>
+                                <input type="file" class="form-control" name="attendanceExcel"
+                                    id="exampleInputEmail1" aria-describedby="emailHelp">
+
+                            </div>
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-primary" name="getAtt" value="រក្សាទុក">
                             </div>
                         </form>
                     </div>
@@ -330,7 +412,7 @@
 
                             @if ($item->checkIn)
                                 @if ($item->checkIn > '09:00:00')
-                                    <td style="color: red">{{ $item->checkIn }}​</td>
+                                    <td style="color: red">{{ $item->checkIn }}</td>
                                 @else
                                     <td>{{ $item->checkIn }}</td>
                                 @endif
@@ -453,12 +535,28 @@
 
         }, 5000);
 
-        $(document).ready(function() {
-            $('.departmentId').bind('click', function() {
-                $('input[type=checkbox]', $(this).parent('li')).attr('checked', $(this).is(':checked'));
+        document.addEventListener("DOMContentLoaded", function() {
+            let checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener("click", function() {
+                    let isChecked = this.checked;
+                    let children = this.parentElement.querySelectorAll(
+                        'input[type="checkbox"]'
+                    );
+                    children.forEach(function(child) {
+                        child.checked = isChecked;
+                    });
+                });
             });
         });
+
+        // $(document).ready(function() {
+        //     $('.departmentId').bind('click', function() {
+        //         $('input[type=checkbox]', $(this).parent('li')).attr('checked', $(this).is(':checked'));
+
+        //     });
+        // });
 
         $(document).ready(function() {
             $("#testConnection").click(function() {

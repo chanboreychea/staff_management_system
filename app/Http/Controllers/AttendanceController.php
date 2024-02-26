@@ -53,7 +53,8 @@ class AttendanceController extends Controller
                         'date' => $date,
                         'checkIn' => $checkIn,
                         'checkOut' => $checkOut,
-                        'total' => $totals
+                        'total' => $totals,
+                        'created_at' => Carbon::now()
                     ];
                 }
             }
@@ -65,6 +66,23 @@ class AttendanceController extends Controller
         return redirect('/attendances')->with('message', 'None');
     }
 
+    public function importUserAttendanceExcel(Request $request)
+    {
+
+        $request->validate([
+            'attendanceExcel' => ['required', 'file', 'mimes:xlsx,csv', 'max:2048'],
+        ], [
+            'attendanceExcel.required' => 'សូមបញ្ចូលទិន្នន័យ',
+            'attendanceExcel.file' => 'សូមបញ្ចូលប្រភេទជា File',
+            'attendanceExcel.mimes' => 'សូមបញ្ចូលជាប្រភេទ Excel ឬ CSV',
+            'attendanceExcel.max' => 'អាចបញ្ចូលទំហំបានត្រឹម 2Mb',
+        ]);
+
+        $file = $request->input('attendanceExcel');
+
+        return redirect()->back()->with('message', 'Import Successfully');
+    }
+
     public function getAtt(Request $request)
     {
         $ip = $request->input('ip');
@@ -73,7 +91,7 @@ class AttendanceController extends Controller
         if ($request->input('getAtt')) {
 
             $this->setAttendances($ip, $port);
-            return redirect('/attendances');
+            return redirect('/attendances')->with('message', 'Attendances Import Successfully');
         } else {
 
             $zk = new ZKTeco('172.16.15.184', 4370);
@@ -106,7 +124,7 @@ class AttendanceController extends Controller
         }
     }
 
-    public function export(Request $request)
+    public function exportUserAttendanceExcel(Request $request)
     {
         $previousUrl = URL::previous();
         $parsedUrl = parse_url($previousUrl);

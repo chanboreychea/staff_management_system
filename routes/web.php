@@ -37,6 +37,9 @@ Route::get('/', function () {
 Route::get('/ip', function (Request $request) {
     // $clientIpAddress = $request->getClientIp();
     $clientIpAddress = $request->ip();
+    // $clientIpAddress = $_SERVER['REMOTE_ADDR'];
+    dd($clientIpAddress);
+
     $agent = new Agent();
     // Get device information
     $device = $agent->device();
@@ -46,7 +49,18 @@ Route::get('/ip', function (Request $request) {
     $b = $agent->isTablet();
     $c = $agent->is('Windows');
 
-    dd($c);
+    // $ipLong = ip2long($clientIpAddress);
+    // $startLong = ip2long('172.16.0.0');
+    // $endLong = ip2long('172.16.254.254');
+    // // $startLong = ip2long('127.0.0.0');
+    // // $endLong = ip2long('127.0.0.254');
+
+    // if ($ipLong >= $startLong && $ipLong <= $endLong) {
+    //     // dd($startLong.' - '.$ipLong.' - '.$endLong);
+    //     dd($clientIpAddress);
+    // } else {
+    //     dd('khos');
+    // }
 });
 
 Route::get('/h', function () {
@@ -67,9 +81,11 @@ Route::middleware(['authm'])->group(function () {
     Route::resource('/departments', DepartmentController::class);
     Route::resource('/offices', OfficeController::class);
 
+
     Route::post('/attendances', [AttendanceController::class, 'addUserAttendance']);
     Route::get('/attendances', [AttendanceController::class, 'attendances'])->name('user-attendances');
     Route::get('/attendances/{userId}', [AttendanceController::class, 'showAttendanceByUserId']);
     Route::patch('/attendances/{attendanceId}', [AttendanceController::class, 'updateAttendanceById']);
-    Route::get('/attendaces/export/excel', [AttendanceController::class, 'export']);
+    Route::get('/attendaces/export/excel', [AttendanceController::class, 'exportUserAttendanceExcel']);
+    Route::post('/attendances/import/excel', [AttendanceController::class, 'importUserAttendanceExcel']);
 });

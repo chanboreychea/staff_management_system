@@ -20,14 +20,28 @@ class Controller extends BaseController
 
     public function setAttendances($ip, $port)
     {
-        $zk = new ZKTeco($ip, $port);
-        $zk->connect();
-        $zk->disableDevice();
-        $attendances = $zk->getAttendance();
+        // $zk = new ZKTeco($ip, $port);
+        // $zk->connect();
+        // $zk->disableDevice();
+        // $attendances = $zk->getAttendance();
+        $attendances = array(
+            [
+                'id' => 6,
+                'timestamp' => '2024-02-23 17:08:01'
+            ],
+            [
+                'id' => 50,
+                'timestamp' => '2024-02-26 17:08:01'
+            ],
+            [
+                'id' => 53,
+                'timestamp' => '2024-02-26 08:08:01'
+            ],
+        );
 
         $attendanceModel = Attendance::all()->last();
 
-        $checkIn = Carbon::parse('2024-01-01')->format('Y-m-d 00:00:00');
+        $checkIn = Carbon::now()->subMonths(3)->format('Y-m-d 00:00:00');
         if ($attendanceModel != null) {
             $checkIn = Carbon::parse($attendanceModel->date . '' . $attendanceModel->checkIn);
         }
@@ -37,8 +51,6 @@ class Controller extends BaseController
 
             if ($attendance['timestamp'] > $checkIn) {
 
-                // if between checkIn(06:00:00 - 09:00:00) and checkOut(04:00:00 - 05:30:00)
-                //if(Carbon::parse($attendance['timestamp'])->format('H:i:s'))
                 $attendanceInsert[] = [
                     'userId' => $attendance['id'],
                     'date' =>  Carbon::parse($attendance['timestamp'])->format('Y-m-d'),
@@ -48,10 +60,11 @@ class Controller extends BaseController
             }
         }
 
-        foreach ($attendanceInsert as $key => $record) {
+        foreach ($attendanceInsert as $record) {
 
             $checkAttendance = Attendance::where('userId', $record['userId'])
                 ->Where('date', $record['date'])->first();
+
 
             if (is_null($checkAttendance)) {
 
@@ -77,19 +90,46 @@ class Controller extends BaseController
                 }
             } else {
 
-                if ($record['checkOut'] >= Carbon::parse('13:00:00')->format('H:i:s')) {
+                if (is_null($checkAttendance->checkOut)) {
 
-                    $date1 = Carbon::parse($checkAttendance->checkIn);
-                    $date2 = Carbon::parse($record['checkOut']);
-                    $total = $date1->diff($date2);
-                    $totals = Carbon::parse($total->h . ':' . $total->i . ':' . $total->s)->format('H:i:s');
+                    if ($record['checkOut'] >= Carbon::parse('13:00:00')->format('H:i:s')) {
 
-                    Attendance::where('userId', $record['userId'])
-                        ->where('date', $record['date'])
-                        ->update([
-                            'checkOut' => $record['checkOut'],
-                            'total' => $totals
-                        ]);
+                        if ($checkAttendance->checkIn != null) {
+                            $date1 = Carbon::parse($checkAttendance->checkIn);
+                            $date2 = Carbon::parse($record['checkOut']);
+                            $total = $date1->diff($date2);
+                            $totals = Carbon::parse($total->h . ':' . $total->i . ':' . $total->s)->format('H:i:s');
+                        } else {
+                            $totals = null;
+                        }
+                        Attendance::where('userId', $record['userId'])
+                            ->where('date', $record['date'])
+                            ->update([
+                                'checkOut' => $record['checkOut'],
+                                'total' => $totals
+                            ]);
+                    }
+                }
+
+                if (is_null($checkAttendance->checkIn)) {
+
+                    if ($record['checkIn'] <= Carbon::parse('12:00:00')->format('H:i:s')) {
+
+                        if ($checkAttendance->checkOut == null) {
+                            $totals = null;
+                        } else {
+                            $date1 = Carbon::parse($record['checkIn']);
+                            $date2 = Carbon::parse($checkAttendance->checkOut);
+                            $total = $date1->diff($date2);
+                            $totals = Carbon::parse($total->h . ':' . $total->i . ':' . $total->s)->format('H:i:s');
+                        }
+                        Attendance::where('userId', $record['userId'])
+                            ->where('date', $record['date'])
+                            ->update([
+                                'checkIn' => $record['checkIn'],
+                                'total' => $totals
+                            ]);
+                    }
                 }
             }
         }
