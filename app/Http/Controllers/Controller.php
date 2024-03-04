@@ -20,24 +20,10 @@ class Controller extends BaseController
 
     public function setAttendances($ip, $port)
     {
-        // $zk = new ZKTeco($ip, $port);
-        // $zk->connect();
-        // $zk->disableDevice();
-        // $attendances = $zk->getAttendance();
-        $attendances = array(
-            [
-                'id' => 6,
-                'timestamp' => '2024-02-23 17:08:01'
-            ],
-            [
-                'id' => 50,
-                'timestamp' => '2024-02-26 17:08:01'
-            ],
-            [
-                'id' => 53,
-                'timestamp' => '2024-02-26 08:08:01'
-            ],
-        );
+        $zk = new ZKTeco($ip, $port);
+        $zk->connect();
+        $zk->disableDevice();
+        $attendances = $zk->getAttendance();
 
         $attendanceModel = Attendance::all()->last();
 
@@ -345,6 +331,35 @@ class Controller extends BaseController
         $eveningEnd = Carbon::parse($date)->format('Y-m-d 17:30:00');
         $checkOut = [$eveningStart, $eveningEnd];
         return $checkOut;
+    }
+
+    public function calendar()
+    {
+        $month = date('F');
+        $year = date('Y');
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, date('m'), date('Y'));
+        $firstDay = date('N', strtotime('first day of ' . $month . ' ' . $year));
+
+        $calendar = [];
+        $week = [];
+
+        for ($i = 1; $i < $firstDay; $i++) {
+            $week[] = '';
+        }
+
+        for ($i = 1; $i <= $daysInMonth; $i++) {
+            $week[] = $i;
+            if (count($week) === 7) {
+                $calendar[] = $week;
+                $week = [];
+            }
+        }
+
+        if (count($week) > 0) {
+            $calendar[] = $week;
+        }
+
+        return view('calendar', compact('month', 'year', 'calendar'));
     }
 
     // public function setPeriodAttendances($userId, $period)

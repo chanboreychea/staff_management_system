@@ -20,6 +20,18 @@ class AttendanceController extends Controller
         $uid = $request->input('uid');
         $date = $request->input('date');
 
+        if ($request->input('mission')) {
+            $mission = $request->input('mission');
+        } else {
+            $mission = null;
+        }
+
+        if ($request->input('leave')) {
+            $leave = $request->input('leave');
+        } else {
+            $leave = null;
+        }
+
         if ($request->input('checkIn')) {
             $checkIn = $request->input('checkIn');
         } else {
@@ -51,18 +63,22 @@ class AttendanceController extends Controller
                     $users[] = [
                         'userId' => $user,
                         'date' => $date,
+                        'leave' => $leave,
                         'checkIn' => $checkIn,
                         'checkOut' => $checkOut,
                         'total' => $totals,
+                        'mission' => $mission,
                         'created_at' => Carbon::now()
                     ];
                 }
             }
         }
+        // dd($users);
         if ($users) {
             Attendance::insert($users);
             return redirect('/attendances')->with('message', 'Insert Successfully');
         }
+
         return redirect('/attendances')->with('message', 'None');
     }
 
@@ -237,13 +253,13 @@ class AttendanceController extends Controller
                 'phoneNumber' => $user->phoneNumber,
                 'work' => $work,
                 'leave' => $leave,
-                'absent' => $amountDays - ($work + $leave),
+                'absent' => $amountDays - ($work + $mission + $leave),
                 'lateIn' => $lateIn,
                 'lateOut' => $lateOut,
                 'mission' => $mission
             ];
         }
-        // dd($export);
+
         return Excel::download(new AttendanceExportMuiltpleSheets($export), 'attendances.xlsx');
     }
 
@@ -339,7 +355,7 @@ class AttendanceController extends Controller
                 'phoneNumber' => $user->phoneNumber,
                 'work' => $work,
                 'leave' => $leave,
-                'absent' => $amountDays - ($work + $leave),
+                'absent' => $amountDays - ($work + $mission + $leave),
                 'lateIn' => $lateIn,
                 'lateOut' => $lateOut,
                 'mission' => $mission
@@ -388,7 +404,7 @@ class AttendanceController extends Controller
             $query->whereBetween('date', [Carbon::parse($thisMonth[0])->format('Y-m-d'), Carbon::parse($thisMonth[1])->format('Y-m-d')]);
         }
 
-        $attendances = $query->orderBy('date', 'desc')->get();
+        $attendances = $query->orderBy('date', 'desc')->orderBy('checkIn', 'desc')->get();
 
         return view('admin.attendance.index', compact('attendances', 'users', 'departments'));
     }

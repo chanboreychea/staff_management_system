@@ -95,14 +95,14 @@
                     @csrf
                     <div class="row">
                         <!-- add attendances -->
-                        <div class="col-lg-1">
+                        <div class="col-lg-1 col-sm-12">
                             <button type="button" class="btn btn-primary w-100" data-toggle="modal"
                                 data-target="#addAttendance">
                                 Add
                             </button>
                         </div>
                         {{-- user --}}
-                        <div class="col-lg-1">
+                        <div class="col-lg-1 col-sm-12">
                             <div class="dropdown w-100" style="position: relative;">
                                 <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -151,7 +151,7 @@
                             </div>
                         </div>
                         {{-- from date --}}
-                        <div class="col-lg-2">
+                        <div class="col-lg-2 col-sm-12">
                             <div class="input-group mb-3 w-100">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">From</span>
@@ -162,7 +162,7 @@
                             </div>
                         </div>
                         {{-- to date --}}
-                        <div class="col-lg-2">
+                        <div class="col-lg-2 col-sm-12">
                             <div class="input-group mb-3 w-100">
 
                                 <div class="input-group-prepend">
@@ -173,14 +173,14 @@
                                     aria-describedby="basic-addon1">
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-sm-12">
                             <div class="row">
-                                <div class="col-2"><input class="btn btn-warning w-100" type="submit" value="Filter">
+                                <div class="col-lg-2"><input class="btn btn-warning w-100" type="submit" value="Filter">
                                 </div>
-                                <div class="col-2"><a href="attendaces/export/excel"
+                                <div class="col-lg-2"><a href="attendaces/export/excel"
                                         class="btn btn-danger w-100">Export</a>
                                 </div>
-                                <div class="col-2"><button type="button" class="btn btn-success w-100"
+                                <div class="col-lg-2"><button type="button" class="btn btn-success w-100"
                                         data-toggle="modal" data-target="#importAttendance">
                                         Import
                                     </button>
@@ -297,6 +297,22 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="radio2"
+                                                name="leave" value="1">
+                                            <label class="form-check-label" for="radio2">ច្បាប់</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="radio2"
+                                                name="mission" value="1">
+                                            <label class="form-check-label" for="radio2">បេសកកម្ម</label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">ថយក្រោយ</button>
@@ -406,37 +422,37 @@
                             <td>
                                 {{ $item->lastNameKh }} {{ $item->firstNameKh }}
                             </td>
-                            <td>{{ $item->userId }}</td>
-                            <td>{{ $item->date }}</td>
-                            <td style="color: red">{{ $item->leave }}</td>
+                            <td style="text-align: center;">{{ $item->userId }}</td>
+                            <td style="text-align: center;">{{ $item->date }}</td>
+                            <td style="color: red; text-align: center;">{{ $item->leave }}</td>
 
                             @if ($item->checkIn)
                                 @if ($item->checkIn > '09:00:00')
-                                    <td style="color: red">{{ $item->checkIn }}</td>
+                                    <td style="color: red; text-align: center;">{{ $item->checkIn }}</td>
                                 @else
-                                    <td>{{ $item->checkIn }}</td>
+                                    <td style="text-align: center;">{{ $item->checkIn }}</td>
                                 @endif
                             @else
-                                <td>--:--:--</td>
+                                <td style="text-align: center;">--:--:--</td>
                             @endif
 
-                            <td style="color: red">{{ $item->lateIn }}</td>
+                            <td style="color: red; text-align: center;">{{ $item->lateIn }}</td>
 
                             @if ($item->checkOut)
                                 @if ($item->checkOut < '04:00:00' && $item->checkOut > '17:30:00')
-                                    <td style="color: red">{{ $item->checkOut }}</td>
+                                    <td style="color: red; text-align: center;">{{ $item->checkOut }}</td>
                                 @elseif ($item->checkOut > '17:30:00')
-                                    <td style="color: red">{{ $item->checkOut }}</td>​
+                                    <td style="color: red; text-align: center;">{{ $item->checkOut }}</td>​
                                 @else
-                                    <td>{{ $item->checkOut }}</td>
+                                    <td style="text-align: center;">{{ $item->checkOut }}</td>
                                 @endif
                             @else
-                                <td>--:--:--</td>
+                                <td style="text-align: center;">--:--:--</td>
                             @endif
 
-                            <td style="color: red">{{ $item->lateOut }}</td>
+                            <td style="color: red; text-align: center;">{{ $item->lateOut }}</td>
 
-                            <td>
+                            <td style="text-align: center;">
                                 @if ($item->total)
                                     {{ $item->total }}
                                 @else
@@ -444,7 +460,7 @@
                                 @endif
                             </td>
 
-                            <th>
+                            <th style="text-align: center;">
                                 <!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
                                     data-target="#exampleModal{{ $item->id }}">

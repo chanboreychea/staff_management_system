@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\BookingRoomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,11 +67,22 @@ Route::get('/ip', function (Request $request) {
 Route::get('/h', function () {
     $date = Carbon::now();
     $at = new Controller();
-    dd($at->getDaysExcludingWeekend($date->format('Y'), $date->format('m')));
+    $daysInMonth = intval(date('t'));
+
+    $month = $at->getDatesByPeriodName('this_month', $date);
+
+    $startDay = Carbon::parse($month[0])->format('Y-m-d D');
+    $endDay = Carbon::parse($month[1])->format('Y-m-d D');
+
+    // dd($startDay . ' - ' . $endDay);
+    return view('calendar', compact('daysInMonth',));
 });
 
-Route::get('/getAtt', [AttendanceController::class, 'getAtt'])->name('attendance-connection');
+Route::get('/c', [BookingRoomController::class, 'calendar']);
+Route::post('/booking', [BookingRoomController::class, 'bookingRoom']);
 
+
+Route::get('/getAtt', [AttendanceController::class, 'getAtt'])->name('attendance-connection');
 
 Route::post('/login', [authController::class, 'login']);
 Route::get('/logout', [authController::class, 'logout']);
