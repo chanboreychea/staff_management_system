@@ -10,9 +10,9 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\BookingRoomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,8 +78,9 @@ Route::get('/h', function () {
     return view('calendar', compact('daysInMonth',));
 });
 
-Route::get('/c', [BookingRoomController::class, 'calendar']);
-Route::post('/booking', [BookingRoomController::class, 'bookingRoom']);
+Route::get('/c', [BookingController::class, 'calendar']);
+Route::get('/rooms/{day}',[BookingController::class, 'showRoomAndTime']);
+Route::post('/booking', [BookingController::class, 'bookingRoom']);
 
 
 Route::get('/getAtt', [AttendanceController::class, 'getAtt'])->name('attendance-connection');
