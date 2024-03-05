@@ -91,7 +91,7 @@ class BookingController extends Controller
 
             // If an exception occurs, rollback the transaction
             DB::rollback();
-            return redirect('/c')->with('message', 'Please try agains!!');
+            return redirect('/c')->with('message', 'Please try again!!');
             // Optionally, handle the exception
         }
     }
