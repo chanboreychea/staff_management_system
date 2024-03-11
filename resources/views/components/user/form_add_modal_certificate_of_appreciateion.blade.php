@@ -18,6 +18,8 @@
                                 name="date1[]"
 
                                 value="<?=old('date1.0')?>"
+
+                                required
                                 
                                 class="form-control form-control-sm" 
                                 

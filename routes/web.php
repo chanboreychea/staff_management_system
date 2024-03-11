@@ -1,5 +1,31 @@
 <?php
 
+// use Jenssegers\Agent\Agent;
+// use Illuminate\Http\Request;
+// use Illuminate\Support\Carbon;
+// use App\Http\Controllers\Controller;
+// use Illuminate\Support\Facades\Route;
+// use App\Http\Controllers\authController;
+// use App\Http\Controllers\RoleController;
+// use App\Http\Controllers\UserController;
+// use Illuminate\Support\Facades\Redirect;
+// use App\Http\Controllers\OfficeController;
+// use App\Http\Controllers\BookingController;
+// use App\Http\Controllers\AttendanceController;
+// use App\Http\Controllers\DepartmentController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+
+
 use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -89,45 +115,12 @@ Route::get('/getAtt', [AttendanceController::class, 'getAtt'])->name('attendance
 
 Route::post('/login', [authController::class, 'login']);
 Route::get('/logout', [authController::class, 'logout']);
-// Route::get('/', function () {
-//     return view('index');
-// })->name('login');
 
-// Route::get('/ip', function (Request $request) {
-//     // $clientIpAddress = $request->getClientIp();
-//     $clientIpAddress = $request->ip();
-//     $agent = new Agent();
-//     // Get device information
-//     $device = $agent->device();
-//     $browser = $agent->browser();
-//     $platform = $agent->platform();
-//     $a = $agent->isMobile();
-//     $b = $agent->isTablet();
-//     $c = $agent->is('Windows');
-
-//     dd($c);
-// });
-
-// Route::get('/h', function () {
-//     $date1 = Carbon::parse('2024-01-12 08:23:03');
-//     $date2 = Carbon::parse('2024-01-12 17:25:23');
-//     $difference = $date1->diff($date2);
-//     // dd($difference);
-//     return view('hrauoffsa.index', compact('difference'));
-// });
-
-// Route::get('/getAtt', [AttendanceController::class, 'getAtt']);
-
-
-// Route::post('/login', [authController::class, 'login']);
-// Route::get('/logout', [authController::class, 'logout']);
-
-// Route::middleware(['authm'])->group(function () {
+Route::middleware(['authm'])->group(function () {
     Route::resource('/users', UserController::class);
     Route::resource('/roles', RoleController::class);
     Route::resource('/departments', DepartmentController::class);
     Route::resource('/offices', OfficeController::class);
-    
 
 
     Route::post('/attendances', [AttendanceController::class, 'addUserAttendance']);
@@ -136,25 +129,21 @@ Route::get('/logout', [authController::class, 'logout']);
     Route::patch('/attendances/{attendanceId}', [AttendanceController::class, 'updateAttendanceById']);
     Route::get('/attendaces/export/excel', [AttendanceController::class, 'exportUserAttendanceExcel']);
     Route::post('/attendances/import/excel', [AttendanceController::class, 'importUserAttendanceExcel']);
-});
-    Route::get('/attendances', [AttendanceController::class, 'attendances']);
-   
-    Route::get('/attendances/{userId}', [AttendanceController::class, 'showAttendanceByUserId']);
 
-    // ------------------------get add to insert------------------------------  
+     // ------------------------get add to insert------------------------------  
 
-    Route::post('/user/add_user_infromation', [UserController::class, 'add_user_infromation'])->name('add_user_infromation');
+     Route::post('/user/add_user_infromation', [UserController::class, 'add_user_infromation'])->name('add_user_infromation');
 
-    Route::post('/user/add_user_working_histories', [UserController::class, 'add_user_working_histories'])->name('add_user_working_histories');
-
-    Route::post('/user/add_modal_certificate_of_appreciateion', [UserController::class, 'add_modal_certificate_of_appreciateion'])->name('add_modal_certificate_of_appreciateion');
-   
-    Route::post('/user/add_eduction_level',[UserController::class,'add_eduction_level'])->name('add_eduction_level');
-
-    Route::post('/user/add_ability_language',[UserController::class,'add_ability_language'])->name('add_ability_language');
+     Route::post('/user/add_user_working_histories', [UserController::class, 'add_user_working_histories'])->name('add_user_working_histories');
+ 
+     Route::post('/user/add_modal_certificate_of_appreciateion', [UserController::class, 'add_modal_certificate_of_appreciateion'])->name('add_modal_certificate_of_appreciateion');
     
-    Route::post('/user/add_user_family',[UserController::class,'add_user_family'])->name('add_user_family');
-//    ----------------user ajax and return-------------------
+     Route::post('/user/add_eduction_level',[UserController::class,'add_eduction_level'])->name('add_eduction_level');
+ 
+     Route::post('/user/add_ability_language',[UserController::class,'add_ability_language'])->name('add_ability_language');
+     
+     Route::post('/user/add_user_family',[UserController::class,'add_user_family'])->name('add_user_family');
+    // /    ----------------user ajax and return-------------------
     Route::get('/user/user_form_information/{id}',[UserController::class,'user_form_information']);
 
     Route::get('/user/additional_current_job/{id}',[UserController::class,'additional_current_job']);
@@ -181,7 +170,4 @@ Route::get('/logout', [authController::class, 'logout']);
     // Route::get('/user/user_family_status',[UserController::class,'user_family_status']);
 
     Route::get('/user/test', [UserController::class, 'test']);
-
-    
-
-    // });
+});
