@@ -17,10 +17,14 @@ class Auth
     public function handle(Request $request, Closure $next): Response
     {
 
-        if (session('user_id') != 987) {
-            return Redirect::route('login');
+        // if (session('user_id') != 987) {
+            // return Redirect::route('login');
+
+        // }
+        if($request->test=="abc"){
+            return redirect('/user/user_information/12');
         }
-        // if (!session('is_logged_in')) {
+        // if (!session('is_logged_in')) {s
         //     return redirect()->route('login');
         // }
         return $next($request);

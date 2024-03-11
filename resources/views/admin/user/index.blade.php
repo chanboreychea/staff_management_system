@@ -53,6 +53,10 @@
                                         @csrf
                                         <input class="btn btn-primary btn-sm" type="submit" value="Show">
                                     </form>
+                                    <div class="m-2">
+                                        <button href="" class="btn btn-warning btn-sm" data-id="{{ $user->id }}" data-bs-toggle="modal" data-bs-target="#detailModel">Detail</>
+                                    </div>    
+                                    
                                 </div>
                             </td>
                         </tr>
@@ -61,5 +65,88 @@
             </table>
         </div>
     </div>
-    
+
+    <!-- --------------------------detail------------------------- -->
+  
+    <div class="modal fade" id="detailModel" tabindex="-1" aria-hidden="true">
+          
+        <div class="modal-dialog modal-lg" role="document">
+        
+            <div class="modal-content">
+            
+                <div class="modal-header">
+                 
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                
+                </div>
+              
+                <div class="modal-body">
+
+               
+                 
+                    @component('components.user.detail')
+
+                    @endcomponent
+               
+                </div>
+            
+            </div>
+          
+        </div>
+        
+    </div>
+
+  
+
+<script>
+    $(document).ready(function() {
+    // Handle click event on buttons
+    $('button[data-bs-toggle="modal"]').click(function() {
+        // Get the user ID from the button's data attribute
+        var userId = $(this).data('id');
+
+      
+        $('#detailModel .modal-body').html('<div class="spinner-container" style="display: flex; justify-content: center; align-items: center; height: 100%;">' +
+                                    '<img src="{{ asset('images/loading.png') }}" class="loading-circle animated" alt="Loading..." style="width: 50px; height: 50px; border-radius: 50%;" />' +
+                                    '<p style="margin-top: 10px;">Loading...</p>' +
+                                '</div>');
+
+        // Send an AJAX request to fetch the user details
+        setTimeout(function() {
+            // Send an AJAX request to fetch the user details
+            $.ajax({
+                type: "GET",
+                url: "/user/detail/" + userId,
+                data: {_token: '{{ csrf_token() }}'},
+                dataType: "json",
+                success: function (response) {
+                    // Render the component with the user data
+                    $('#detailModel .modal-body').html(response.html);
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }, 3500); 
+    });
+});
+
+</script>
+<style>
+    @keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.animated {
+    animation: spin 2s linear infinite; /* Apply the animation to the image */
+}
+</style>
+
 @endsection
+
+
