@@ -66,10 +66,8 @@
     </div>
 
     <div class="container-fluid">
-
-        <div class="row pe-5 px-5 mt-5">
-
-
+        <div class="row pe-5 px-5 mt-2">
+            {{-- <div class="col-lg-6 col-md-6 col-sm-12"> --}}
             <table class="table">
                 <thead>
                     <tr>
@@ -89,7 +87,6 @@
                                 <td>
                                     @if ($day == '')
                                     @elseif ($day >= $dday)
-                                    
                                         <a href="/rooms/{{ $day }}" class="btn btn-info btn-sm days w-100">
                                             {{ $day }}
                                         </a>
@@ -102,7 +99,41 @@
                     @endforeach
                 </tbody>
             </table>
+            {{-- </div> --}}
+            {{-- <div class="col-lg-6 col-md-6 col-sm-12"> --}}
 
+            {{-- </div> --}}
+        </div>
+        <div class="row pe-5 px-5 mt-2">
+            <table class="table table-sm table-bordered">
+                <thead>
+                    <th class="text-center">ល.រ</th>
+                    <th class="text-center">កាលបរិច្ឆេទ</th>
+                    <th class="text-center">ប្រធានបទ</th>
+                    <th class="text-center">ដឹកនាំដោយ</th>
+                    <th class="text-center">កម្រិតប្រជុំ</th>
+                    <th class="text-center">បន្ទប់</th>
+                    <th class="text-center">ម៉ោង</th>
+                    <th class="text-center">ឈ្មោះអ្នកកក់</th>
+                    <th class="text-center">គោលបំណង</th>
+                </thead>
+                <tbody>
+                    @foreach ($booking as $key => $item)
+                        <tr>
+                            <td class="text-center">{{ $key + 1 }}</td>
+                            <td class="text-center">{{ $item->date }}</td>
+                            <td class="text-center">{{ $item->topicOfMeeting }}</td>
+                            <td class="text-center">{{ $item->directedBy }}</td>
+                            <td class="text-center">{{ $item->meetingLevel }}</td>
+                            <td class="text-center">{{ $item->room }}</td>
+                            <td class="text-center">{{ $item->time }}</td>
+                            <td class="text-center">{{ $item->lastNameKh }}
+                                {{ $item->firstNameKh }}</td>
+                            <td class="text-center">{{ $item->description }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

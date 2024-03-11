@@ -14,6 +14,10 @@ class Booking extends Model
     protected $fillable = [
         'userId',
         'date',
+        'topicOfMeeting',
+        'directedBy',
+        'meetingLevel',
+        'member',
         'description',
         'isApprove'
     ];

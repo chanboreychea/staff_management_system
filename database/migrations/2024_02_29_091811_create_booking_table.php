@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('userId')->constrained('users')->onDelete('cascade');
             $table->string('date', 50);
+            $table->string('topicOfMeeting');
+            $table->string('directedBy');
+            $table->string('meetingLevel');
+            $table->string('member');
             $table->text('description')->nullable();
             $table->string('isApprove', 2);
             $table->timestamps();

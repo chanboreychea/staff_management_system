@@ -37,9 +37,11 @@ Route::get('/', function () {
 
 Route::get('/ip', function (Request $request) {
     // $clientIpAddress = $request->getClientIp();
-    $clientIpAddress = $request->ip();
+    // $clientIpAddress = $request->ip();
     // $clientIpAddress = $_SERVER['REMOTE_ADDR'];
-    dd($clientIpAddress);
+    // $client_ip = $_SERVER['REMOTE_ADDR'];
+    $client_ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+    echo "Client IP Address: " . $client_ip;
 
     $agent = new Agent();
     // Get device information
@@ -79,7 +81,7 @@ Route::get('/h', function () {
 });
 
 Route::get('/c', [BookingController::class, 'calendar']);
-Route::get('/rooms/{day}',[BookingController::class, 'showRoomAndTime']);
+Route::get('/rooms/{day}', [BookingController::class, 'showRoomAndTime']);
 Route::post('/booking', [BookingController::class, 'bookingRoom']);
 
 
