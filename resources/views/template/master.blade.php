@@ -26,6 +26,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href={{ asset('css/style_v.css') }}>
 
 
+
+
     {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> --}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -35,6 +37,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     {{-- new --}}
+    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
@@ -71,7 +74,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             height: 100%;
             /* object-fit: cover; */
         }
-
+      
         img {
             max-width: 100%;
             height: 100%;
@@ -118,7 +121,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="wrapper">
 
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="z-index:1">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -449,13 +452,34 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 $(".file-upload").click();
             });
         });
+
+        
+         // ---------------------------Alert Auto--------------------------------------------
+        // $('#success-alert, #error-alert').fadeIn('slow');
+        
+        // setTimeout(function() {
+
+        //     $('#success-alert, #error-alert').fadeOut('slow');
+        
+        // }, 5000);
+         // 5 seconds in milliseconds
+        //  $('#success-alert, #error-alert').delay(3000).fadeIn('slow');
+
+        // setTimeout(function() {
+        //     $('#success-alert, #error-alert').delay(2000).fadeOut('slow');
+        // }, 5000);
+        // --------------------------------------border green and red -------------------------------------------
+   
+
     </script>
+    
 
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('js/adminlte.min.js') }}"></script>
+
 </body>
 
 </html>
