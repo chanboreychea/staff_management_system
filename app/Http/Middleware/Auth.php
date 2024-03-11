@@ -19,8 +19,12 @@ class Auth
 
         if (session('user_id') != 987) {
             return Redirect::route('login');
+
         }
-        // if (!session('is_logged_in')) {
+        // if($request->test=="abc"){
+        //     return redirect('/user/user_information/12');
+        // }
+        // if (!session('is_logged_in')) {s
         //     return redirect()->route('login');
         // }
         return $next($request);
