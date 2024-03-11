@@ -14,17 +14,21 @@ a .a_hover:hover {
     margin-bottom: 1rem;
     background: white;
     border-radius: 4px;
+    /* color: rgb(109, 102, 102); */
 }
 
 .form-top-header {
-    font-family: Khmer OS Muol;
+    font-family: Khmer Moul;
+    /* color: rgb(109, 102, 102); */
 }
 
 .form-header {
-    background: #232150;
-    font-family: Khmer OS Muol;
-    color: white;
-    padding: 8px;
+    /* background: #232150; */
+    /* color: rgb(109, 102, 102); */
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    font-family: Khmer Moul;
+    color: rgb(0, 0, 0);
+    padding: 4px;
     border-radius: 5px;
 }
 
@@ -59,7 +63,10 @@ a .a_hover:hover {
 /* --------------------color------------------------- */
 
 .blue {
-    background: #232150;
+    /* background: #232150;
+     */
+    background: #696cff;
+    /* #696cff */
 }
 
 
@@ -97,4 +104,30 @@ a .a_hover:hover {
 
 .text-size {
     font-size: 10px;
+}
+
+
+/* alert */
+
+.alert-success {
+    background-color: #e8fadf;
+    border-color: #d4f5c3;
+    color: #71dd37;
+}
+
+.alert-danger {
+    background-color: #ffe0db;
+    border-color: #ffc5bb;
+    color: #ff3e1d;
+}
+
+
+/* --------------------form input highlight------------------ */
+
+.add-border-green {
+    border: 1px solid #7DE278 !important;
+}
+
+.add-border-red {
+    border: 1px solid #E2788A !important;
 }
