@@ -39,6 +39,7 @@ use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\Frontend\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -171,3 +172,5 @@ Route::middleware(['authm'])->group(function () {
 
     Route::get('/user/test', [UserController::class, 'test']);
 });
+
+Route::get('/homepage', [HomeController::class, 'index'])->name('home');
