@@ -37,7 +37,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     {{-- new --}}
-    
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
@@ -73,7 +73,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             height: 100%;
             /* object-fit: cover; */
         }
-      
+
         img {
             max-width: 100%;
             height: 100%;
@@ -260,7 +260,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="/logout" class="nav-link">
+                            <a href="/admins/logout" class="nav-link">
                                 <i class='fas fa-sign-out-alt' style="color: red"></i>
                                 <p>
                                     ចាកចេញ
@@ -358,26 +358,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
             });
         });
 
-        
-         // ---------------------------Alert Auto--------------------------------------------
+
+        // ---------------------------Alert Auto--------------------------------------------
         // $('#success-alert, #error-alert').fadeIn('slow');
-        
+
         // setTimeout(function() {
 
         //     $('#success-alert, #error-alert').fadeOut('slow');
-        
+
         // }, 5000);
-         // 5 seconds in milliseconds
+        // 5 seconds in milliseconds
         //  $('#success-alert, #error-alert').delay(3000).fadeIn('slow');
 
         // setTimeout(function() {
         //     $('#success-alert, #error-alert').delay(2000).fadeOut('slow');
         // }, 5000);
         // --------------------------------------border green and red -------------------------------------------
-   
-
     </script>
-    
+
 
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->

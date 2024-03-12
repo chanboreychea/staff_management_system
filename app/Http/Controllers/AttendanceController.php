@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Attendance;
 use App\Models\Department;
-use Rats\Zkteco\Lib\ZKTeco;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -104,39 +103,15 @@ class AttendanceController extends Controller
         $ip = $request->input('ip');
         $port = $request->input('port');
 
-        if ($request->input('getAtt')) {
+        DB::beginTransaction();
+        try {
 
             $this->setAttendances($ip, $port);
+            DB::commit();
             return redirect('/attendances')->with('message', 'Attendances Import Successfully');
-        } else {
-
-            $zk = new ZKTeco('172.16.15.184', 4370);
-            $zk->connect();
-            $zk->disableDevice();
-            if ($zk->connect()) {
-                return 'Connection Success';
-            }
-            return 'Connection Failed';
-
-            // $users = $zk->getUser();
-            // $att = $zk->getAttendance();
-            // $a = [];
-            // foreach ($att as $i) {
-            //     if ($i['timestamp'] > Carbon::parse('2024-02-05 00:00:00')) {
-            //         $a[] = [
-            //             'attendance' => $i['id'] . ' - ' . $i['timestamp']
-            //         ];
-            //     }
-            // }
-
-            // $u = [];
-            // foreach ($users as $i) {
-            //     $u[] = [
-            //         'user' => $i['userid'] . ' - ' . $i['name']
-            //     ];
-            // }
-            // return view('hrauoffsa.test', compact('u', 'a'))->with('successMsg', 'Property is updated .');
-            // dd('test' . ' - ' . $ip . ' - ' . $port);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect('/attendances')->with('message', 'Please try again!!');
         }
     }
 

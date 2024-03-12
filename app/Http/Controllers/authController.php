@@ -9,7 +9,6 @@ class authController extends Controller
 {
     public function login(Request $request)
     {
-        // $this->setAttendances();
         $request->validate([
             'username' => 'required',
             'password' => 'required'
@@ -22,8 +21,7 @@ class authController extends Controller
         $password = $request->input('password');
 
         if ($username == 'admin' && $password == 123) {
-            session(['is_logged_in' => true, 'user_id' => 987]);
-            // return Redirect::route('admin');
+            session(['is_admin_logged_in' => true, 'admin_id' => "B0r3y!19"]);
             return redirect('/users');
         }
         return Redirect::route('login');
@@ -31,7 +29,7 @@ class authController extends Controller
 
     public function logout(Request $request)
     {
-        if ($request->session()->has('is_logged_in')) {
+        if ($request->session()->has('is_admin_logged_in')) {
 
             $request->session()->flush();
             // $request->session()->pull('is_logged_in');
