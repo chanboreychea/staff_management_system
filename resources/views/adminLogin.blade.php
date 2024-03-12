@@ -48,7 +48,7 @@
 
 <body>
 
-    <form action="/login" class="row g-3 py-5 w-25 mt-2 col-12" method="POST" enctype="multipart/form-data">
+    <form action="/admins/login" class="row g-3 py-5 w-25 mt-2 col-12" method="POST" enctype="multipart/form-data">
         @csrf
         <center>
             <div class="box-img">

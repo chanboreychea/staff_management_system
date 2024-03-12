@@ -897,7 +897,8 @@ h6,
 
 .btn.btn-default {
     color: #ffffff;
-    background-color: #1ca774;
+    /* background-color: #1ca774; */
+    background-color: #05264E;
     line-height: 26px;
     padding: 10px 25px;
 }

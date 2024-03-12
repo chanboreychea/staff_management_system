@@ -1,4 +1,4 @@
-<section class="section-box subscription_box mt-100">
+{{-- <section class="section-box subscription_box mt-100">
     <div class="container">
         <div class="box-newsletter">
             <div class="newsletter_textarea">
@@ -20,7 +20,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 
 <footer class="footer pt-165">
     <div class="container">

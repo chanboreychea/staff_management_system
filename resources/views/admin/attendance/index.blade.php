@@ -362,7 +362,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form action="/getAtt" method="GET" id="yourForm">
+                        <form action="/getAttendances" method="GET" id="yourForm">
                             @csrf
                             <div class="modal-body">
                                 <div class="mb-3">
@@ -377,22 +377,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-
-                                <div class="row">
-                                    <div class="col">
-                                        <div id="message"></div>
-                                    </div>
-                                    <div class="col">
-
-                                        <input type="button" type="button" id="testConnection"
-                                            class="btn btn-secondary" name="testConnection" value="Test Connection">
-                                    </div>
-                                    <div class="col">
-                                        <input type="submit" class="btn btn-primary" name="getAtt"
-                                            value="ទាញយកវត្តមាន">
-                                    </div>
-                                </div>
-
+                                <input type="submit" class="btn btn-primary" value="ទាញយកវត្តមាន">
                             </div>
                         </form>
                     </div>
@@ -563,34 +548,6 @@
                     children.forEach(function(child) {
                         child.checked = isChecked;
                     });
-                });
-            });
-        });
-
-        // $(document).ready(function() {
-        //     $('.departmentId').bind('click', function() {
-        //         $('input[type=checkbox]', $(this).parent('li')).attr('checked', $(this).is(':checked'));
-
-        //     });
-        // });
-
-        $(document).ready(function() {
-            $("#testConnection").click(function() {
-                event.preventDefault();
-                // Collect form data
-                var formData = $(this).serialize();
-
-                // Send Ajax request
-                $.ajax({
-                    type: 'GET',
-                    url: 'http://127.0.0.1:8000/getAtt',
-                    data: formData,
-                    success: function(data) {
-                        document.getElementById("message").innerHTML = data;
-                    },
-                    error: function(xhr, status, error) {
-                        document.getElementById("message").innerHTML = "Connection Failed";
-                    }
                 });
             });
         });

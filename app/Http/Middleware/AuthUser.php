@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Symfony\Component\HttpFoundation\Response;
 
-class Auth
+class AuthUser
 {
     /**
      * Handle an incoming request.
@@ -17,15 +17,17 @@ class Auth
     public function handle(Request $request, Closure $next): Response
     {
 
-        if (session('admin_id') != "B0r3y!19") {
-            return Redirect::route('login');
-        }
+        // if (session('user_id') != 986) {
+        //     return Redirect::route('user-login');
+        // }
         // if($request->test=="abc"){
         //     return redirect('/user/user_information/12');
         // }
-        // if (!session('is_logged_in')) {s
-        //     return redirect()->route('login');
-        // }
+        // dd($request->input('userid'));
+        if (!session('is_user_logged_in')) {
+
+            return redirect()->route('user-login');
+        }
         return $next($request);
     }
 }
