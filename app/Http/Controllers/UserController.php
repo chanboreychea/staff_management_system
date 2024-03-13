@@ -1595,7 +1595,6 @@ class UserController extends Controller
             
             'children_allowance' =>  serialize($request->input('c_allowance')),
 
-            
             'relative_name' =>  serialize($request->input('name_relative')),
 
             'relative_name_in_english' =>  serialize($request->input('eng_name_relative')),

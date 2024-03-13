@@ -24,11 +24,19 @@ class AuthUserController extends Controller
 
         $user = User::where('idCard', $userid)->first();
 
+        // if ($user) {
+
+        //     if (Hash::check($password, $user->password)) {
+        //         session(['is_user_logged_in' => true, 'user_id' => 986]);
+        //         return redirect('/c');
+        //     }
+        // }
+        
         if ($user) {
 
             if (Hash::check($password, $user->password)) {
-                session(['is_user_logged_in' => true, 'user_id' => 986]);
-                return redirect('/c');
+                session(['is_user_logged_in' => true, 'user_id' =>   $userid ]);
+                return redirect('/homepage');
             }
         }
 

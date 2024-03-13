@@ -2,9 +2,12 @@
 
 @section('contents')
 <!-- Hero Section Start -->
-{{-- @include('frontend.home.sections.hero-section')
-<!-- Hero Section End -->
+@include('frontend.home.sections.hero-section')
+  
 
+ {{-- @include('frontend.home.sections.hero-section') --}}
+<!-- Hero Section End -->
+{{--
 <div class="mt-100"></div>
 <!-- Category Section Start -->
 @include('frontend.home.sections.category-section')

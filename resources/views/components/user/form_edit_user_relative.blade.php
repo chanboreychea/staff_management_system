@@ -267,9 +267,9 @@
                         @if($userFamily->relative_date)
                 
                             @foreach(unserialize($userFamily->relative_date) as $relative)
-                                <div class="width">
+                               
                                     <td>
-                                    
+                                        <div class="width">     
                                         <input 
                                             type="date" 
                                             
@@ -279,8 +279,9 @@
                                             
                                             value="{{ $relative }}">    
                                                 
+                                        </div>
                                     </td>
-                                </div>
+                               
                             @endforeach
                         @endif  
                         @for($i=$count_relative_date;$i<$max_count;$i++)
@@ -303,6 +304,7 @@
                                     </td>
                             @endfor 
                     </tr>
+                    
                     @else
                     {{''}}
                 @endif
