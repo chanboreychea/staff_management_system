@@ -3,17 +3,7 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <div class="row">
-                <div class="col">
-                    <h5 class="m-0"><a class="btn btn-dark btn-sm" href="/users">ថយក្រោយ</a></h5>
-
-                </div>
-                <div class="col d-flex justify-content-end">
-                    <h5 class="m-0 mr-2"><a class="btn btn-success btn-sm" href="/attendances/{{ $user->id }}">វត្តមាន</a>
-                    </h5>
-                    <button onclick="window.print()" class="btn btn-primary btn-sm">Print</button>
-                </div>
-            </div>
+            <h5 class="m-0"><a class="btn btn-dark btn-sm" href="/users">ថយក្រោយ</a></h5>
         </div>
         <div class="card-body">
             <form action="/users/{{ $user->id }}" method="POST" enctype="multipart/form-data" disabled>
