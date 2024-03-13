@@ -15,7 +15,7 @@
                     
                         <td class="grid-cell">អត្តលេខមន្ត្រីរាជការ <span style="margin-left:10px;">:</span> {{$user->idCard}}434</td>
                         
-                        <td class="grid-cell">លេខប័ណ្ណសម្គាល់មន្ត្រីសហវ <span>:</span>dfdfddf </td>
+                        <td class="grid-cell">លេខប័ណ្ណសម្គាល់មន្ត្រីសហវ <span>:</span></td>
                         
                         <td class="grid-cell">លេខកូដក្នុងអង្គភាព <span>:</span> គ្មាន</td>
                     
@@ -24,9 +24,9 @@
 
                     <tr class="grid-row">
                     
-                        <td class="grid-cell">គោត្តនាម​ និង នាម <span style="margin-left:14px;">:</span> {{$user->firstNameKh}}{{$user->lastNameKh}}dfdsf</td>
+                        <td class="grid-cell">គោត្តនាម​ និង នាម <span style="margin-left:14px;">:</span> {{$user->lastNameKh}}{{$user->firstNameKh}}</td>
                         
-                        <td class="grid-cell">ជាអក្សរឡាតាំង <span>:</span> jjfsdfsd</td>
+                        <td class="grid-cell">ជាអក្សរឡាតាំង <span>:</span></td>
                         <!-- Add an empty cell to match the number of cells in the first row -->
                     </tr>
 
@@ -96,17 +96,17 @@
 
                     <tr  class="grid-row">
                     
-                        <td class="grid-cell">អត្តសញ្ញាណប័ណ្ណ<span style="margin-left:21px;">:</span> 345345323</td>
+                        <td class="grid-cell">អត្តសញ្ញាណប័ណ្ណ<span style="margin-left:21px;">:</span></td>
 
-                        <td class="grid-cell" >កាលបរិច្ឆេទផុតកំណត់<span >:</span> 345345323</td>
+                        <td class="grid-cell" >កាលបរិច្ឆេទផុតកំណត់<span >:</span> </td>
                         
                     </tr>
 
                     <tr  class="grid-row">
                     
-                        <td  class="grid-cell">លិខិតឆ្លងដែន<span style="margin-left:43px;">:</span> 345345323</td>
+                        <td  class="grid-cell">លិខិតឆ្លងដែន<span style="margin-left:43px;">:</span></td>
 
-                        <td  class="grid-cell">កាលបរិច្ឆេទផុតកំណត់ <span>:</span> 345345323</td>
+                        <td  class="grid-cell">កាលបរិច្ឆេទផុតកំណត់ <span>:</span></td>
                         
                     </tr>
                     

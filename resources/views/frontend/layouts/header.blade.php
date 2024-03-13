@@ -37,9 +37,9 @@
 
             </ul> --}}
             <ul class="main-menu">
-              <li class="has-children"><a class="" href="#">Home</a></li>
-              <li class="has-children"><a class="" href="#">Service</a></li>
-              <li class="has-children"><a class="" href="#">User</a></li>
+              <li class="has-children"><a class="" href="#" style="font-family: khmer mef1">វត្តមាន</a></li>
+              <li class="has-children" ><a class="" href="#" style="font-family: khmer mef1">កក់បន្ទប់ប្រជុំ</a></li>
+              <li class="has-children"><a class="" href="#" style="font-family: khmer mef1">ប្រវិត្តរូបមន្រ្តី</a></li>
             </ul>
           </nav>
           <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span
@@ -49,10 +49,16 @@
           <div class="block-signin">
             <!-- <a class="text-link-bd-btom hover-up" href="page-register.html">Register</a> -->
             @guest
-            <a class="btn btn-default btn-shadow ml-40 hover-up" href="{{ route('login') }}">Sign in</a>
+              @if(session('user_id'))
+                <a class="btn btn-default btn-shadow ml-40 hover-up" style="width: 200px" href="/user/dashboard">User Dashobard</a>
+              @else
+                <a class="btn btn-default btn-shadow ml-40 hover-up" href="{{ route('login') }}">Sign in</a>
+              @endif
+          
+          
             @endguest
             {{-- @auth
-                @if (auth()->user()->role === 'company')
+                @if (auth()->user()->idCard ===  session('user_id'))
                     <a class="btn btn-default btn-shadow ml-40 hover-up" style="width: 200px" href="{{ route('company.dashboard') }}">Company Dashobard</a>
                 @elseif(auth()->user()->role === 'candidate')
                     <a class="btn btn-default btn-shadow ml-40 hover-up" style="width: 200px" href="{{ route('candidate.dashboard') }}">Candidate Dashboard</a>

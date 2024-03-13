@@ -359,21 +359,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         });
 
 
-        // ---------------------------Alert Auto--------------------------------------------
-        // $('#success-alert, #error-alert').fadeIn('slow');
-
-        // setTimeout(function() {
-
-        //     $('#success-alert, #error-alert').fadeOut('slow');
-
-        // }, 5000);
-        // 5 seconds in milliseconds
-        //  $('#success-alert, #error-alert').delay(3000).fadeIn('slow');
-
-        // setTimeout(function() {
-        //     $('#success-alert, #error-alert').delay(2000).fadeOut('slow');
-        // }, 5000);
-        // --------------------------------------border green and red -------------------------------------------
+      
     </script>
 
 

@@ -22,10 +22,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css') }}">
 
-    <title>{{ config('settings.site_name') }} </title>
+    <title>អ.ហ.ស </title>
 </head>
 
 <body>
+ 
     <div class="preloader_demo d-none">
         <div class="img">
           <img src="{{ asset('frontend/assets/imgs/template/loading.gif') }}" alt="joblist">

@@ -85,7 +85,7 @@
                         
                         <input type="text" class="form-control form-control-sm" name="c_allowance[]"  
                         
-                        value="<?=old('c_job.0')?>"
+                        value="<?=old('c_allowance.0')?>"
                         
                         required
 

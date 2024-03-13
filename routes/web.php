@@ -41,6 +41,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\UserDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,9 +55,8 @@ use App\Http\Controllers\Frontend\HomeController;
 */
 
 Route::get('/', function () {
-    //if cookie return to user
-    if (session()->has('is_admin_logged_in')) {
-        return redirect('/c');
+    if (session('user_id') == 986) {
+        return redirect('/homepage');
     }
     return view('userLogin');
 })->name('user-login');
@@ -66,10 +66,11 @@ Route::get('/logout', [AuthUserController::class, 'logout']);
 
 Route::middleware(['authUser'])->group(function () {
 
-    Route::get('/c', [BookingController::class, 'calendar']);
-    Route::get('/rooms/{day}', [BookingController::class, 'showRoomAndTime']);
-    Route::post('/booking', [BookingController::class, 'bookingRoom']);
-    Route::get('/homepage', [HomeController::class, 'index'])->name('home');
+    // Route::get('/c', [BookingController::class, 'calendar']);
+    // Route::get('/rooms/{day}', [BookingController::class, 'showRoomAndTime']);
+    // Route::post('/booking', [BookingController::class, 'bookingRoom']);
+    Route::get('/homepage', [HomeController::class, 'index']);
+    Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('index');
 });
 
 //admins

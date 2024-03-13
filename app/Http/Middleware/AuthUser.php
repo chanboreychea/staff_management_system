@@ -23,7 +23,7 @@ class AuthUser
         // if($request->test=="abc"){
         //     return redirect('/user/user_information/12');
         // }
-        // dd($request->input('userid'));
+        
         if (!session('is_user_logged_in')) {
 
             return redirect()->route('user-login');

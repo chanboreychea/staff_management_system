@@ -306,23 +306,55 @@
                                     </div>        
                                 </td>
                         @endfor
-                        @for($i=$count_children_allowance;$i<$max_count;$i++)
-                            <td>
-                                
-                                    <div class="width">
+                       
+                            
+                    </tr>
+                    <tr>
+                        
+                        <th class="nowrap text-sm">ប្រាក់ឧបត្ថម</th>
+
+                        @if($userFamily->children_allowance)
+                            
+                            @foreach(unserialize($userFamily->children_allowance) as $relative)
+                            
+                                <td>
+                            
+                                <div class="width">
                                         <input 
-                                            type="date" 
+                                            type="text" 
                                         
                                             class="form-control form-control-sm" 
                                         
                                             name="c_allowance[]" 
                                         
-                                            placeholder="ប្រាក់ឧបត្ថម្ភ"  
+                                            placeholder="គ្គ ឫកម្រិតសិក្សា"  
+                                        
+                                            value="{{ $relative }}">   
+                                    </div> 
+                                            
+                                </td>
+                            
+                            @endforeach
+                        
+                        @endif
+                        @for($i=$count_children_allowance;$i<$max_count;$i++)
+                            <td>
+                                
+                                    <div class="width">
+                                        <input 
+                                            type="text" 
+                                        
+                                            class="form-control form-control-sm" 
+                                        
+                                            name="c_allowance[]" 
+                                        
+                                            placeholder="គ្គ ឫកម្រិតសិក្សា"  
                                         
                                             value="{{ $relative }}">   
                                     </div>        
                                 </td>
                         @endfor
+                       
                             
                     </tr>
                 @else
