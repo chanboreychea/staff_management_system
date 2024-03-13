@@ -396,6 +396,7 @@
                         <th scope="col">ចូលយឺត</th>
                         <th scope="col">ម៉ោងចេញ</th>
                         <th scope="col">ចេញយឺត</th>
+                        <th scope="col">បេសកកម្ម</th>
                         <th scope="col">សរុប</th>
                         <th scope="col">សកម្មភាព</th>
                     </tr>
@@ -436,6 +437,8 @@
                             @endif
 
                             <td style="color: red; text-align: center;">{{ $item->lateOut }}</td>
+
+                            <td style="color: red; text-align: center;">{{ $item->mission }}</td>
 
                             <td style="text-align: center;">
                                 @if ($item->total)

@@ -137,8 +137,8 @@ class AttendanceController extends Controller
             'lateIn',
             'checkOut',
             'lateOut',
+            'mission',
             'total',
-            'mission'
         );
 
         $queryUser = User::join('roles', 'roles.id', '=', 'users.roleId')
@@ -173,7 +173,7 @@ class AttendanceController extends Controller
 
         $attendances = $query->get();
         $users = $queryUser->get();
-        // dd($attendances);
+
         $morningStop = Carbon::parse('09:00:00')->format('H:i:s');
         $eveningStart = Carbon::parse('16:00:00')->format('H:i:s');
         $eveningStop = Carbon::parse('17:30:00')->format('H:i:s');
@@ -201,18 +201,15 @@ class AttendanceController extends Controller
                     if ($item->mission) {
                         $mission++;
                     }
-                    //work
+                    
                     if ($item->checkIn != null && $item->checkOut >= $eveningStart && $item->checkOut <= $eveningStop) {
                         $work++;
-                        // dd(1);
                     } elseif ($item->checkIn <= $morningStop && $item->lateOut) {
                         $work++;
                     } elseif ($item->lateIn && $item->checkOut >= $eveningStart && $item->checkOut <= $eveningStop) {
                         $work++;
-                        // dd(3);
                     } elseif ($item->lateIn && $item->lateOut) {
                         $work++;
-                        // dd(4);
                     } else {
                         $absent++;
                     }
@@ -226,7 +223,7 @@ class AttendanceController extends Controller
                 'roleNameKh' => $user->roleNameKh,
                 'departmentNameKh' => $user->departmentNameKh,
                 'phoneNumber' => $user->phoneNumber,
-                'work' => $work,
+                'work' => $work + $mission,
                 'leave' => $leave,
                 'absent' => $amountDays - ($work + $mission + $leave),
                 'lateIn' => $lateIn,
@@ -253,8 +250,8 @@ class AttendanceController extends Controller
             'lateIn',
             'checkOut',
             'lateOut',
+            'mission',
             'total',
-            'mission'
         );
 
         $queryUser = User::join('roles', 'roles.id', '=', 'users.roleId')
@@ -328,7 +325,7 @@ class AttendanceController extends Controller
                 'roleNameKh' => $user->roleNameKh,
                 'departmentNameKh' => $user->departmentNameKh,
                 'phoneNumber' => $user->phoneNumber,
-                'work' => $work,
+                'work' => $work + $mission,
                 'leave' => $leave,
                 'absent' => $amountDays - ($work + $mission + $leave),
                 'lateIn' => $lateIn,
@@ -365,6 +362,7 @@ class AttendanceController extends Controller
                 'checkOut',
                 'lateIn',
                 'lateOut',
+                'mission',
                 'total'
             );
 
