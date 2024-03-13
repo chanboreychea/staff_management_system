@@ -39,9 +39,9 @@ class AuthUserController extends Controller
     {
         if ($request->session()->has('is_user_logged_in')) {
 
-            $request->session()->flush();
-            // $request->session()->pull('is_logged_in');
-            // $request->session()->pull('user_id');
+            // $request->session()->flush();
+            $request->session()->pull('is_user_logged_in');
+            $request->session()->pull('user_id');
         }
         return Redirect::route('user-login');
     }

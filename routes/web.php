@@ -55,7 +55,7 @@ use App\Http\Controllers\Frontend\HomeController;
 
 Route::get('/', function () {
     //if cookie return to user
-    if (session('user_id') == 986) {
+    if (session()->has('is_admin_logged_in')) {
         return redirect('/c');
     }
     return view('userLogin');

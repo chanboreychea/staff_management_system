@@ -31,9 +31,9 @@ class authController extends Controller
     {
         if ($request->session()->has('is_admin_logged_in')) {
 
-            $request->session()->flush();
-            // $request->session()->pull('is_logged_in');
-            // $request->session()->pull('user_id');
+            // $request->session()->flush();
+            $request->session()->pull('is_admin_logged_in');
+            $request->session()->pull('admin_id');
         }
         return Redirect::route('login');
     }

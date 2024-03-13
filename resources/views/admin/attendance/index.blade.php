@@ -387,18 +387,18 @@
             <table class="table table-sm table-bordered">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">ល.រ</th>
-                        <th scope="col">ឈ្មោះមន្ត្រី</th>
-                        <th scope="col">អត្តលេខ</th>
-                        <th scope="col">កាលបរិច្ឆេទ</th>
-                        <th scope="col">ច្បាប់</th>
-                        <th scope="col">ម៉ោងចូល</th>
-                        <th scope="col">ចូលយឺត</th>
-                        <th scope="col">ម៉ោងចេញ</th>
-                        <th scope="col">ចេញយឺត</th>
-                        <th scope="col">បេសកកម្ម</th>
-                        <th scope="col">សរុប</th>
-                        <th scope="col">សកម្មភាព</th>
+                        <th style="text-align: center;" scope="col">ល.រ</th>
+                        <th style="text-align: center;" scope="col">ឈ្មោះមន្ត្រី</th>
+                        <th style="text-align: center;" scope="col">អត្តលេខ</th>
+                        <th style="text-align: center;" scope="col">កាលបរិច្ឆេទ</th>
+                        <th style="text-align: center;" scope="col">ច្បាប់</th>
+                        <th style="text-align: center;" scope="col">ម៉ោងចូល</th>
+                        <th style="text-align: center;" scope="col">ចូលយឺត</th>
+                        <th style="text-align: center;" scope="col">ម៉ោងចេញ</th>
+                        <th style="text-align: center;" scope="col">ចេញយឺត</th>
+                        <th style="text-align: center;" scope="col">បេសកកម្ម</th>
+                        <th style="text-align: center;" scope="col">សរុប</th>
+                        <th style="text-align: center;" scope="col">សកម្មភាព</th>
                     </tr>
                 </thead>
                 <tbody>
