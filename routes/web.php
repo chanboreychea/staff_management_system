@@ -55,7 +55,7 @@ use App\Http\Controllers\Frontend\UserDashboardController;
 */
 
 Route::get('/', function () {
-    if (session('user_id') == 986) {
+    if (session('is_user_logged_in')) {
         return redirect('/homepage');
     }
     return view('userLogin');
@@ -66,9 +66,9 @@ Route::get('/logout', [AuthUserController::class, 'logout']);
 
 Route::middleware(['authUser'])->group(function () {
 
-    // Route::get('/c', [BookingController::class, 'calendar']);
-    // Route::get('/rooms/{day}', [BookingController::class, 'showRoomAndTime']);
-    // Route::post('/booking', [BookingController::class, 'bookingRoom']);
+    Route::get('/c', [BookingController::class, 'calendar']);
+    Route::get('/rooms/{day}', [BookingController::class, 'showRoomAndTime']);
+    Route::post('/booking', [BookingController::class, 'bookingRoom']);
     Route::get('/homepage', [HomeController::class, 'index']);
     Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('index');
 });
@@ -83,6 +83,7 @@ Route::post('/admins/login', [authController::class, 'login']);
 Route::get('/admins/logout', [authController::class, 'logout']);
 
 Route::middleware(['authAdmin'])->group(function () {
+
     Route::resource('/users', UserController::class);
     Route::resource('/roles', RoleController::class);
     Route::resource('/departments', DepartmentController::class);
@@ -128,15 +129,6 @@ Route::middleware(['authAdmin'])->group(function () {
     Route::get('/user/generate_pdf/{id}', [UserController::class, 'generate_pdf']);
 
     Route::get('/user/detail/{id}', [UserController::class, 'detail']);
-
-    //    ----------------user ajax and return-------------------
-
-    // Route::get('/user/user_medal_certificate_of_application',[UserController::class,'user_medal_certificate_of_application']);
-    // Route::get('/user/user_general_education_level_vacational_and_continuing_education',[UserController::class,'user_general_education_level_vacational_and_continuing_education']);
-    // Route::get('/user/user_foreign_language_ability',[UserController::class,'user_foreign_language_ability']);
-    // Route::get('/user/user_family_status',[UserController::class,'user_family_status']);
-
-    Route::get('/user/test', [UserController::class, 'test']);
 });
 
 
