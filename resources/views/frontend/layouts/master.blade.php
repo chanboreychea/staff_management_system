@@ -50,7 +50,7 @@
     </main>
 
 
-    @include('frontend.layouts.footer')
+    {{-- @include('frontend.layouts.footer') --}}
 
     <script src="{{ asset('frontend/assets/js/vendor/modernizr-3.6.0.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/vendor/jquery-3.6.0.min.js') }}"></script>

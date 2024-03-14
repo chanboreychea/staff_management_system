@@ -35,7 +35,7 @@ class AuthUserController extends Controller
         if ($user) {
 
             if (Hash::check($password, $user->password)) {
-                session(['is_user_logged_in' => true, 'user_id' =>   $userid ]);
+                session(['is_user_logged_in' => true, 'user_id' =>   986 ]);
                 return redirect('/homepage');
             }
         }
