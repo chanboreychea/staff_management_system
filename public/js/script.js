@@ -1,6 +1,6 @@
-$(document).ready(function () {
+$(document).ready(function() {
     var assetUrl = "/images/loading.png";
-    $("#btn1").click(function () {
+    $("#btn1").click(function() {
         var userId = $(this).data("id");
         fetchData(
             userId,
@@ -9,7 +9,7 @@ $(document).ready(function () {
         );
     });
 
-    $("#btn2").click(function () {
+    $("#btn2").click(function() {
         var userId = $(this).data("id");
         fetchData(
             userId,
@@ -18,7 +18,7 @@ $(document).ready(function () {
         );
     });
 
-    $("#btn3").click(function () {
+    $("#btn3").click(function() {
         var userId = $(this).data("id");
         fetchData(
             userId,
@@ -27,7 +27,7 @@ $(document).ready(function () {
         );
     });
 
-    $("#btn4").click(function () {
+    $("#btn4").click(function() {
         var userId = $(this).data("id");
         fetchData(
             userId,
@@ -36,7 +36,7 @@ $(document).ready(function () {
         );
     });
 
-    $("#btn5").click(function () {
+    $("#btn5").click(function() {
         var userId = $(this).data("id");
         fetchData(
             userId,
@@ -45,7 +45,7 @@ $(document).ready(function () {
         );
     });
 
-    $("#btn6").click(function () {
+    $("#btn6").click(function() {
         var userId = $(this).data("id");
         fetchData(userId, "#exLargeModal6 .modal-body6", "/user/user_family/");
     });
@@ -53,23 +53,22 @@ $(document).ready(function () {
     function fetchData(userId, modalBodySelector, endpoint) {
         $(modalBodySelector).html(
             '<br><div class="spinner-container" style="display: flex; justify-content: center; align-items: center; height: 100%;">' +
-                '<img src="' +
-                assetUrl +
-                '" class="loading-circle animated" alt="Loading..." style="width: 50px; height: 50px; border-radius: 50%;" />' +
-                '<p style="margin-top: 10px;">Loading...</p>' +
-                "</div>"
+            '<img src="' +
+            assetUrl +
+            '" class="loading-circle animated" alt="Loading..." style="width: 50px; height: 50px; border-radius: 50%;" />' +
+            '<p style="margin-top: 10px;">Loading...</p>' +
+            "</div>"
         );
 
-        setTimeout(function () {
+        setTimeout(function() {
             $.ajax({
                 type: "GET",
                 url: endpoint + userId,
-
                 dataType: "json",
-                success: function (response) {
+                success: function(response) {
                     $(modalBodySelector).html(response.html);
                 },
-                error: function (xhr, status, error) {
+                error: function(xhr, status, error) {
                     console.error(xhr.responseText);
                 },
             });

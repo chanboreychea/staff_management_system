@@ -2,7 +2,7 @@
             <br>
             
             
-            <form class="form-horizontal" action="{{ route('add_user_working_histories') }}" method="post" enctype="multipart/form-data">
+            <form class="form-horizontal" action="/user/add_user_working_histories" method="post" enctype="multipart/form-data">
                 
                 @csrf
                 <center> <h4 class="form-top-header"><u> ប្រវត្តិការងារ</u></h4></center>

@@ -9,7 +9,7 @@
             <center> <h4 class="form-top-header"><u> ​​ព័ត៍មានអំពីស្ថានភាព</u></h4> <br></center>
             <h5 class="form-header"><i class="fas fa-address-book"></i> ចូលបម្រើការងាររដ្ឋដំបូង</h5> <br>
             
-            <form class="form-horizontal" action="{{ route('add_user_infromation') }}" method="post" enctype="multipart/form-data">
+            <form class="form-horizontal" action="/user/add_user_infromation" method="post" enctype="multipart/form-data">
                 
             @csrf
 

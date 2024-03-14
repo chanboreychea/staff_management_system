@@ -13,7 +13,7 @@
         
         <h5 class="form-header"><i class="fas fa-address-book"></i> ក.ព័ត៍មានឪពុក</h5> <br>
             
-        <form class="form-horizontal" action="{{ route('add_user_family') }}" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal" action="/user/add_user_family" method="post" enctype="multipart/form-data">
                 
             @csrf
                 <!-- Get Id from user -->

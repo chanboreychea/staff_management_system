@@ -1,7 +1,7 @@
 
 <br>
         
-        <form class="form-horizontal" action="{{ route('add_eduction_level') }}" method="post">
+        <form class="form-horizontal" action="/user/add_eduction_level" method="post">
             
             @csrf
             <center> <h4 class="form-top-header"><u> កម្រិតវប្បធម៍ទូទៅ ការបណ្តុះបណ្តាលវិទ្យាជីវ​ និងការបណ្តុះបណ្តាលបន្ត</u></h4></center>
