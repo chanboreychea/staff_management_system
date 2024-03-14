@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use view;
 use App\Models\User;
 use App\Models\Attendance;
 use App\Models\Department;
@@ -201,7 +202,7 @@ class AttendanceController extends Controller
                     if ($item->mission) {
                         $mission++;
                     }
-                    
+
                     if ($item->checkIn != null && $item->checkOut >= $eveningStart && $item->checkOut <= $eveningStop) {
                         $work++;
                     } elseif ($item->checkIn <= $morningStop && $item->lateOut) {

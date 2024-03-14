@@ -55,7 +55,7 @@ use App\Http\Controllers\Frontend\UserDashboardController;
 */
 
 Route::get('/', function () {
-    if (session('user_id') == 986) {
+    if (session('is_user_logged_in')) {
         return redirect('/homepage');
     }
     return view('userLogin');
@@ -66,9 +66,9 @@ Route::get('/logout', [AuthUserController::class, 'logout']);
 
 Route::middleware(['authUser'])->group(function () {
 
-    // Route::get('/c', [BookingController::class, 'calendar']);
-    // Route::get('/rooms/{day}', [BookingController::class, 'showRoomAndTime']);
-    // Route::post('/booking', [BookingController::class, 'bookingRoom']);
+    Route::get('/c', [BookingController::class, 'calendar']);
+    Route::get('/rooms/{day}', [BookingController::class, 'showRoomAndTime']);
+    Route::post('/booking', [BookingController::class, 'bookingRoom']);
     Route::get('/homepage', [HomeController::class, 'index']);
     Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('index');
 });
