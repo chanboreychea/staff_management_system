@@ -83,8 +83,24 @@
                 <tbody>
                     @foreach ($calendar as $week)
                         <tr>
-                            @foreach ($week as $day)
-                                <td>
+                            @foreach ($week as $key => $day)
+                                @if ($key == 0 || $key == 6)
+                                    <td>
+                                        {{ $day }}
+                                    </td>
+                                @else
+                                    <td>
+                                        @if ($day == '')
+                                        @elseif ($day >= $dday)
+                                            <a href="/rooms/{{ $day }}" class="btn btn-info btn-sm days w-100">
+                                                {{ $day }}
+                                            </a>
+                                        @else
+                                            <div>{{ $day }}</div>
+                                        @endif
+                                    </td>
+                                @endif
+                                {{-- <td>
                                     @if ($day == '')
                                     @elseif ($day >= $dday)
                                         <a href="/rooms/{{ $day }}" class="btn btn-info btn-sm days w-100">
@@ -93,7 +109,7 @@
                                     @else
                                         <div>{{ $day }}</div>
                                     @endif
-                                </td>
+                                </td> --}}
                             @endforeach
                         </tr>
                     @endforeach
@@ -116,6 +132,7 @@
                     <th class="text-center">ម៉ោង</th>
                     <th class="text-center">ឈ្មោះអ្នកកក់</th>
                     <th class="text-center">គោលបំណង</th>
+                    <th class="text-center">កែប្រែ</th>
                 </thead>
                 <tbody>
                     @foreach ($booking as $key => $item)
@@ -130,6 +147,41 @@
                             <td class="text-center">{{ $item->lastNameKh }}
                                 {{ $item->firstNameKh }}</td>
                             <td class="text-center">{{ $item->description }}</td>
+                            @if ($item->userId == Session::get('user_id'))
+                                <td class="text-center">
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                        data-target="#exampleModal{{ $item->id }}">
+                                        Cencel
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal{{ $item->id }}" tabindex="-1"
+                                        role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">លុបចោលការកក់</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form action="/booking/{{ $item->id }}" method="POST">
+                                                    @csrf
+                                                    {{ method_field('delete') }}
+                                                    {{-- <div class="modal-body">
+                                                    ...
+                                                </div> --}}
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary">យល់ព្រម</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                 </tbody>

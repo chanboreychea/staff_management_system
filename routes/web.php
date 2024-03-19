@@ -69,6 +69,8 @@ Route::middleware(['authUser'])->group(function () {
     Route::get('/c', [BookingController::class, 'calendar']);
     Route::get('/rooms/{day}', [BookingController::class, 'showRoomAndTime']);
     Route::post('/booking', [BookingController::class, 'bookingRoom']);
+    Route::delete('/booking/{userId}', [BookingController::class, 'userDestroy']);
+
     Route::get('/homepage', [HomeController::class, 'index']);
     Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('index');
 });
@@ -97,6 +99,9 @@ Route::middleware(['authAdmin'])->group(function () {
     Route::patch('/attendances/{attendanceId}', [AttendanceController::class, 'updateAttendanceById']);
     Route::get('/attendaces/export/excel', [AttendanceController::class, 'exportUserAttendanceExcel']);
     Route::post('/attendances/import/excel', [AttendanceController::class, 'importUserAttendanceExcel']);
+
+    Route::get('/booking', [BookingController::class, 'index']);
+    Route::post('/booking/approve/{bookingId}', [BookingController::class, 'adminApprove']);
 
     // ------------------------get add to insert------------------------------
 
@@ -138,17 +143,18 @@ Route::get('/ip', function (Request $request) {
     // $clientIpAddress = $request->ip();
     // $clientIpAddress = $_SERVER['REMOTE_ADDR'];
     // $client_ip = $_SERVER['REMOTE_ADDR'];
-    $client_ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
-    echo "Client IP Address: " . $client_ip;
+    // $client_ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+    $ipAddress = $request->server('HTTP_CF_CONNECTING_IP');
+    echo "Client IP Address: " . $ipAddress;
 
-    $agent = new Agent();
-    // Get device information
-    $device = $agent->device();
-    $browser = $agent->browser();
-    $platform = $agent->platform();
-    $a = $agent->isMobile();
-    $b = $agent->isTablet();
-    $c = $agent->is('Windows');
+    // $agent = new Agent();
+    // // Get device information
+    // $device = $agent->device();
+    // $browser = $agent->browser();
+    // $platform = $agent->platform();
+    // $a = $agent->isMobile();
+    // $b = $agent->isTablet();
+    // $c = $agent->is('Windows');
 
     // $ipLong = ip2long($clientIpAddress);
     // $startLong = ip2long('172.16.0.0');

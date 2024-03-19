@@ -8,7 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Master</title>
+    <title>អ.ស.ហ</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -194,9 +194,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Brand Logo -->
             <a href="/roles" class="brand-link">
                 <img src="{{ url('images/logo4.png') }}" alt="" width="100%">
-                {{-- <img src="{{ url('images/logo3.png') }}" alt="AdminLTE Logo" class="brand-image elevation-3"
-                    style="opacity: .8">
-                <span class="brand-text font-weight-light">Chanborey Chea</span> --}}
             </a>
 
             <!-- Sidebar -->
@@ -232,28 +229,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <p>នាយកដ្ឋាន</p>
                                     </a>
                                 </li>
+
                                 <li class="nav-item">
                                     <a href="/offices" class="nav-link">
                                         <i class="fas fa-house-user nav-icon"></i>
                                         <p>ការិយាល័យ</p>
                                     </a>
                                 </li>
+
                                 <li class="nav-item">
                                     <a href="/roles" class="nav-link">
                                         <i class="fa fa-tasks nav-icon"></i>
                                         <p>តួនាទី</p>
                                     </a>
                                 </li>
+
                                 <li class="nav-item">
                                     <a href="/users" class="nav-link">
                                         <i class="far fa-user nav-icon"></i>
                                         <p>មន្ត្រី</p>
                                     </a>
                                 </li>
+
                                 <li class="nav-item">
                                     <a href="/attendances" class="nav-link">
                                         <i class="far fa-clock nav-icon"></i>
                                         <p>វត្តមាន</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="/booking" class="nav-link">
+                                        <i class="far fa-calendar nav-icon"></i>
+                                        <p>កក់បន្ទប់ប្រជុំ</p>
                                     </a>
                                 </li>
 
@@ -331,11 +339,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </div>
     <!-- ./wrapper -->
 
-    <!-- REQUIRED SCRIPTS -->
-
-    <!-- jQuery -->
-
-
     <script>
         $(document).ready(function() {
             var readURL = function(input) {
@@ -357,12 +360,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 $(".file-upload").click();
             });
         });
-
-
-
     </script>
-
-
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>

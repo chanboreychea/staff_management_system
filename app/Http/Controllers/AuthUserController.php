@@ -31,11 +31,11 @@ class AuthUserController extends Controller
         //         return redirect('/c');
         //     }
         // }
-        
+
         if ($user) {
 
-            if (Hash::check($password, $user->password)){
-                session(['is_user_logged_in' => true, 'user_id' =>   $userid]);
+            if (Hash::check($password, $user->password)) {
+                session(['is_user_logged_in' => true, 'user_id' =>   $user->id]);
 
                 return redirect('/homepage');
             }
