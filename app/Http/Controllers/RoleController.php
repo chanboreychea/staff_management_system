@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -30,7 +31,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $request->validate([
             'roleNameKh' => 'bail|required|max:100',
             'description' => 'max:255'

@@ -17,15 +17,20 @@ class Auth
     public function handle(Request $request, Closure $next): Response
     {
 
-        if (session('admin_id') != "B0r3y!19") {
-            return Redirect::route('login');
+        if ($request->session()->has('is_admin_logged_in') == false) {
+
+            if ($request->session()->has('admin_attendance') == true) {
+
+                return $next($request);
+            }
+            if ($request->session()->has('admin_booking') == true) {
+
+                return $next($request);
+            }
+
+            return redirect()->route('login');
         }
-        // if($request->test=="abc"){
-        //     return redirect('/user/user_information/12');
-        // }
-        // if (!session('is_logged_in')) {s
-        //     return redirect()->route('login');
-        // }
+
         return $next($request);
     }
 }

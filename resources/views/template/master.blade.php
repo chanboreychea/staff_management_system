@@ -223,47 +223,68 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/departments" class="nav-link">
-                                        <i class='far fa-building nav-icon'></i>
-                                        <p>នាយកដ្ឋាន</p>
-                                    </a>
-                                </li>
 
-                                <li class="nav-item">
-                                    <a href="/offices" class="nav-link">
-                                        <i class="fas fa-house-user nav-icon"></i>
-                                        <p>ការិយាល័យ</p>
-                                    </a>
-                                </li>
+                                @if (Session::get('is_admin_logged_in'))
+                                    <li class="nav-item">
+                                        <a href="/departments" class="nav-link">
+                                            <i class='far fa-building nav-icon'></i>
+                                            <p>នាយកដ្ឋាន</p>
+                                        </a>
+                                    </li>
 
-                                <li class="nav-item">
-                                    <a href="/roles" class="nav-link">
-                                        <i class="fa fa-tasks nav-icon"></i>
-                                        <p>តួនាទី</p>
-                                    </a>
-                                </li>
+                                    <li class="nav-item">
+                                        <a href="/offices" class="nav-link">
+                                            <i class="fas fa-house-user nav-icon"></i>
+                                            <p>ការិយាល័យ</p>
+                                        </a>
+                                    </li>
 
-                                <li class="nav-item">
-                                    <a href="/users" class="nav-link">
-                                        <i class="far fa-user nav-icon"></i>
-                                        <p>មន្ត្រី</p>
-                                    </a>
-                                </li>
+                                    <li class="nav-item">
+                                        <a href="/roles" class="nav-link">
+                                            <i class="fa fa-tasks nav-icon"></i>
+                                            <p>តួនាទី</p>
+                                        </a>
+                                    </li>
 
-                                <li class="nav-item">
-                                    <a href="/attendances" class="nav-link">
-                                        <i class="far fa-clock nav-icon"></i>
-                                        <p>វត្តមាន</p>
-                                    </a>
-                                </li>
+                                    <li class="nav-item">
+                                        <a href="/users" class="nav-link">
+                                            <i class="far fa-user nav-icon"></i>
+                                            <p>មន្ត្រី</p>
+                                        </a>
+                                    </li>
 
-                                <li class="nav-item">
-                                    <a href="/booking" class="nav-link">
-                                        <i class="far fa-calendar nav-icon"></i>
-                                        <p>កក់បន្ទប់ប្រជុំ</p>
-                                    </a>
-                                </li>
+                                    <li class="nav-item">
+                                        <a href="/attendances" class="nav-link">
+                                            <i class="far fa-clock nav-icon"></i>
+                                            <p>វត្តមាន</p>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="/booking" class="nav-link">
+                                            <i class="far fa-calendar nav-icon"></i>
+                                            <p>កក់បន្ទប់ប្រជុំ</p>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                @if (Session::get('admin_attendance'))
+                                    <li class="nav-item">
+                                        <a href="/attendances" class="nav-link">
+                                            <i class="far fa-clock nav-icon"></i>
+                                            <p>វត្តមាន</p>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                @if (Session::get('admin_booking'))
+                                    <li class="nav-item">
+                                        <a href="/booking" class="nav-link">
+                                            <i class="far fa-calendar nav-icon"></i>
+                                            <p>កក់បន្ទប់ប្រជុំ</p>
+                                        </a>
+                                    </li>
+                                @endif
 
                             </ul>
                         </li>

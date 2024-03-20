@@ -92,6 +92,7 @@ Route::middleware(['authAdmin'])->group(function () {
     Route::resource('/offices', OfficeController::class);
 
 
+
     Route::get('/getAttendances', [AttendanceController::class, 'getAtt']);
     Route::post('/attendances', [AttendanceController::class, 'addUserAttendance']);
     Route::get('/attendances', [AttendanceController::class, 'attendances'])->name('user-attendances');
@@ -100,8 +101,11 @@ Route::middleware(['authAdmin'])->group(function () {
     Route::get('/attendaces/export/excel', [AttendanceController::class, 'exportUserAttendanceExcel']);
     Route::post('/attendances/import/excel', [AttendanceController::class, 'importUserAttendanceExcel']);
 
+
+
     Route::get('/booking', [BookingController::class, 'index']);
     Route::post('/booking/approve/{bookingId}', [BookingController::class, 'adminApprove']);
+
 
     // ------------------------get add to insert------------------------------
 

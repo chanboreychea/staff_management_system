@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 
 class OfficeController extends Controller
 {
+
     public function index()
     {
         $offices = Office::all();
