@@ -2,14 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\Approve;
 use Carbon\Carbon;
 use App\Models\Booking;
-use App\Models\RoomTime;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
+    public function index()
+    {
+        $booking = DB::table('booking')
+            ->join('users', 'users.id', '=', 'booking.userId')
+            ->where('booking.date', '>=', Carbon::now()->format('Y-m-d'))
+            ->where('isApprove', Approve::PENDING)
+            ->orderByDesc('date')
+            ->select(
+                'booking.id',
+                'users.firstNameKh',
+                'users.lastNameKh',
+                'users.email',
+                'users.phoneNumber',
+                'date',
+                'topicOfMeeting',
+                'directedBy',
+                'meetingLevel',
+                'member',
+                'room',
+                'time',
+                'description',
+            )->get();
+
+        return view('admin.booking.index', compact('booking'));
+    }
+
+    public function userDestroy(Request $request, string $bookingId)
+    {
+        $booking = Booking::find($bookingId);
+        $booking->delete();
+        return redirect('/c')->with('message', 'Update Successfully');
+    }
+
+    public function adminApprove(Request $request, string $bookingId)
+    {
+        $booking = Booking::find($bookingId);
+
+        $request->validate([
+            'description' => 'max:255'
+        ]);
+
+        if ($request->input('description')) {
+            $booking->description = $request->input('description');
+        }
+        if ($request->input('approve')) {
+            $booking->isApprove = Approve::APPROVE;
+        }
+        if ($request->input('reject')) {
+            $booking->isApprove = Approve::REJECT;
+        }
+
+        $booking->save();
+
+        return redirect('/booking')->with('message', 'Update Successfully');
+    }
+
     public function calendar()
     {
         $date = Carbon::now();
@@ -45,22 +102,26 @@ class BookingController extends Controller
             ];
         }
 
-        $booking = DB::table('booking')->leftJoin('rooms_times', 'rooms_times.bookingId', '=', 'booking.id')
+        $booking = DB::table('booking')
             ->join('users', 'users.id', '=', 'booking.userId')
             ->where('booking.date', '>=', Carbon::now()->format('Y-m-d'))
+            ->where('isApprove', Approve::APPROVE)
+            ->orderByDesc('date')
             ->select(
                 'users.firstNameKh',
                 'users.lastNameKh',
                 'users.email',
                 'users.phoneNumber',
+                'booking.id',
                 'date',
+                'userId',
                 'topicOfMeeting',
                 'directedBy',
                 'meetingLevel',
                 'member',
                 'description',
                 'room',
-                'time',
+                'time'
             )->get();
 
         return view('booking.calendar', compact('booking', 'dday', 'calendar'));
@@ -74,9 +135,11 @@ class BookingController extends Controller
         $month = $this->getMonthKhmer($now->format("M"));
         $date = "ថ្ងៃ $day ទី " . $now->format('d') . " ខែ $month ឆ្នាំ " . $now->format('Y');
 
-        $booking = DB::table('booking')->leftJoin('rooms_times', 'rooms_times.bookingId', '=', 'booking.id')
+        $booking = DB::table('booking')
             ->join('users', 'users.id', '=', 'booking.userId')
-            ->where('booking.date', $now->format('Y-m-d'))
+            ->where('date', $now->format('Y-m-d'))
+            ->where('isApprove', Approve::APPROVE)
+            ->where('userId', session('user_id'))
             ->select(
                 'users.firstNameKh',
                 'users.lastNameKh',
@@ -90,7 +153,15 @@ class BookingController extends Controller
                 'time',
             )->get();
 
-        return view('booking.showRoomAndTime', compact('booking', 'now', 'date', 'day'));
+        $verifyTimesBooking = DB::table('booking')
+            ->where('date', $now->format('Y-m-d'))
+            ->where('isApprove', Approve::APPROVE)
+            ->select(
+                'room',
+                'time',
+            )->get();
+
+        return view('booking.showRoomAndTime', compact('verifyTimesBooking', 'booking', 'now', 'date', 'day'));
     }
 
     public function bookingRoom(Request $request)
@@ -99,7 +170,7 @@ class BookingController extends Controller
         $request->validate([
             'topic' => 'bail|required|max:100',
             'directedBy' => 'bail|required|max:100',
-            'member' => 'bail|required|min:2|max:50',
+            'member' => 'bail|required|digits_between:1,2',
             'description' => 'max:255',
             'room' => 'required',
             'times' => 'required'
@@ -122,39 +193,33 @@ class BookingController extends Controller
         $room = $request->input('room');
         $times = $request->input('times');
         $description = $request->input('description');
-        $splittedTimeByComma = explode(", ", $times);
+
+        $userId = session('user_id');
 
         DB::beginTransaction();
         try {
 
-            $lastRecord = Booking::create([
-                'userId' => 12,
+            Booking::create([
+                'userId' => $userId,
                 'date' => $date,
                 'topicOfMeeting' => $topic,
                 'directedBy' => $directedBy,
                 'meetingLevel' => $meetingLevel,
                 'member' => $member,
+                'room' => $room,
+                'time' => $times,
                 'description' => $description,
-                'isApprove' => 1
+                'isApprove' => Approve::PENDING
             ]);
 
-            $booking = [];
-            for ($i = 0; $i < count($splittedTimeByComma); $i++) {
-                $booking[] = [
-                    'bookingId' => $lastRecord->id,
-                    'room' => $room,
-                    'time' => $splittedTimeByComma[$i],
-                    'created_at' => Carbon::now()
-                ];
-            }
-            RoomTime::insert($booking);
-
             $today = Carbon::now();
+
+            $user = User::find($userId);
 
             $message = "សំណើសុំប្រើប្រាស់បន្ទប់ប្រជុំ" . PHP_EOL . "ដឹកនាំដោយ៖ $directedBy " . PHP_EOL . "ប្រធានបទស្តីពី៖ $topic" . PHP_EOL .
                 "ចំនួនសមាជិកចូលរួម៖ $member រូប" . PHP_EOL . "ប្រភេទបន្ទប់ប្រជុំ៖ បន្ទប់ប្រជុំ $room" . PHP_EOL . "កម្រិតប្រជុំ៖ $meetingLevel" . PHP_EOL .
                 "កាលបរិច្ឆេទកិច្ចប្រជុំ៖ $date " . PHP_EOL .
-                "ម៉ោង៖ $times" . PHP_EOL . "កាលបរិច្ឆេទស្នើសុំ៖ $today" . PHP_EOL . "អ៊ីមែល: " . PHP_EOL . "ឈ្មោះមន្រ្តីស្នើសុំ៖ ";
+                "ម៉ោង៖ $times" . PHP_EOL . "កាលបរិច្ឆេទស្នើសុំ៖ $today" . PHP_EOL . "អ៊ីមែល: $user->email" . PHP_EOL . "ឈ្មោះមន្រ្តីស្នើសុំ៖ $user->lastNameKh $user->firstNameKh";
 
             $this->sendMessage(1499573227, $message, "7016210108:AAFqqisOdt9lCixJ7Hg1y9HYJosomMam2fc");
             //hamm// $this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");

@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('directedBy');
             $table->string('meetingLevel');
             $table->string('member');
+            $table->string('room');
+            $table->string('time');
             $table->text('description')->nullable();
             $table->string('isApprove', 2);
             $table->timestamps();

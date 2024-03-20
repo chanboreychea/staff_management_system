@@ -2,6 +2,7 @@
 @section('title', 'Attendance')
 
 @section('content')
+
     <style>
         .dropdown-menu {
             max-height: 400px;
@@ -12,10 +13,6 @@
 
         ul {
             list-style-type: none;
-        }
-
-        ul ul {
-            margin-left: 20px;
         }
     </style>
 

@@ -4,7 +4,7 @@
         <div class="header-left">
           <div class="header-logo"><a class="d-flex" href="{{ url('/') }}"><img alt="joblist"
                 src="{{asset('images/logo2.png') }} " width="35%"></a></div>
-                
+
         </div>
         <div class="header-nav">
           <nav class="nav-main-menu">
@@ -38,8 +38,13 @@
             </ul> --}}
             <ul class="main-menu">
               <li class="has-children"><a class="" href="#" style="font-family: khmer mef1">វត្តមាន</a></li>
+<<<<<<< HEAD
               <li class="has-children" ><a class="" href="#" style="font-family: khmer mef1">កក់បន្ទប់ប្រជុំ</a></li>
               <li class="has-children"><a class="" href="/user/dashboard" style="font-family: khmer mef1">ប្រវិត្តរូបមន្រ្តី</a>{{session('user_id')}}</li>
+=======
+              <li class="has-children" ><a class="" href="/c" style="font-family: khmer mef1">កក់បន្ទប់ប្រជុំ</a></li>
+              <li class="has-children"><a class="" href="#" style="font-family: khmer mef1">ប្រវិត្តរូបមន្រ្តី</a></li>
+>>>>>>> 2fd3f795d9bf4b9080468ce9e3db603536ed99a4
             </ul>
           </nav>
           <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span
@@ -54,8 +59,8 @@
               @else
                 <a class="btn btn-default btn-shadow ml-40 hover-up" href="{{ route('login') }}">Sign in</a>
               @endif
-          
-          
+
+
             @endguest
             {{-- @auth
                 @if (auth()->user()->idCard ===  session('user_id'))

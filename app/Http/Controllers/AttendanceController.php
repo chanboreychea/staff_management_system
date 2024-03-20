@@ -15,6 +15,7 @@ use App\Exports\AttendanceExportMuiltpleSheets;
 
 class AttendanceController extends Controller
 {
+
     public function addUserAttendance(Request $request)
     {
         $uid = $request->input('uid');
@@ -340,6 +341,7 @@ class AttendanceController extends Controller
 
     public function attendances(Request $request)
     {
+
         $fromDate = $request->input('fromDate');
         $toDate = $request->input('toDate');
         $uid = $request->input('uid');

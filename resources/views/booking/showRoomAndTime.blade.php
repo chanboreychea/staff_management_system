@@ -295,7 +295,7 @@
         var room2 = document.getElementById("room2");
         var times = document.querySelectorAll('.times');
         var timeArray = [];
-        var dataFromBookingController = {!! json_encode($booking) !!};
+        var dataFromBookingController = {!! json_encode($verifyTimesBooking) !!};
 
         room1.addEventListener('click', function() {
             const value = room1.value;
@@ -344,11 +344,21 @@
         });
 
         for (let i = 0; i < times.length; i++) {
+            // for (let j = 0; j < dataFromBookingController.length; j++) {
+            //     if (times[i].value == dataFromBookingController[j]['time']) {
+            //         times[i].classList.add("btn-danger");
+            //         times[i].disabled = true;
+            //     }
+            // }
             for (let j = 0; j < dataFromBookingController.length; j++) {
-                if (times[i].value == dataFromBookingController[j]['time']) {
-                    times[i].classList.add("btn-danger");
-                    times[i].disabled = true;
-                }
+                var explodedArray = dataFromBookingController[j]['time'].split(', ');
+                // Output each substring
+                explodedArray.forEach(function(substring) {
+                    if (times[i].value == substring) {
+                        times[i].classList.add("btn-danger");
+                        times[i].disabled = true;
+                    }
+                });
             }
             times[i].addEventListener('click', function(event) {
                 const value = event.target.value;
