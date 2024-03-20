@@ -26,11 +26,11 @@ class authController extends Controller
 
         if ($user) {
             if ($user->idCard == 53 && Hash::check($password, $user->password)) {
-                $request->session()->flush();
+                // $request->session()->flush();
                 session(['admin_attendance' => true, 'admin_attendance_id' =>   $user->idCard]);
                 return redirect('/attendances');
             } else if ($user->idCard == 50 && Hash::check($password, $user->password)) {
-                $request->session()->flush();
+                // $request->session()->flush();
                 session(['admin_booking' => true, 'admin_booking_id' =>   $user->idCard]);
                 return redirect('/booking');
             }
@@ -52,13 +52,19 @@ class authController extends Controller
 
     public function logout(Request $request)
     {
-        $request->session()->flush();
-        // if ($request->session()->has('is_admin_logged_in')) {
-
-
-        //     $request->session()->pull('is_admin_logged_in');
-        //     $request->session()->pull('admin_id');
-        // }
+        // $request->session()->flush(); use to delete all session
+        if ($request->session()->has('is_admin_logged_in')) {
+            $request->session()->pull('is_admin_logged_in');
+            $request->session()->pull('admin_id');
+        }
+        if ($request->session()->has('admin_attendance')) {
+            $request->session()->pull('admin_attendance');
+            $request->session()->pull('admin_attendance_id');
+        }
+        if ($request->session()->has('admin_booking')) {
+            $request->session()->pull('admin_booking');
+            $request->session()->pull('admin_booking_id');
+        }
         return Redirect::route('login');
     }
 }
