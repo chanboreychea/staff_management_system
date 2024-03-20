@@ -102,7 +102,7 @@
 
                    
                       
-                    <td class="d-flex " style=" vertical-align: middle;" >
+                    {{-- <td class="d-flex " style=" vertical-align: middle;" >
                         <div class="width">
 
                             <input type="file" class="form-control form-control-sm" 
@@ -124,7 +124,21 @@
 
                         <input type="hidden" name="old_document[]" value="{{$cerificate['document']}}">
                                           
-                    </td>
+                    </td> --}}
+                    
+                    <td style=" vertical-align: middle;" >
+
+                        <div class="width">
+ 
+                             <input type="text" class="form-control form-control-sm" 
+                             
+                             placeholder="លេខឯកសារ" name="document[]" 
+                             
+                             value="{{ $cerificate['document'] ?? old('document.' . $index) }}">
+ 
+                         </div>
+                                           
+                     </td>
                     
                     
                 </tr>

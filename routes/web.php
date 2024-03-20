@@ -42,6 +42,7 @@ use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\UserDashboardController;
+use App\Http\Controllers\Frontend\UserProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +74,8 @@ Route::middleware(['authUser'])->group(function () {
 
     Route::get('/homepage', [HomeController::class, 'index']);
     Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('index');
+    Route::get('/user/profile', [UserProfileController::class, 'index'])->name('index');
+    Route::get('/user/profile/userInfo/{id}', [UserProfileController::class, 'updateUserInfo']);
 });
 
 //admins

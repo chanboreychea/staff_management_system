@@ -39,7 +39,9 @@
             <ul class="main-menu">
               <li class="has-children"><a class="" href="#" style="font-family: khmer mef1">វត្តមាន</a></li>
               <li class="has-children" ><a class="" href="/c" style="font-family: khmer mef1">កក់បន្ទប់ប្រជុំ</a></li>
-              <li class="has-children"><a class="" href="#" style="font-family: khmer mef1">ប្រវិត្តរូបមន្រ្តី</a></li>
+              <li class="has-children"><a class="" href="/user/dashboard" style="font-family: khmer mef1">ប្រវិត្តរូបមន្រ្តី</a>{{session('user_id')}}</li>
+            
+             
             </ul>
           </nav>
           <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span

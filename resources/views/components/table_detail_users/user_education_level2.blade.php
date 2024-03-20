@@ -6,15 +6,15 @@
 
             <thead>
 
-                <td class="nowrap" style="text-align:center;font-size:14px">វគ្គ ឬ​កម្រិតសិក្សា</td>
+                <td class="nowrap" style="text-align:center;font-size:12px">វគ្គ ឬ​កម្រិតសិក្សា</td>
                 
-                <td class="nowrap" style="text-align:center;font-size:14px">គ្រឺស្ថានសិក្សាបណ្តោះបណ្តាល</td>
+                <td class="nowrap" style="text-align:center;font-size:12px">គ្រឺស្ថានសិក្សាបណ្តោះបណ្តាល</td>
                 
-                <td class="nowrap" style="text-align:center;font-size:14px">សញ្ញាបត្រដែលទទួលបាន</td>
+                <td class="nowrap" style="text-align:center;font-size:12px">សញ្ញាបត្រដែលទទួលបាន</td>
                 
-                <td class="nowrap" style="text-align:center;font-size:14px">ថ្ងៃខែឆ្នាំចូលសិក្សា</td>
+                <td class="nowrap" style="text-align:center;font-size:12px">ថ្ងៃខែឆ្នាំចូលសិក្សា</td>
                 
-                <td class="nowrap" style="text-align:center;font-size:14px">ថ្ងៃខែឆ្នាំបញ្ចប់ការសិក្សា</td>
+                <td class="nowrap" style="text-align:center;font-size:12px">ថ្ងៃខែឆ្នាំបញ្ចប់ការសិក្សា</td>
 
             <thead>
             
@@ -23,7 +23,7 @@
                 @if(isset($userEducationLevel))
                 
                 <tr>
-                    <td style="text-align:left;font-size:14px" colspan="5">កម្រិតវប្បធម៍ទូទៅ</td>
+                    <td style="text-align:left;font-size:12px" colspan="5">កម្រិតវប្បធម៍ទូទៅ</td>
                 </tr>
                     @foreach($userEducationLevel as $row )
 
@@ -31,21 +31,21 @@
                    
                     <tr>
                         
-                        <td  style="font-size:12px" ><div style="width:120px;">{{$row->level}}</div></td>
+                        <td  style="font-size:12px" ><div class="container">{{$row->level}}</div></td>
                         
-                        <td  style="font-size:12px" ><div style="width:150px;">{{$row->education_intitution}}</div></td>
+                        <td  style="font-size:12px" ><div class="container" >{{$row->education_intitution}}</div></td>
                         
-                        <td  style="font-size:12px" ><div style="width:140px;">{{$row->cetificate}}</div></td>
+                        <td  style="font-size:12px" ><div class="container" >{{$row->cetificate}}</div></td>
                         
                         <td  style="font-size:12px" ><div style="width:70px;">{{$row->start_date}}</div></td>
                         
-                        <td  style="font-size:12px" ><div style="width:70px;">{{$row->end_date}}</div></td>
+                        <td  style="font-size:12px" ><div style="width:70px;" >{{$row->end_date}}</div></td>
                     
                     </tr>  
                     @endif 
                     @endforeach
                     <tr>
-                     <td style="text-align:left;font-size:14px"colspan="5">កម្រិតសញ្ញាបត្រ</td>
+                     <td style="text-align:left;font-size:12px"colspan="5">កម្រិតសញ្ញាបត្រ</td>
                 </tr>
                     @foreach($userEducationLevel as $row )
 
@@ -53,11 +53,11 @@
                    
                     <tr>
                         
-                        <td  style="font-size:12px" ><div style="width:120px;">{{$row->level}}</div></td>
+                        <td  style="font-size:12px" ><div class="container" >{{$row->level}}</div></td>
                         
-                        <td  style="font-size:12px" ><div style="width:150px;">{{$row->education_intitution}}</div></td>
+                        <td  style="font-size:12px" ><div class="container" >{{$row->education_intitution}}</div></td>
                         
-                        <td  style="font-size:12px" ><div style="width:140px;">{{$row->cetificate}}</div></td>
+                        <td  style="font-size:12px" ><div class="container">{{$row->cetificate}}</div></td>
                         
                         <td  style="font-size:12px" ><div style="width:70px;">{{$row->start_date}}</div></td>
                         
@@ -67,7 +67,7 @@
                     @endif 
                     @endforeach
                     <tr>
-                     <td style="text-align:left;font-size:14px" colspan="5">ជំនាញឯករទេស</td>
+                     <td style="text-align:left;font-size:12px" colspan="5">ជំនាញឯករទេស</td>
                 </tr>
                     @foreach($userEducationLevel as $row )
 
@@ -75,21 +75,21 @@
                    
                     <tr>
                         
-                        <td  style="font-size:12px" ><div style="width:120px;">{{$row->level}}</div></td>
+                        <td  style="font-size:12px" ><div class="container">{{$row->level}}</div></td>
                         
-                        <td  style="font-size:12px" ><div style="width:150px;">{{$row->education_intitution}}</div></td>
+                        <td  style="font-size:12px" ><div class="container">{{$row->education_intitution}}</div></td>
                         
-                        <td  style="font-size:12px" ><div style="width:140px;">{{$row->cetificate}}</div></td>
+                        <td  style="font-size:12px" ><div class="container">{{$row->cetificate}}</div></td>
                         
-                        <td  style="font-size:12px" ><div style="width:70px;">{{$row->start_date}}</div></td>
+                        <td  style="font-size:12px" ><div  style="width:70px;">{{$row->start_date}}</div></td>
                         
-                        <td  style="font-size:12px" ><div style="width:70px;">{{$row->end_date}}</div></td>
+                        <td  style="font-size:12px" ><div  style="width:70px;">{{$row->end_date}}</div></td>
                     
                     </tr>   
                     @endif 
                     @endforeach
                     <tr>
-                     <td style="text-align:left;font-size:14px" colspan="5">គ្រឿងឥស្សរិយយស ប័ណ្ណសរសើរ</td>
+                     <td style="text-align:left;font-size:12px" colspan="5">គ្រឿងឥស្សរិយយស ប័ណ្ណសរសើរ</td>
                 </tr>
                     @foreach($userEducationLevel as $row )
 
@@ -97,21 +97,21 @@
                    
                     <tr>
                         
-                        <td  style="font-size:12px" ><div style="width:120px;">{{$row->level}}</div></td>
+                        <td  style="font-size:12px" ><div class="container" >{{$row->level}}</div></td>
                         
-                        <td  style="font-size:12px" ><div style="width:150px;">{{$row->education_intitution}}</div></td>
+                        <td  style="font-size:12px" ><div class="container" >{{$row->education_intitution}}</div></td>
                         
-                        <td  style="font-size:12px" ><div style="width:140px;">{{$row->cetificate}}</div></td>
+                        <td  style="font-size:12px" ><div class="container" >{{$row->cetificate}}</div></td>
                         
-                        <td  style="font-size:12px" ><div style="width:70px;">{{$row->start_date}}</div></td>
+                        <td  style="font-size:12px" ><div  style="width:70px;">{{$row->start_date}}</div></td>
                         
-                        <td  style="font-size:12px" ><div style="width:70px;">{{$row->end_date}}</div></td>
+                        <td  style="font-size:12px" ><div  style="width:70px;">{{$row->end_date}}</div></td>
                     
                     </tr>   
                     @endif 
                     @endforeach
                     <tr>
-                     <td style="text-align:left;font-size:14px" colspan="5">វគ្គបណ្តុះបណ្តាលវិជ្ជាជីវៈ</td>
+                     <td style="text-align:left;font-size:12px" colspan="5">វគ្គបណ្តុះបណ្តាលវិជ្ជាជីវៈ</td>
                 </tr>
                     @foreach($userEducationLevel as $row )
 
@@ -119,15 +119,15 @@
                    
                     <tr>
                         
-                        <td  style="font-size:12px" ><div style="width:120px;">{{$row->level}}</div></td>
+                        <td  style="font-size:12px" ><div  class="container">{{$row->level}}</div></td>
                         
-                        <td  style="font-size:12px" ><div style="width:150px;">{{$row->education_intitution}}</div></td>
+                        <td  style="font-size:12px" ><div  class="container">{{$row->education_intitution}}</div></td>
                         
-                        <td  style="font-size:12px" ><div style="width:140px;">{{$row->cetificate}}</div></td>
+                        <td  style="font-size:12px" ><div  class="container">{{$row->cetificate}}</div></td>
                         
-                        <td  style="font-size:12px" ><div style="width:70px;">{{$row->start_date}}</div></td>
+                        <td  style="font-size:12px" ><div   style="width:70px;">{{$row->start_date}}</div></td>
                         
-                        <td  style="font-size:12px" ><div style="width:70px;">{{$row->end_date}}</div></td>
+                        <td  style="font-size:12px" ><div   style="width:70px;">{{$row->end_date}}</div></td>
                     
                     </tr>   
                     @endif 

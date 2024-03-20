@@ -1,10 +1,18 @@
 <div class="form-row">
 
-    <div class="form-group col-md-6">
+    <!-- <div class="form-group col-md-6">
 
         <label class="text-sm">លេខឯកសារ</label>
 
         <input type="file" class="form-control form-control-sm" name="document1[]" id="document"
+            value="<?= old('document1.0') ?>">
+
+    </div> -->
+    <div class="form-group col-md-6">
+
+        <label class="text-sm">លេខឯកសារ</label>
+
+        <input type="text" class="form-control form-control-sm" name="document1[]" id="document"
             value="<?= old('document1.0') ?>">
 
     </div>

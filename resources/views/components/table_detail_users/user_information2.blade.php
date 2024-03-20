@@ -5,7 +5,7 @@
 </style>
 @if (isset($user))
 
-    <div class="table-responsive" style="font-size:12px">
+    <div class="table-responsive" style="font-size:11px">
 
         <table class="table borderless">
 
@@ -13,12 +13,11 @@
 
                 <tr class="grid-row">
 
-                    <td class="grid-cell">អត្តលេខមន្ត្រីរាជការ <span style="margin-left:10px;">:</span>
-                        {{ $user->idCard }}</td>
+                    <td class="grid-cell">អត្តលេខមន្ត្រីរាជការ <span style="margin-left:10px;">:</span>{{ $user->idCard }}</td>
 
-                    <td class="grid-cell">លេខប័ណ្ណសម្គាល់មន្ត្រីសហវ <span>:</span> </td>
+                    <td class="grid-cell">លេខប័ណ្ណសម្គាល់មន្ត្រីសហវ <span>:</span>   {{ $user->referent }}</td>
 
-                    <td class="grid-cell">លេខកូដក្នុងអង្គភាព <span>:</span> គ្មាន</td>
+                    <td class="grid-cell">លេខកូដក្នុងអង្គភាព <span>:</span>   {{ $user->codeEconomy }}</td>
 
                 </tr>
 
@@ -26,9 +25,9 @@
                 <tr class="grid-row">
 
                     <td class="grid-cell">គោត្តនាម​ និង នាម <span
-                            style="margin-left:14px;">:</span>{{ $user->lastNameKh }} {{ $user->firstNameKh }}</td>
+                            style="margin-left:12px;">:</span>{{ $user->lastNameKh }} {{ $user->firstNameKh }}</td>
 
-                    <td class="grid-cell">ជាអក្សរឡាតាំង <span>:</span></td>
+                    <td class="grid-cell">ជាអក្សរឡាតាំង <span>:</span>   {{ $user->engName }}</td>
                     <!-- Add an empty cell to match the number of cells in the first row -->
                 </tr>
 
@@ -78,7 +77,7 @@
 
                 <tr class="grid-row1">
 
-                    <td class="grid-cell1" width="100%">អ៊ីម៉ែល<span style="margin-left:75px;">:
+                    <td class="grid-cell" width="100%">អ៊ីម៉ែល<span style="margin-left:75px;">:
                         </span>{{ $user->email }}</td>
 
                 </tr>
@@ -92,17 +91,17 @@
 
                 <tr class="grid-row">
 
-                    <td class="grid-cell">អត្តសញ្ញាណប័ណ្ណ<span style="margin-left:25px;">:</span> </td>
+                    <td class="grid-cell">អត្តសញ្ញាណប័ណ្ណ<span style="margin-left:25px;">:</span> {{ $user->identifyCard }} </td>
 
-                    <td class="grid-cell">កាលបរិច្ឆេទផុតកំណត់<span>:</span> </td>
+                    <td class="grid-cell">កាលបរិច្ឆេទផុតកំណត់<span>:</span> {{ $user->exprireDateIdenCard }}</td>
 
                 </tr>
 
                 <tr class="grid-row">
 
-                    <td class="grid-cell">លិខិតឆ្លងដែន<span style="margin-left:42px;">:</span> </td>
+                    <td class="grid-cell">លិខិតឆ្លងដែន<span style="margin-left:42px;">:</span> {{ $user->passport }}</td>
 
-                    <td class="grid-cell">កាលបរិច្ឆេទផុតកំណត់ <span>:</span> </td>
+                    <td class="grid-cell">កាលបរិច្ឆេទផុតកំណត់ <span>:</span> {{ $user->exprirePassport }}</td>
 
                 </tr>
 
@@ -229,23 +228,23 @@
 
 <p style="font-family: khmer mef2;margin-left:15px;">គ.តួនាទីបន្ថែមលើមុខងារបច្ចុប្បន្ន(ឋានៈស្មើ)</p>
 
-<div class="table-reponsive">
+<div class="table-reponsive" style="overflow-x: auto">
 
     <table class="table table-bordered">
 
         <thead>
             <tr>
-                <td class="nowrap" style="text-align:center;font-size:14px">ល.រ</td>
+                <td class="nowrap" style="text-align:center;font-size:12px">ល.រ</td>
 
-                <td class="nowrap" style="text-align:center;font-size:14px">ថ្ងៃ-ខែ​​​-ឆ្នាំ​</td>
+                <td class="nowrap" style="text-align:center;font-size:12px">ថ្ងៃ-ខែ​​​-ឆ្នាំ​</td>
 
-                <td class="nowrap" style="text-align:center;font-size:14px">ឯកសារ</td>
+                <td class="nowrap" style="text-align:center;font-size:12px">ឯកសារ</td>
 
-                <td class="nowrap" style="text-align:center;font-size:14px">មុខតំណែង</td>
+                <td class="nowrap" style="text-align:center;font-size:12px">មុខតំណែង</td>
 
-                <td class="nowrap" style="text-align:center;font-size:14px">ឋានៈស្មើ</td>
+                <td class="nowrap" style="text-align:center;font-size:12px">ឋានៈស្មើ</td>
 
-                <td class="nowrap" style="text-align:center;font-size:14px">អង្គភាព</td>
+                <td class="nowrap" style="text-align:center;font-size:12px">អង្គភាព</td>
             </tr>
         </thead>
 
@@ -282,15 +281,15 @@
 
 
                         <td style="font-size:12px">
-                            <div style="width:100px;">{{ $row->position }}</div>
+                           {{ $row->position }}
                         </td>
 
                         <td style="font-size:12px">
-                            <div style="width:100px;">{{ $row->equivalent }}</div>
+                        {{ $row->equivalent }}
                         </td>
 
                         <td style="font-size:12px">
-                            <div style="width:150px;">{{ $row->economy }}</div>
+                          {{ $row->economy }}
                         </td>
                     </tr>
                 @endforeach

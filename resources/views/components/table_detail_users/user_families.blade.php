@@ -27,13 +27,13 @@
                         
                         </tr>
 
-                        <tr class="grid-row">
+                        <tr class="grid-row1">
                             
                             <td  class="grid-cell">ទីលំនៅបច្ចុប្បន្ន<span style="margin-left:31px;">:</span> {{$userFamily->f_current_residence}}</td>
                         
                         </tr>
 
-                        <tr class="grid-row">
+                        <tr class="grid-row1">
                             
                             <td  class="grid-cell">មុខរបរ<span style="margin-left:83px;">:</span> {{$userFamily->father_job}}</td>
                         
@@ -41,7 +41,7 @@
                     
                         <tr class="grid-row">
                         
-                            <td  class="grid-cell">ឈ្មោះម្តាយ<span style="margin-left:58px;">:</span> {{$userFamily->mother_name}}</td>
+                            <td  class="grid-cell1">ឈ្មោះម្តាយ<span style="margin-left:58px;">:</span> {{$userFamily->mother_name}}</td>
                             
                             <td  class="grid-cell">ជាអក្សរឡាតាំង<span style="margin-left:10px;">:</span> {{$userFamily->mother_name_in_english}}</td>
                             
@@ -57,15 +57,15 @@
                         
                         </tr>
 
-                        <tr class="grid-row">
+                        <tr class="grid-row1">
                             
-                            <td  class="grid-cell">ទីលំនៅបច្ចុប្បន្ន<span style="margin-left:31px;">:</span> {{$userFamily->m_current_residence}}</td>
+                            <td  class="grid-cell1">ទីលំនៅបច្ចុប្បន្ន<span style="margin-left:31px;">:</span> {{$userFamily->m_current_residence}}</td>
                         
                         </tr>
 
-                        <tr class="grid-row">
+                        <tr class="grid-row1">
                             
-                            <td  class="grid-cell">មុខរបរ<span style="margin-left:83px;">:</span> {{$userFamily->federation_name}}</td>
+                            <td  class="grid-cell1">មុខរបរ<span style="margin-left:83px;">:</span> {{$userFamily->federation_name}}</td>
                         
                         </tr>
                         
@@ -82,17 +82,17 @@
 
                     <thead>
 
-                        <td class="nowrap" style="text-align:center;font-size:14px" >ល.រ</td>
+                        <td class="nowrap" style="text-align:center;font-size:12px" >ល.រ</td>
                         
-                        <td class="nowrap" style="text-align:center;font-size:14px" >គោត្តនាម និង នាម</td>
+                        <td class="nowrap" style="text-align:center;font-size:12px" >គោត្តនាម និង នាម</td>
                         
-                        <td class="nowrap" style="text-align:center;font-size:14px" >ជាអក្សរឡាតាំង</td>
+                        <td class="nowrap" style="text-align:center;font-size:12px" >ជាអក្សរឡាតាំង</td>
 
-                        <td class="nowrap" style="text-align:center;font-size:14px" >ភេទ</td>
+                        <td class="nowrap" style="text-align:center;font-size:12px" >ភេទ</td>
                         
-                        <td class="nowrap" style="text-align:center;font-size:14px" >ថ្ងៃខែឆ្នាំកំណើត</td>
+                        <td class="nowrap" style="text-align:center;font-size:12px" >ថ្ងៃខែឆ្នាំកំណើត</td>
                         
-                        <td class="nowrap" style="text-align:center;font-size:14px" >មុខរបរ(អង្គភាព)</td>
+                        <td class="nowrap" style="text-align:center;font-size:12px" >មុខរបរ(អង្គភាព)</td>
 
                     </thead>
                     
@@ -107,15 +107,15 @@
                                   
                                     <td style="text-align:center;font-size:12px">{{$i++}}</td>
                                     
-                                    <td  style="font-size:12px" ><div style="width:130px;">{{$name}}</div></td>
+                                    <td  style="font-size:12px" ><div class="container">{{$name}}</div></td>
               
-                                    <td  style="font-size:12px" ><div style="width:130px;">{{unserialize($userFamily->relative_name_in_english)[$key]}}</div></td>
+                                    <td  style="font-size:12px" ><div class="container">{{unserialize($userFamily->relative_name_in_english)[$key]}}</div></td>
                                     
-                                    <td  style="font-size:12px" ><div style="width:50px;">{{unserialize($userFamily->relative_gender)[$key]}}</div></td>
+                                    <td  style="font-size:12px" ><div class="container" >{{unserialize($userFamily->relative_gender)[$key]}}</div></td>
                                     
-                                    <td  style="font-size:12px" ><div style="width:100px;">{{unserialize($userFamily->relative_date)[$key]}}</div></td>
+                                    <td  style="font-size:12px" ><div class="container">{{unserialize($userFamily->relative_date)[$key]}}</div></td>
                                     
-                                    <td  style="font-size:12px" ><div style="width:150px;">{{unserialize($userFamily->relative_job)[$key]}}</div></td>
+                                    <td  style="font-size:12px" ><div class="container">{{unserialize($userFamily->relative_job)[$key]}}</div></td>
                                 
                                 </tr>
                             
@@ -183,17 +183,17 @@
 
                     <thead>
 
-                        <td class="nowrap" style="text-align:center;font-size:14px" >ល.រ</td>
+                        <td class="nowrap" style="text-align:center;font-size:12px" >ល.រ</td>
                         
-                        <td class="nowrap" style="text-align:center;font-size:14px" >គោត្តនាម និង នាម</td>
+                        <td class="nowrap" style="text-align:center;font-size:12px" >គោត្តនាម និង នាម</td>
                         
-                        <td class="nowrap" style="text-align:center;font-size:14px" >ជាអក្សរឡាតាំង</td>
+                        <td class="nowrap" style="text-align:center;font-size:12px" >ជាអក្សរឡាតាំង</td>
 
-                        <td class="nowrap" style="text-align:center;font-size:14px" >ភេទ</td>
+                        <td class="nowrap" style="text-align:center;font-size:12px" >ភេទ</td>
                         
-                        <td class="nowrap" style="text-align:center;font-size:14px" >ថ្ងៃខែឆ្នាំកំណើត</td>
+                        <td class="nowrap" style="text-align:center;font-size:12px" >ថ្ងៃខែឆ្នាំកំណើត</td>
                         
-                        <td class="nowrap" style="text-align:center;font-size:14px" >មុខរបរ(អង្គភាព)</td>
+                        <td class="nowrap" style="text-align:center;font-size:12px" >មុខរបរ(អង្គភាព)</td>
 
                     <thead>
 
@@ -209,15 +209,15 @@
 
                                     <td style="text-align:center;font-size:12px">{{$i++}}</td>
                                     
-                                    <td  style="font-size:12px" ><div style="width:130px;">{{$name}}</div></td>
+                                    <td  style="font-size:12px" ><div class="container">{{$name}}</div></td>
                                     
-                                    <td  style="font-size:12px" ><div style="width:130px;">{{unserialize($userFamily->children_name_in_english)[$key]}}</div></td>
+                                    <td  style="font-size:12px" ><div class="container">{{unserialize($userFamily->children_name_in_english)[$key]}}</div></td>
                                     
-                                    <td  style="font-size:12px" ><div style="width:50px;">{{unserialize($userFamily->children_gender)[$key]}}</div></td>
+                                    <td  style="font-size:12px" ><div class="container">{{unserialize($userFamily->children_gender)[$key]}}</div></td>
                                     
-                                    <td  style="font-size:12px" ><div style="width:100px;">{{unserialize($userFamily->children_date)[$key]}}</div></td>
+                                    <td  style="font-size:12px" ><div class="container">{{unserialize($userFamily->children_date)[$key]}}</div></td>
                                     
-                                    <td  style="font-size:12px" ><div style="width:150px;">{{unserialize($userFamily->children_job)[$key]}}</div></td>
+                                    <td  style="font-size:12px" ><div class="container">{{unserialize($userFamily->children_job)[$key]}}</div></td>
                                 
                                 </tr>
 

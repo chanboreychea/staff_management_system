@@ -6,7 +6,7 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-12">
-                        <h2 class="mb-20" style="font-family: khmer mef1">ប្រវត្តិរូបមន្រ្តី</h2>
+                        <h2 class="mb-20">Company Profile</h2>
                         <ul class="breadcrumbs">
                             <li><a class="home-icon" href="index.html">Home</a></li>
                             <li>Company Profile</li>
@@ -16,7 +16,7 @@
             </div>
         </div>
     </section>
-    <section class="section-box mt-120" >
+    <section class="section-box mt-120">
         <div class="container">
             <div class="row">
                 @include('frontend.company-dashboard.sidebar')
@@ -42,7 +42,7 @@
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                             aria-labelledby="pills-home-tab">
-                            {{-- <form action="{{ route('company.profile.company-info') }}" method="POST"
+                            <form action="{{ route('company.profile.company-info') }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
@@ -95,82 +95,167 @@
                                 <div class="box-button mt-15">
                                     <button class="btn btn-apply-big font-md font-bold">Save All Changes</button>
                                 </div>
-                            </form> --}}
+                            </form>
                         </div>
-                        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" >
-                            <form action="/user/profile/userInfo/{{ $userInformation->id }}" method="GET"  enctype="multipart/form-data">
+                        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                            <form action="{{ route('company.profile.founding-info') }}" method="POST">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group select-style">
-                                            <label class="font-sm color-text-mutted mb-10"  style="font-family: khmer mef1">អត្តលេខមន្ត្រីរាជការ</label>
-                                            <input type="text" name="idCard" disabled
-                                                class="form-control"
-                                                value="{{$userInformation->idCard}}">
-                                            {{-- <x-input-error :messages="$errors->get('industry_type')" class="mt-2" /> --}}
+                                            <label class="font-sm color-text-mutted mb-10">Industry Type *</label>
+                                            <select name="industry_type" id=""
+                                                class="form-control form-icons select-active {{ $errors->has('industry_type') ? 'is-invalid' : '' }}">
+                                                <option value="">Select</option>
+                                                @foreach ($industryTypes as $industryType)
+                                                <option @selected($industryType->id === $companyInfo?->industry_type_id) value="{{ $industryType->id }}">{{ $industryType->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <x-input-error :messages="$errors->get('industry_type')" class="mt-2" />
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group select-style">
-                                            <label class="font-sm color-text-mutted mb-10"  style="font-family: khmer mef1">លេខប័ណ្ណសម្គាល់មន្ត្រីសហវ</label>
-                                            <input type="text" name="referent" disabled
-                                                class="form-control "
-                                                value="{{$userInformation->referent}}">
-                                            {{-- <x-input-error :messages="$errors->get('$messages')" class="mt-2" /> --}}
-
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group select-style">
-                                            <label class="font-sm color-text-mutted mb-10"  style="font-family: khmer mef1">លេខកូដក្នុងអង្គភាព</label>
-                                            <input type="text" name="codeEconomy" disabled
-                                                class="form-control "
-                                                value="{{$userInformation->codeEconomy}}">
-                                            {{-- <x-input-error :messages="$errors->get('$messages')" class="mt-2" /> --}}
+                                            <label class="font-sm color-text-mutted mb-10">Organization Type *</label>
+                                            <select name="organization_type" id=""
+                                                class="form-control form-icons select-active {{ $errors->has('organization_type') ? 'is-invalid' : '' }}">
+                                                <option value="">Select</option>
+                                                @foreach ($organizationTypes as $organizationType)
+                                                <option @selected($organizationType->id === $companyInfo?->organization_type_id) value="{{ $organizationType->id }}">{{ $organizationType->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <x-input-error :messages="$errors->get('organization_type')" class="mt-2" />
 
                                         </div>
                                     </div>
 
-                                   
-
                                     <div class="col-md-4">
                                         <div class="form-group select-style">
-                                            <label class="font-sm color-text-mutted mb-10"  style="font-family: khmer mef1">គោត្តនាម​</label>
+                                            <label class="font-sm color-text-mutted mb-10">Team Size *</label>
+                                            <select name="team_size" id=""
+                                                class="form-control form-icons select-active {{ $errors->has('team_size') ? 'is-invalid' : '' }}">
+                                                <option value="">Select</option>
+                                                @foreach ($teamSizes as $teamSize)
+                                                <option @selected($teamSize->id === $companyInfo?->team_size_id) value="{{ $teamSize->id }}">{{ $teamSize->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <x-input-error :messages="$errors->get('team_size')" class="mt-2" />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="font-sm color-text-mutted mb-10">Establishment Date</label>
                                             <input type="text" name="establishment_date"
-                                                class="form-control"
-                                                value="{{$userInformation->firstNameKh}} ">
-                                            {{-- <x-input-error :messages="$errors->get('team_size')" class="mt-2" /> --}}
+                                                class="form-control datepicker {{ $errors->has('establishment_date') ? 'is-invalid' : '' }}"
+                                                value="{{ $companyInfo?->establishment_date }}">
+                                            <x-input-error :messages="$errors->get('establishment_date')" class="mt-2" />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="font-sm color-text-mutted mb-10">Website</label>
+                                            <input type="text" name="website"
+                                                class="form-control {{ $errors->has('website') ? 'is-invalid' : '' }}"
+                                                value="{{ $companyInfo?->website }}">
+                                            <x-input-error :messages="$errors->get('website')" class="mt-2" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="font-sm color-text-mutted mb-10">Email *</label>
+                                            <input type="email" name="email"
+                                                class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}"
+                                                value="{{ $companyInfo?->email }}">
+                                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="font-sm color-text-mutted mb-10">Phone *</label>
+                                            <input type="text" name="phone"
+                                                class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}"
+                                                value="{{ $companyInfo?->phone }}">
+                                            <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group select-style">
+                                            <label class="font-sm color-text-mutted mb-10">Country *</label>
+                                            <select name="country" id=""
+                                                class="form-control form-icons country select-active {{ $errors->has('country') ? 'is-invalid' : '' }}"
+                                                value="{{ $companyInfo?->country }}">
+                                                <option value="">Select</option>
+                                                @foreach ($countries as $country)
+                                                    <option @selected($country->id === $companyInfo?->country) value="{{ $country->id }}">{{ $country->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <x-input-error :messages="$errors->get('country')" class="mt-2" />
 
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group select-style">
-                                            <label class="font-sm color-text-mutted mb-10"  style="font-family: khmer mef1">គោត្តនាម​ និង នាមត្រកូល</label>
-                                            <input type="text" name="establishment_date"
-                                                class="form-control"
-                                                value="{{$userInformation->lastNameKh}} ">
-                                            {{-- <x-input-error :messages="$errors->get('team_size')" class="mt-2" /> --}}
+                                            <label class="font-sm color-text-mutted mb-10">State</label>
+                                            <select name="state" id=""
+                                                class="form-control state form-icons select-active {{ $errors->has('state') ? 'is-invalid' : '' }}"
+                                                value="{{ $companyInfo?->state }}">
+                                                <option value="">Select</option>
+                                                @foreach ($states as $state)
+                                                    <option @selected($state->id === $companyInfo?->state) value="{{ $state->id }}">{{ $state->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <x-input-error :messages="$errors->get('state')" class="mt-2" />
 
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="form-group select-style" >
-                                            <label class="font-sm color-text-mutted mb-10"  style="font-family: khmer mef1">ជាអក្សរឡាតាំង</label>
-                                            <input  type="text" name="engName"
-                                                class="form-control "
-                                                value="{{$userInformation->engName}}">
-                                            {{-- <x-input-error :messages="$errors->get('team_size')" class="mt-2" /> --}}
+                                        <div class="form-group select-style">
+                                            <label class="font-sm color-text-mutted mb-10">City</label>
+                                            <select name="city" id=""
+                                                class="form-control city form-icons select-active {{ $errors->has('city') ? 'is-invalid' : '' }}"
+                                                value="{{ $companyInfo?->city }}">
+                                                <option value="">Select</option>
+                                                @foreach ($cities as $city)
+                                                <option @selected($city->id === $companyInfo?->city) value="{{ $city->id }}">{{ $city->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <x-input-error :messages="$errors->get('city')" class="mt-2" />
 
                                         </div>
                                     </div>
 
-                                  
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="font-sm color-text-mutted mb-10">Addesss</label>
+                                            <input type="text" name="address"
+                                                class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}"
+                                                value="{{ $companyInfo?->address }}">
+                                            <x-input-error :messages="$errors->get('address')" class="mt-2" />
 
-                                  
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="font-sm color-text-mutted mb-10">Map Link</label>
+                                            <input type="text" name="map_link" class="form-control"
+                                                value="{{ $companyInfo?->map_link }}">
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <div class="box-button mt-15">
-                                    <button type="submit" class="btn btn-apply-big font-md font-bold">Save All Changes</button>
+                                    <button class="btn btn-apply-big font-md font-bold">Save All Changes</button>
                                 </div>
                             </form>
                         </div>
@@ -178,7 +263,7 @@
                             aria-labelledby="pills-contact-tab">
                             <div class="row">
 
-                                {{-- <form action="{{ route('company.profile.account-info') }}" method="POST">
+                                <form action="{{ route('company.profile.account-info') }}" method="POST">
                                     @csrf
                                     <div class="row">
 
@@ -205,11 +290,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                </form> --}}
+                                </form>
 
                                 <br>
 
-{{-- 
+
                                <form action="{{ route("company.profile.password-update") }}" method="POST">
                                 @csrf
                                 <div class="row">
@@ -234,7 +319,7 @@
                                         </div>
                                     </div>
                                    </div>
-                               </form> --}}
+                               </form>
 
                             </div>
                         </div>
@@ -247,7 +332,7 @@
 @endsection
 
 @push('scripts')
-{{-- <script>
+<script>
     $(document).ready(function() {
         $('.country').on('change', function() {
             let country_id = $(this).val();
@@ -292,5 +377,5 @@
             })
         })
     })
-</script> --}}
+</script>
 @endpush

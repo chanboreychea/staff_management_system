@@ -173,7 +173,15 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-lg-6 col-sm-6">
+                    <div class="col-lg-3 col-sm-12">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">ជាអក្សរឡាតាំង</label>
+                            <input type="text" name="engName" value="{{ old('engName') }}" class="form-control"
+                                id="exampleFormControlInput1" placeholder="ជាអក្សរឡាតាំង">
+                           
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
                         <div class="form-group">
                             <label for="exampleFormControlInput1">អ៊ីម៉ែល</label>
                             <input type="email" name="email" value="{{ old('email') }}" class="form-control"
@@ -276,6 +284,59 @@
                             @error('currentAddress')
                                 <div class="error-message">{{ $message }}</div>
                             @enderror
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-lg-3 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="currentAddress">លេខប័ណ្ណសម្គាល់មន្រ្តីសហវ</label>
+                            <input type="text" name="referent" value="{{ old('referent')}}"
+                                class="form-control" id="referent" placeholder="លេខប័ណ្ណសម្គាល់មន្រ្តីសហវ">
+                           
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="currentAddress">លេខកូដក្នុងអង្គភាព</label>
+                            <input type="text" name="codeEconomy" value="{{ old('codeEconomy')}}"
+                                class="form-control" id="codeEconomy" placeholder="លេខកូដក្នុងអង្គភាព">
+                           
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="currentAddress">អត្តសញ្ញាណប័ណ្ណ</label>
+                            <input type="text" name="identifyCard" value="{{ old('identifyCard') }}"
+                                class="form-control" id="identifyCard" placeholder="អត្តសញ្ញាណប័ណ្ណ">
+                          
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label for="currentAddress">ការបរិច្ឆេទផុតកំណត់</label>
+                            <input type="date" name="exprireDateIdenCard" value="{{ old('exprireDateIdenCard') }}"
+                                class="form-control" id="exprireDateIdenCard" placeholder="ការបរិច្ឆេទផុតកំណត់">
+                            
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="form-row">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="currentAddress">លិខិតឆ្លងដែន</label>
+                            <input type="text" name="passport" value="{{ old('passport') }}"
+                                class="form-control" id="passport" placeholder="លិខិតឆ្លងដែន">
+                           
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="currentAddress">ការបរិច្ឆេទផុតកំណត់</label>
+                            <input type="date" name="exprirePassport" value="{{ old('exprirePassport') }}"
+                                class="form-control" id="exprirePassport" placeholder="ការបរិច្ឆេទផុតកំណត់">
+                       
                         </div>
                     </div>
                 </div>
