@@ -32,7 +32,14 @@ class User extends Authenticatable
         'pobAddress',
         'currentAddress',
         'img',
-        'active'
+        'active',
+        'engName',
+        'codeEconomy',
+        'referent',
+        'passport',
+        'identifyCard',
+        'expireDateIdenCard',
+        'expireDatePassport'
     ];
 
     public function role(): BelongsTo

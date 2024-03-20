@@ -130,6 +130,13 @@ class UserController extends Controller
         $user->nationality = $request->input('nationality');
         $user->pobAddress = $request->input('pobAddress');
         $user->currentAddress = $request->input('currentAddress');
+        $user->referent = $request->input('referent');
+        $user->codeEconomy = $request->input('codeEconomy');
+        $user->passport = $request->input('passport');
+        $user->identifyCard = $request->input('identifyCard');
+        $user->exprireDateIdenCard = $request->input('exprireDateIdenCard');
+        $user->exprirePassport = $request->input('exprirePassport');
+        $user->engName=$request->input('engName');
         $user->image = $filename;
         $user->save();
         return redirect('/users');
@@ -264,7 +271,13 @@ class UserController extends Controller
         $user->status = $request->input('status');
         $user->nationality = $request->input('nationality');
         $user->pobAddress = $request->input('pobAddress');
-        $user->currentAddress = $request->input('currentAddress');
+        $user->referent = $request->input('referent');
+        $user->codeEconomy = $request->input('codeEconomy');
+        $user->passport = $request->input('passport');
+        $user->identifyCard = $request->input('identifyCard');
+        $user->exprireDateIdenCard = $request->input('exprireDateIdenCard');
+        $user->exprirePassport = $request->input('exprirePassport');
+        $user->engName=$request->input('engName');
         $user->save();
         return redirect('/users');
     }
@@ -930,9 +943,10 @@ class UserController extends Controller
 
             'status'            => $request->input('status'),
 
-            'document'          => $request->hasFile('document') ? $request->file('document') : [],
+            'document'          => $request->input('document')
+            // 'document'          => $request->hasFile('document') ? $request->file('document') : [],
 
-            'old_document'      => $request->input('old_document')
+            // 'old_document'      => $request->input('old_document')
 
         ];
 
@@ -944,23 +958,23 @@ class UserController extends Controller
 
                 if ($modalCertificate) {
 
-                    $documentPath = isset($data['document'][$index]) ? $data['document'][$index] : null;
+                    // $documentPath = isset($data['document'][$index]) ? $data['document'][$index] : null;
 
                     // Check if a new file was uploaded
-                    if ($documentPath) {
+                    // if ($documentPath) {
 
-                        $destinationPath = 'document_cetificates/';
+                    //     $destinationPath = 'document_cetificates/';
 
-                        $profileImage = uniqid() . "." . $documentPath->getClientOriginalExtension();
+                    //     $profileImage = uniqid() . "." . $documentPath->getClientOriginalExtension();
 
-                        $documentPath->move($destinationPath, $profileImage);
+                    //     $documentPath->move($destinationPath, $profileImage);
 
-                        $documentPath = $profileImage;
-                    } else {
-                        // Use the old document path if available
+                    //     $documentPath = $profileImage;
+                    // } else {
+                    //     // Use the old document path if available
 
-                        $documentPath = isset($data['old_document'][$index]) ? $data['old_document'][$index] : 'default.png';
-                    }
+                    //     $documentPath = isset($data['old_document'][$index]) ? $data['old_document'][$index] : 'default.png';
+                    // }
 
                     $modalCertificate->update([
 
@@ -974,7 +988,8 @@ class UserController extends Controller
 
                         'status'        => intval($data['status'][$index]),
 
-                        'document'      => $documentPath,
+                        'document'      => $data['document'][$index],
+
 
                     ]);
                 }
@@ -1012,35 +1027,37 @@ class UserController extends Controller
 
             'decription'        => $request->input('decription1'),
 
-            'date'            => $request->input('date1'),
+            'date'              => $request->input('date1'),
 
             'status'            => $request->input('status1'),
+
+            'document'          => $request->input('document1'),
+
+
 
             // 'document'=>$documentPaths1,
 
         ];
-        // echo "<pre>";
-        // var_dump($data);
-        // die();
+        
 
         if (isset($data['date']) && is_array($data['date'])) {
 
             for ($i = 0; $i < count($data['date']); $i++) {
 
-                $documentPath = 'default.png'; // Default document path
+                // $documentPath = 'default.png'; // Default document path
 
-                if ($request->hasFile("document1.$i")) {
+                // if ($request->hasFile("document1.$i")) {
 
-                    $file = $request->file("document1.$i");
+                //     $file = $request->file("document1.$i");
 
-                    $destinationPath = 'document_cetificates/';
+                //     $destinationPath = 'document_cetificates/';
 
-                    $profileImage = uniqid() . "." . $file->getClientOriginalExtension();
+                //     $profileImage = uniqid() . "." . $file->getClientOriginalExtension();
 
-                    $file->move($destinationPath, $profileImage);
+                //     $file->move($destinationPath, $profileImage);
 
-                    $documentPath =  $profileImage;
-                }
+                //     $documentPath =  $profileImage;
+                // }
 
                 UserModalCertificate::create([
 
@@ -1056,7 +1073,9 @@ class UserController extends Controller
 
                     'status' => intval($data['status'][$i]),
 
-                    'document' =>    $documentPath,
+                    'document' => $data['document'][$i],
+
+                    // 'document' =>    $documentPath,
 
                 ]);
             }

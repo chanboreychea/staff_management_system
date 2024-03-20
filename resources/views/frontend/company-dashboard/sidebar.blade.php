@@ -6,12 +6,12 @@
             <li><a class="btn btn-border mb-20" href="">Jobs</a>
             </li>
             <li><a class="btn btn-border mb-20" href="">Orders</a></li>
-            <li><a class="btn btn-border mb-20" href="">My Profile</a></li>
+            <li><a class="btn btn-border mb-20" href="/user/profile">My Profile</a></li>
             <li>
                  <!-- Authentication -->
                  <form method="POST">
                     @csrf
-                <a class="btn btn-border mb-20" href="{{url('')}}" >Logout</a>
+                <a class="btn btn-border mb-20" href="/logout" >Logout</a>
 
                 </form>
             </li>

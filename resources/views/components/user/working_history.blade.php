@@ -88,13 +88,13 @@
 <script>
 
 //    ----------------------------Insert Row see only modal--------------------------------------
-$('#success-alert, #error-alert').fadeIn('slow');
+// $('#success-alert, #error-alert').fadeIn('slow');
     
-    setTimeout(function() {
+//     setTimeout(function() {
 
-        $('#success-alert, #error-alert').fadeOut('slow');
+//         $('#success-alert, #error-alert').fadeOut('slow');
     
-    }, 5000); 
+//     }, 5000); 
 
 
 $(document).ready(function(){
