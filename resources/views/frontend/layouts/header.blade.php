@@ -39,7 +39,7 @@
                     <ul class="main-menu">
                         <li class="has-children"><a class="" href="/attendances/{{ session('user_id') }}"
                                 style="font-family: khmer mef1">វត្តមាន</a></li>
-                        <li class="has-children"><a class="" href="/c"
+                        <li class="has-children"><a class="" href="/calendar"
                                 style="font-family: khmer mef1">កក់បន្ទប់ប្រជុំ</a></li>
                         <li class="has-children"><a class="" href="/user/dashboard"
                                 style="font-family: khmer mef1">ប្រវិត្តរូបមន្រ្តី</a>{{ session('user_id') }}</li>

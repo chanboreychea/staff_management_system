@@ -41,7 +41,7 @@ class BookingController extends Controller
     {
         $booking = Booking::find($bookingId);
         $booking->delete();
-        return redirect('/c')->with('message', 'Update Successfully');
+        return redirect('/calendar')->with('message', 'Update Successfully');
     }
 
     public function adminApprove(Request $request, string $bookingId)
@@ -225,10 +225,10 @@ class BookingController extends Controller
             //hamm// $this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
 
             DB::commit();
-            return redirect('/c')->with('message', 'Booking Successfully.');
+            return redirect('/calendar')->with('message', 'Booking Successfully.');
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect('/c')->with('message', 'Please try again!!');
+            return redirect('/calendar')->with('message', 'Please try again!!');
         }
     }
 

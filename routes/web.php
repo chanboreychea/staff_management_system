@@ -68,7 +68,7 @@ Route::get('/logout', [AuthUserController::class, 'logout']);
 
 Route::middleware(['authUser'])->group(function () {
 
-    Route::get('/c', [BookingController::class, 'calendar']);
+    Route::get('/calendar', [BookingController::class, 'calendar']);
     Route::get('/rooms/{day}', [BookingController::class, 'showRoomAndTime']);
     Route::post('/booking', [BookingController::class, 'bookingRoom']);
     Route::delete('/booking/{userId}', [BookingController::class, 'userDestroy']);

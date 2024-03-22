@@ -1,8 +1,7 @@
 @extends('frontend.layouts.master')
 
 @section('contents')
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
     <section class="section-box mt-120">
         <div class="container">
             <div class="row">
@@ -10,6 +9,7 @@
                     <div class="content-single">
                         <h3 class="mt-0 mb-0 color-brand-1" style="font-family: Khmer, sans-serif">វត្តមានរបស់អ្នក</h3><br>
                         {{-- <div class="dashboard_overview"> --}}
+
                         <div class="card">
                             <div class="card-header">
                                 <form action="/attendances/{{ session('user_id') }}" action="GET">
