@@ -3,6 +3,7 @@
 
 @section('content')
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
     <style>
         .dropdown-menu {
             max-height: 400px;
@@ -154,8 +155,8 @@
                                     <span class="input-group-text" id="basic-addon1">From</span>
                                 </div>
                                 <input type="date" name="fromDate" min="{{ now()->subMonths(3)->format('Y-m-d') }}"
-                                    max="{{ now()->format('Y-m-d') }}" class="form-control" placeholder=""
-                                    aria-label="Username" aria-describedby="basic-addon1">
+                                    max="{{ now()->format('Y-m-d') }}" class="form-control" aria-label="Username"
+                                    aria-describedby="basic-addon1">
                             </div>
                         </div>
                         {{-- to date --}}
@@ -166,24 +167,29 @@
                                     <span class="input-group-text" id="basic-addon1">To</span>
                                 </div>
                                 <input type="date" name="toDate" max="{{ now()->format('Y-m-d') }}"
-                                    class="form-control" placeholder="" aria-label="Username"
-                                    aria-describedby="basic-addon1">
+                                    class="form-control" aria-label="Username" aria-describedby="basic-addon1">
                             </div>
                         </div>
                         <div class="col-lg-6 col-sm-12">
                             <div class="row">
                                 <div class="col-lg-2"><input class="btn btn-warning w-100" type="submit" value="Filter">
                                 </div>
-                                <div class="col-lg-2"><a href="attendaces/export/excel"
+                                {{-- <div class="col-lg-2"><a href="attendaces/export/excel"
                                         class="btn btn-danger w-100">Export</a>
+                                </div> --}}
+                                <div class="col-lg-2">
+                                    <button type="button" class="btn btn-primary w-100" data-toggle="modal"
+                                        data-target="#export">
+                                        Export
+                                    </button>
                                 </div>
-                                <div class="col-lg-2"><button type="button" class="btn btn-success w-100"
+                                {{-- <div class="col-lg-2"><button type="button" class="btn btn-success w-100"
                                         data-toggle="modal" data-target="#importAttendance">
                                         Import
                                     </button>
-                                </div>
+                                </div> --}}
                                 <div class="col">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    <button type="button" class="btn btn-success" data-toggle="modal"
                                         data-target="#exampleModal">
                                         ទាញយកវត្តមាន
                                     </button>
@@ -342,6 +348,34 @@
                             </div>
                             <div class="modal-footer">
                                 <input type="submit" class="btn btn-primary" name="getAtt" value="រក្សាទុក">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Except Holiday Days
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="/attendaces/export/excel" method="GET">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="date-picker" class="form-label">Holiday Day:</label>
+                                    <input type="text" id="date-picker" class="form-control" name="holidayDate"
+                                        placeholder="{{ now()->format('Y-m-d') }}" />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-primary" value="Export">
                             </div>
                         </form>
                     </div>
@@ -527,6 +561,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         $('#success-alert, #error-alert').fadeIn('slow');
 
@@ -550,6 +585,11 @@
                     });
                 });
             });
+        });
+
+        flatpickr("#date-picker", {
+            mode: "multiple",
+            dateFormat: "Y-m-d",
         });
     </script>
 

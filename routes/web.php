@@ -43,6 +43,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Frontend\UserProfileController;
+use App\Http\Controllers\UserAttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +73,8 @@ Route::middleware(['authUser'])->group(function () {
     Route::post('/booking', [BookingController::class, 'bookingRoom']);
     Route::delete('/booking/{userId}', [BookingController::class, 'userDestroy']);
 
+    Route::get('/attendances/{userId}', [UserAttendanceController::class, 'showAttendanceByUserId']);
+
     Route::get('/homepage', [HomeController::class, 'index']);
     Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('index');
     Route::get('/user/profile', [UserProfileController::class, 'index'])->name('index');
@@ -99,7 +102,6 @@ Route::middleware(['authAdmin'])->group(function () {
     Route::get('/getAttendances', [AttendanceController::class, 'getAtt']);
     Route::post('/attendances', [AttendanceController::class, 'addUserAttendance']);
     Route::get('/attendances', [AttendanceController::class, 'attendances'])->name('user-attendances');
-    Route::get('/attendances/{userId}', [AttendanceController::class, 'showAttendanceByUserId']);
     Route::patch('/attendances/{attendanceId}', [AttendanceController::class, 'updateAttendanceById']);
     Route::get('/attendaces/export/excel', [AttendanceController::class, 'exportUserAttendanceExcel']);
     Route::post('/attendances/import/excel', [AttendanceController::class, 'importUserAttendanceExcel']);

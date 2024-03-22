@@ -315,6 +315,12 @@ class Controller extends BaseController
         return $count;
     }
 
+    public function isWeekend($dateString)
+    {
+        $dayOfWeek = date('N', strtotime($dateString));
+        return ($dayOfWeek == 6 || $dayOfWeek == 7);
+    }
+
     public function checkIn($date)
     {
         $checkIn = ['', ''];

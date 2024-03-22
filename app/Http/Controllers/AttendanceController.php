@@ -119,13 +119,32 @@ class AttendanceController extends Controller
 
     public function exportUserAttendanceExcel(Request $request)
     {
+
+        $dayExcludeWeekend = [];
+        if ($request->input('holidayDate')) {
+            $holidayDate = explode(", ", $request->input('holidayDate'));
+
+            foreach ($holidayDate as $day) {
+                if (!$this->isWeekend($day)) {
+                    $dayExcludeWeekend[] = [
+                        'day' => $day
+                    ];
+                };
+            }
+        }
+
+        $amountDayOfHoliday = 0;
+        if ($dayExcludeWeekend) {
+            $amountDayOfHoliday = count($dayExcludeWeekend);
+        }
+
         $previousUrl = URL::previous();
         $parsedUrl = parse_url($previousUrl);
 
         if (isset($parsedUrl['query'])) {
             parse_str($parsedUrl['query'], $queryParams);
         } else {
-            return $this->userAttendancesByDepartmentAndRole($request);
+            return $this->setDefaultExportUserAttendances($request, $amountDayOfHoliday);
         }
 
         $fromDate = $queryParams['fromDate'];
@@ -168,9 +187,10 @@ class AttendanceController extends Controller
             $amountDays =  $this->businessDaysBetweenDates($fromDate, $toDate);
         } else {
             $date = Carbon::now();
-            $thisMonth = $this->getDatesByPeriodName('this_month', $date);
-            $amountDays =  $this->getDaysExcludingWeekend($date->format('Y'), $date->format('m'));
-            $query->whereBetween('date', [Carbon::parse($thisMonth[0])->format('Y-m-d'), Carbon::parse($thisMonth[1])->format('Y-m-d')]);
+            $firstDayOfMonth = $date->format('Y-m-01');
+            $yesterday = $date->subDay(1)->format('Y-m-d');
+            $amountDays = $this->businessDaysBetweenDates($firstDayOfMonth, $yesterday);
+            $query->whereBetween('date', [Carbon::parse($firstDayOfMonth)->format('Y-m-d'), Carbon::parse($yesterday)->format('Y-m-d')]);
         }
 
         $attendances = $query->get();
@@ -180,6 +200,7 @@ class AttendanceController extends Controller
         $eveningStart = Carbon::parse('16:00:00')->format('H:i:s');
         $eveningStop = Carbon::parse('17:30:00')->format('H:i:s');
 
+        $amountDays -= $amountDayOfHoliday;
         $export = [];
         foreach ($users as $user) {
             $leave = 0;
@@ -189,6 +210,7 @@ class AttendanceController extends Controller
             $lateOut = 0;
             $mission = 0;
             foreach ($attendances as $item) {
+
                 if ($user->idCard == $item->userId) {
 
                     if ($item->leave) {
@@ -204,16 +226,19 @@ class AttendanceController extends Controller
                         $mission++;
                     }
 
-                    if ($item->checkIn != null && $item->checkOut >= $eveningStart && $item->checkOut <= $eveningStop) {
-                        $work++;
-                    } elseif ($item->checkIn <= $morningStop && $item->lateOut) {
-                        $work++;
-                    } elseif ($item->lateIn && $item->checkOut >= $eveningStart && $item->checkOut <= $eveningStop) {
-                        $work++;
-                    } elseif ($item->lateIn && $item->lateOut) {
-                        $work++;
-                    } else {
-                        $absent++;
+                    if ($item->checkIn) {
+
+                        if ($item->checkIn <= $morningStop && $item->checkOut >= $eveningStart && $item->checkOut <= $eveningStop) {
+                            $work++;
+                        } elseif ($item->checkIn <= $morningStop && $item->lateOut) {
+                            $work++;
+                        } elseif ($item->lateIn && $item->checkOut >= $eveningStart && $item->checkOut <= $eveningStop) {
+                            $work++;
+                        } elseif ($item->lateIn && $item->lateOut) {
+                            $work++;
+                        } else {
+                            $absent++;
+                        }
                     }
                 }
             }
@@ -237,12 +262,13 @@ class AttendanceController extends Controller
         return Excel::download(new AttendanceExportMuiltpleSheets($export), 'attendances.xlsx');
     }
 
-    public function userAttendancesByDepartmentAndRole(Request $request)
+    public function setDefaultExportUserAttendances(Request $request, int $amountDayOfHoliday)
     {
-        //get attendances by department
+
         $date = Carbon::now();
-        $thisMonth = $this->getDatesByPeriodName('this_month', $date);
-        $amountDays =  $this->getDaysExcludingWeekend($date->format('Y'), $date->format('m'));
+        $firstDayOfMonth = $date->format('Y-m-01');
+        $yesterday = $date->subDay(1)->format('Y-m-d');
+        $amountDays = $this->businessDaysBetweenDates($firstDayOfMonth, $yesterday);
 
         $query = Attendance::select(
             'userId',
@@ -270,7 +296,7 @@ class AttendanceController extends Controller
                 'departments.departmentNameKh as departmentNameKh'
             );
 
-        $query->whereBetween('date', [Carbon::parse($thisMonth[0])->format('Y-m-d'), Carbon::parse($thisMonth[1])->format('Y-m-d')]);
+        $query->whereBetween('date', [Carbon::parse($firstDayOfMonth)->format('Y-m-d'), Carbon::parse($yesterday)->format('Y-m-d')]);
         $attendances = $query->get();
         $users = $queryUser->get();
 
@@ -278,6 +304,7 @@ class AttendanceController extends Controller
         $eveningStart = Carbon::parse('16:00:00')->format('H:i:s');
         $eveningStop = Carbon::parse('17:30:00')->format('H:i:s');
 
+        $amountDays -= $amountDayOfHoliday;
         $export = [];
         foreach ($users as $user) {
             $leave = 0;
@@ -287,6 +314,7 @@ class AttendanceController extends Controller
             $lateOut = 0;
             $mission = 0;
             foreach ($attendances as $item) {
+
                 if ($user->idCard == $item->userId) {
 
                     if ($item->leave) {
@@ -302,20 +330,19 @@ class AttendanceController extends Controller
                         $mission++;
                     }
 
-                    //work
-                    if ($item->checkIn != null && $item->checkOut >= $eveningStart && $item->checkOut <= $eveningStop) {
-                        $work++;
-                        // dd(1);
-                    } elseif ($item->checkIn <= $morningStop && $item->lateOut) {
-                        $work++;
-                    } elseif ($item->lateIn && $item->checkOut >= $eveningStart && $item->checkOut <= $eveningStop) {
-                        $work++;
-                        // dd(3);
-                    } elseif ($item->lateIn && $item->lateOut) {
-                        $work++;
-                        // dd(4);
-                    } else {
-                        $absent++;
+                    if ($item->checkIn) {
+
+                        if ($item->checkIn <= $morningStop && $item->checkOut >= $eveningStart && $item->checkOut <= $eveningStop) {
+                            $work++;
+                        } elseif ($item->checkIn <= $morningStop && $item->lateOut) {
+                            $work++;
+                        } elseif ($item->lateIn && $item->checkOut >= $eveningStart && $item->checkOut <= $eveningStop) {
+                            $work++;
+                        } elseif ($item->lateIn && $item->lateOut) {
+                            $work++;
+                        } else {
+                            $absent++;
+                        }
                     }
                 }
             }
@@ -376,8 +403,11 @@ class AttendanceController extends Controller
         if ($fromDate && $toDate) {
             $query->whereBetween('date', [$fromDate, $toDate]);
         } else {
-            $thisMonth = $this->getDatesByPeriodName('this_month', Carbon::now());
-            $query->whereBetween('date', [Carbon::parse($thisMonth[0])->format('Y-m-d'), Carbon::parse($thisMonth[1])->format('Y-m-d')]);
+            $date = Carbon::now();
+            $firstDayOfMonth = $date->format('Y-m-01');
+            $yesterday = $date->subDay(1)->format('Y-m-d');
+            $amountDays = $this->businessDaysBetweenDates($firstDayOfMonth, $yesterday);
+            $query->whereBetween('date', [Carbon::parse($firstDayOfMonth)->format('Y-m-d'), Carbon::parse($yesterday)->format('Y-m-d')]);
         }
 
         $attendances = $query->orderBy('date', 'desc')->orderBy('checkIn', 'desc')->get();
@@ -464,37 +494,5 @@ class AttendanceController extends Controller
         return redirect()->back();
     }
 
-    public function showAttendanceByUserId(Request $request, string $userId)
-    {
-
-        $date = Carbon::today();
-        $user = User::all()->where('id', $userId)->first();
-
-        //today
-        $morning = $this->checkIn($date);
-        $evening = $this->checkOut($date);
-
-
-
-        $d = Carbon::now()->format('D');
-        $dd = Carbon::now()->format('d');
-        $m = Carbon::now()->format('M');
-        $y = Carbon::now()->format("Y");
-        $day = $this->getDayKhmer($d);
-        $month = $this->getMonthKhmer($m);
-
-        $today = "ថ្ងៃ " . $day . ' ទី​​ ' . $dd . ' ខែ ' . $month . ' ឆ្នាំ ' . $y;
-
-        //last week
-        $lastWeek = $this->getDatesByPeriodName('last_week', $date);
-        $fromToDate = $this->getFromDateToDate($lastWeek[0], $lastWeek[1]);
-
-
-        //last month
-        $lastMonth = $this->getDatesByPeriodName('last_month', clone $date);
-        $fromToDate = $this->getFromDateToDate($lastMonth[0], $lastMonth[1]);
-
-
-        return view('admin.attendance.show', compact('user'));
-    }
+    
 }
