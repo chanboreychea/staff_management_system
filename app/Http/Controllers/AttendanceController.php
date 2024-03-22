@@ -188,9 +188,9 @@ class AttendanceController extends Controller
         } else {
             $date = Carbon::now();
             $firstDayOfMonth = $date->format('Y-m-01');
-            $yesterday = $date->subDay(1)->format('Y-m-d');
-            $amountDays = $this->businessDaysBetweenDates($firstDayOfMonth, $yesterday);
-            $query->whereBetween('date', [Carbon::parse($firstDayOfMonth)->format('Y-m-d'), Carbon::parse($yesterday)->format('Y-m-d')]);
+            $today = $date->format('Y-m-d');
+            $amountDays = $this->businessDaysBetweenDates($firstDayOfMonth, $today);
+            $query->whereBetween('date', [Carbon::parse($firstDayOfMonth)->format('Y-m-d'), Carbon::parse($today)->format('Y-m-d')]);
         }
 
         $attendances = $query->get();
@@ -267,8 +267,8 @@ class AttendanceController extends Controller
 
         $date = Carbon::now();
         $firstDayOfMonth = $date->format('Y-m-01');
-        $yesterday = $date->subDay(1)->format('Y-m-d');
-        $amountDays = $this->businessDaysBetweenDates($firstDayOfMonth, $yesterday);
+        $today = $date->format('Y-m-d');
+        $amountDays = $this->businessDaysBetweenDates($firstDayOfMonth, $today);
 
         $query = Attendance::select(
             'userId',
@@ -296,7 +296,7 @@ class AttendanceController extends Controller
                 'departments.departmentNameKh as departmentNameKh'
             );
 
-        $query->whereBetween('date', [Carbon::parse($firstDayOfMonth)->format('Y-m-d'), Carbon::parse($yesterday)->format('Y-m-d')]);
+        $query->whereBetween('date', [Carbon::parse($firstDayOfMonth)->format('Y-m-d'), Carbon::parse($today)->format('Y-m-d')]);
         $attendances = $query->get();
         $users = $queryUser->get();
 
@@ -405,9 +405,9 @@ class AttendanceController extends Controller
         } else {
             $date = Carbon::now();
             $firstDayOfMonth = $date->format('Y-m-01');
-            $yesterday = $date->subDay(1)->format('Y-m-d');
-            $amountDays = $this->businessDaysBetweenDates($firstDayOfMonth, $yesterday);
-            $query->whereBetween('date', [Carbon::parse($firstDayOfMonth)->format('Y-m-d'), Carbon::parse($yesterday)->format('Y-m-d')]);
+            $today = $date->format('Y-m-d');
+            $amountDays = $this->businessDaysBetweenDates($firstDayOfMonth, $today);
+            $query->whereBetween('date', [Carbon::parse($firstDayOfMonth)->format('Y-m-d'), Carbon::parse($today)->format('Y-m-d')]);
         }
 
         $attendances = $query->orderBy('date', 'desc')->orderBy('checkIn', 'desc')->get();
@@ -494,5 +494,5 @@ class AttendanceController extends Controller
         return redirect()->back();
     }
 
-    
+
 }
