@@ -25,18 +25,22 @@ class authController extends Controller
         $user = User::where('idCard', $username)->first();
 
         if ($user) {
-            if ($user->idCard == 53 && Hash::check($password, $user->password)) {
-                // $request->session()->flush();
+            if ($user->idCard == 24 && Hash::check($password, $user->password)) {
+                $request->session()->pull('admin_attendance');
+                $request->session()->pull('admin_attendance_id');
                 session(['admin_attendance' => true, 'admin_attendance_id' =>   $user->idCard]);
                 return redirect('/attendances');
-            } else if ($user->idCard == 50 && Hash::check($password, $user->password)) {
-                // $request->session()->flush();
+            } else if ($user->idCard == 25 && Hash::check($password, $user->password)) {
+                $request->session()->pull('admin_booking');
+                $request->session()->pull('admin_booking_id');
                 session(['admin_booking' => true, 'admin_booking_id' =>   $user->idCard]);
                 return redirect('/booking');
             }
         }
 
         if ($username == 'admin.iauoffsa.gov.kh' && $password == "123") {
+            $request->session()->pull('is_admin_logged_in');
+            $request->session()->pull('admin_id');
             session(['is_admin_logged_in' => true, 'admin_id' => "B0r3y!19"]);
             return redirect('/users');
         }

@@ -13,11 +13,9 @@ class BookingController extends Controller
 {
     public function index()
     {
-        $booking = DB::table('booking')
+        $query = DB::table('booking')
             ->join('users', 'users.id', '=', 'booking.userId')
             ->where('booking.date', '>=', Carbon::now()->format('Y-m-d'))
-            ->where('isApprove', Approve::PENDING)
-            ->orderByDesc('date')
             ->select(
                 'booking.id',
                 'users.firstNameKh',
@@ -32,9 +30,17 @@ class BookingController extends Controller
                 'room',
                 'time',
                 'description',
-            )->get();
+                'isApprove'
+            );
+            
+        $a = clone $query;
+        $b = clone $query;
 
-        return view('admin.booking.index', compact('booking'));
+        $isApproveBooking = $a->where('isApprove', '!=', Approve::PENDING)->orderByDesc('date')->get();
+        $booking = $b->where('isApprove', Approve::PENDING)->orderByDesc('date')->get();
+
+
+        return view('admin.booking.index', compact('booking', 'isApproveBooking'));
     }
 
     public function userDestroy(Request $request, string $bookingId)
