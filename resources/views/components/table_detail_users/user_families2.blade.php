@@ -1,9 +1,10 @@
+<p  style="font-family: khmer mef2;">៧.ស្ថានភាពគ្រួសារ</hp>
 @if(isset($userFamily))
-            <p  style="font-family: khmer mef2;">៧.ស្ថានភាពគ្រួសារ</hp>
+            
 
             <p style="font-family: khmer mef2;margin-left:15px;">ក.ព័ត៍មានឪពុកម្តាយ</p>
 
-            <div class="table-reponsive" style="font-size:12px">
+            <div class="table-reponsive" style="font-size:11px">
                 
                 <table  class="table borderless" >
 
@@ -35,13 +36,13 @@
 
                         <tr class="grid-row1">
                             
-                            <td  class="grid-cell1">មុខរបរ<span style="margin-left:76px;">:</span> {{$userFamily->father_job}}</td>
+                            <td  class="grid-cell1">មុខរបរ<span style="margin-left:73px;">:</span> {{$userFamily->father_job}}</td>
                         
                         </tr>
                     
                         <tr class="grid-row">
                         
-                            <td  class="grid-cell">ឈ្មោះម្តាយ<span style="margin-left:57px;">:</span> {{$userFamily->mother_name}}</td>
+                            <td  class="grid-cell">ឈ្មោះម្តាយ<span style="margin-left:56px;">:</span> {{$userFamily->mother_name}}</td>
                             
                             <td  class="grid-cell">ជាអក្សរឡាតាំង<span style="margin-left:10px;">:</span> {{$userFamily->mother_name_in_english}}</td>
                             
@@ -51,7 +52,7 @@
 
                         <tr class="grid-row">
                         
-                            <td class="grid-cell">ថ្ងៃខែឆ្នាំកំណើត<span style="margin-left:36px;">:</span> {{$userFamily->mother_date}}</td>
+                            <td class="grid-cell">ថ្ងៃខែឆ្នាំកំណើត<span style="margin-left:38px;">:</span> {{$userFamily->mother_date}}</td>
                             
                             <td  class="grid-cell">សញ្ជាតិ<span style="margin-left:10px;">:</span> {{$userFamily->mother_national}}</td>
                         
@@ -59,7 +60,7 @@
 
                         <tr class="grid-row1">
                             
-                            <td  class="grid-cell1">ទីលំនៅបច្ចុប្បន្ន<span style="margin-left:35px;">:</span> {{$userFamily->m_current_residence}}</td>
+                            <td  class="grid-cell1">ទីលំនៅបច្ចុប្បន្ន<span style="margin-left:37px;">:</span> {{$userFamily->m_current_residence}}</td>
                         
                         </tr>
 
@@ -131,7 +132,7 @@
             
             <p style="font-family: khmer mef2;margin-left:15px;">គ.ព័ត៍មានសហព័ន្ធ</p>
             
-            <div class="table-responsive" style="font-size:12px;">
+            <div class="table-responsive" style="font-size:11px;">
                 
                 <table class="table borderless" >
 
@@ -149,13 +150,13 @@
 
                         <tr class="grid-row">
                         
-                            <td  class="grid-cell1">ទីកន្លែងកំណើត<span style="margin-left:42px;">:</span> {{$userFamily->federation_current_residence}}</td>
+                            <td  class="grid-cell1">ទីកន្លែងកំណើត<span style="margin-left:40px;">:</span> {{$userFamily->federation_current_residence}}</td>
                         
                         </tr>
 
                         <tr class="grid-row">
                             
-                            <td  class="grid-cell">មុខរបរ<span style="margin-left:80px;">:</span> {{$userFamily->federation_job}}</td>
+                            <td  class="grid-cell">មុខរបរ<span style="margin-left:75px;">:</span> {{$userFamily->federation_job}}</td>
                             
                             <td  class="grid-cell">ស្ថានភាព/អង្គភាព<span style="margin-left:10px;">:</span> {{$userFamily->federation_institute}}</td>
                         
@@ -163,7 +164,7 @@
 
                         <tr class="grid-row">
                             
-                            <td  class="grid-cell">ប្រាក់ឧបត្ថម្ភ<span style="margin-left:57px;">:</span>  {{$userFamily->federation_allowance}}</td>
+                            <td  class="grid-cell">ប្រាក់ឧបត្ថម្ភ<span style="margin-left:52px;">:</span>  {{$userFamily->federation_allowance}}</td>
                             
                             <td  class="grid-cell">លេខទូរស័ព្ទ<span style="margin-left:30px;">:</span>  {{$userFamily->federation_phone_number}}</td>
                         

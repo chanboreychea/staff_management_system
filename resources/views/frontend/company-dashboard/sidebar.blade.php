@@ -3,11 +3,11 @@
         <ul class="nav" role="tablist">
             <li><a class="btn btn-border mb-20 active" href="">Dashboard</a>
             </li>
-            <li><a class="btn btn-border mb-20" href="">Jobs</a>
+            <li><a class="btn btn-border mb-20 fontKef2" href="/user/profile">ព័ត៍មានផ្ទាល់ខ្លួន</a></li>
+            <li><a class="btn btn-border mb-20 fontKef2" href="">ព័ត៍មានអំពីស្ថានភាព</a>
             </li>
-            <li><a class="btn btn-border mb-20" href="">Orders</a></li>
-            <li><a class="btn btn-border mb-20" href="/user/profile">My Profile</a></li>
-            <li>
+            {{-- <li><a class="btn btn-border mb-20" href="">Orders</a></li>
+            <li> --}}
                  <!-- Authentication -->
                  <form method="POST">
                     @csrf

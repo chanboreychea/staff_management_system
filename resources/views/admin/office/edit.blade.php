@@ -20,7 +20,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12 pb-2">
+                    {{-- <div class="col-lg-4 col-md-6 col-sm-12 pb-2">
                         <label for="exampleFormControlInput1">នាយកដ្នាន</label>
                         <div class="dropdown show">
                             <select id="department" class="form-control" name="departmentId">
@@ -31,7 +31,7 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-lg-4 col-md-12 col-sm-12 pb-2">
                         <label for="exampleFormControlInput1">ស្ថានភាព</label>
                         <div class="dropdown show">

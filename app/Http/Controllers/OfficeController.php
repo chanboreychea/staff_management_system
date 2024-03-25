@@ -33,16 +33,16 @@ class OfficeController extends Controller
     {
         $request->validate([
             'officeNameKh' => 'bail|required|max:100',
-            'departmentId' => ['required', Rule::exists('departments', 'id')],
+            // 'departmentId' => ['required', Rule::exists('departments', 'id')],
             'description' => 'max:255'
         ], [
             'officeNameKh.required' => 'សូមបញ្ចូលនូវឈ្មោះការិយាល័យ',
             'officeNameKh.max' => 'អក្សរអនុញ្ញាតត្រឹម​ ១០០​ តួរ',
-            'departmentId.exists' => 'ឈ្មោះនាយកដ្ឋានមិនត្រឹមត្រូវ',
+            // 'departmentId.exists' => 'ឈ្មោះនាយកដ្ឋានមិនត្រឹមត្រូវ',
             'description.max' => 'អក្សរអនុញ្ញាតត្រឹម​ ២៥៥​ តួរ'
         ]);
         $office = new Office();
-        $office->departmentId = $request->input('departmentId');
+        // $office->departmentId = $request->input('departmentId');
         $office->officeNameKh = $request->input('officeNameKh');
         $office->description = $request->input('description');
         $office->active = Active::ACTIVE;
@@ -77,17 +77,17 @@ class OfficeController extends Controller
     {
         $request->validate([
             'officeNameKh' => 'bail|required|max:100',
-            'departmentId' => ['required', Rule::exists('departments', 'id')],
+            // 'departmentId' => ['required', Rule::exists('departments', 'id')],
             'description' => 'max:255'
         ], [
             'officeNameKh.required' => 'សូមបញ្ចូលនូវឈ្មោះនាយកដ្ឋាន',
             'departmentNameKh.max' => 'អក្សរអនុញ្ញាតត្រឹម​ ១០០​ តួរ',
-            'departmentId.exists' => 'ឈ្មោះនាយកដ្ឋានមិនត្រឹមត្រូវ',
+            // 'departmentId.exists' => 'ឈ្មោះនាយកដ្ឋានមិនត្រឹមត្រូវ',
             'description.max' => 'អក្សរអនុញ្ញាតត្រឹម​ ២៥៥​ តួរ'
         ]);
 
         $office = Office::findOrFail($officeId);
-        $office->departmentId = $request->input('departmentId');
+        // $office->departmentId = $request->input('departmentId');
         $office->officeNameKh = $request->input('officeNameKh');
         $office->description = $request->input('description');
         $office->active = $request->input('active');

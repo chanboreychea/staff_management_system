@@ -381,6 +381,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 $(".file-upload").click();
             });
         });
+        // -----------------Show and hide form create_user--------------
+        $(document).ready(function() {
+            // Initial state based on the value of hiddenDevState input
+            var initialState = $('#hidden_dev_state').val();
+            if (initialState === 'hidden') {
+                $('#hidden_dev').show();
+            } else {
+                $('#hidden_dev').hide();
+            }
+            if ($('.role').val() == 1) {
+                $('#hideValue input').val('');
+                $('#hidden_dev').hide('slow');
+            }
+            $(".role").on('change', function() {
+                var selectValue = $(this).val();
+                if (selectValue == 1) {
+                    $('#hidden_dev').hide('slow');
+                    $('#hidden_dev_state').val('visible'); // Update the value of hiddenDevState input
+                    $('#hideValue input').val('');
+                    
+                } else {
+                    $('#hidden_dev').show('slow');
+                    $('#hidden_dev_state').val('hidden'); // Update the value of hiddenDevState input
+                    
+                }
+            });
+        });
+        
+    
     </script>
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->

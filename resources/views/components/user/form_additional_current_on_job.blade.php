@@ -34,7 +34,7 @@
                     
                         <label class="text-sm">មុខតំណែង</label>
                         
-                        <input 
+                        {{-- <input 
                             
                             type="text" class="form-control form-control-sm" placeholder="មុខតំណែង" 
                             
@@ -42,7 +42,26 @@
 
                             required 
 
-                            value="<?=old('position_additional_position_on_current_job1.0')?>">
+                            value="<?=old('position_additional_position_on_current_job1.0')?>"> --}}
+                            @if(isset($roles))
+                                
+                            <select id="role" class="custom-select custom-select-sm" name="position_additional_position_on_current_job1[]">
+                            
+                                @foreach ($roles as $key => $role)
+                           
+                                <option value="{{ $role->id }}" {{ $role->id == old('position_additional_position_on_current_job1.0') ? 'selected' : '' }}>
+                            
+                                    {{ $role->roleNameKh }}
+                                </option>
+                       
+                                @endforeach
+                            </select>
+                       
+                        @else
+                        
+                            <p>No roles found</p>
+                        
+                        @endif
                     
                     </div>
 

@@ -48,11 +48,11 @@ class UserController extends Controller
     {
         $request->validate(
             [
-                'roleId' => ['required', Rule::exists('roles', 'id')],
+                // 'roleId' => ['required', Rule::exists('roles', 'id')],
                 'firstNameKh' => ['bail', 'required', 'max:100'],
                 'lastNameKh' => ['bail', 'required', 'max:100'],
-                'departmentId' => ['nullable', Rule::exists('departments', 'id')],
-                'officeId' => ['nullable', Rule::exists('offices', 'id')],
+                // 'departmentId' => ['nullable', Rule::exists('departments', 'id')],
+                // 'officeId' => ['nullable', Rule::exists('offices', 'id')],
                 'email' => ['bail', 'required', 'email', Rule::unique('users', 'email')],
                 'password' => ['bail', 'required', Password::min(8)->mixedCase()->letters()->numbers()->symbols()],
                 'phoneNumber' => ['bail', 'required', Rule::unique('users', 'phoneNumber')],
@@ -64,13 +64,13 @@ class UserController extends Controller
                 'img' => 'required',
             ],
             [
-                'roleId.exists' => 'ឈ្មោះតួនាទីមិនត្រឹមត្រូវ',
+                // 'roleId.exists' => 'ឈ្មោះតួនាទីមិនត្រឹមត្រូវ',
                 'firstNameKh.required' => 'សូមបញ្ចូលនាមខ្លួន',
                 'firstNameKh.max' => 'អក្សរអនុញ្ញាតត្រឹម​ ១០០​ តួរ',
                 'lastNameKh.required' => 'សូមបញ្ចូលគោត្តនាម',
                 'lastNameKh.max' => 'អក្សរអនុញ្ញាតត្រឹម​ ១០០​ តួរ',
-                'officeId.exists' => 'ឈ្មោះការិយាល័យមិនត្រឹមត្រូវ',
-                'departmentId.exists' => 'ឈ្មោះនាយកដ្ឋានមិនត្រឹមត្រូវ',
+                // 'officeId.exists' => 'ឈ្មោះការិយាល័យមិនត្រឹមត្រូវ',
+                // 'departmentId.exists' => 'ឈ្មោះនាយកដ្ឋានមិនត្រឹមត្រូវ',
                 'email.required' => 'សូមបញ្ចូលអ៊ីម៉ែលរបស់អ្នក',
                 'email.unique' => 'អ៊ីម៉ែលមានរួចហើយ',
                 'password.required' => 'សូមបញ្ចូលលេខសម្ងាត់',
@@ -100,23 +100,23 @@ class UserController extends Controller
 
         $user = new User();
 
-        $roleId = $request->input('roleId');
-        $user->roleId = $roleId;
+        // $roleId = $request->input('roleId');
+        // $user->roleId = $roleId;
 
-        $role = DB::table('roles')->where('id', '=', $roleId)->first();
-        if ($role->roleNameKh == RoleUnit::HEAD_OF_UNIT || $role->roleNameKh == RoleUnit::DEPUTY_HEAD_OF_UNIT) {
+        // $role = DB::table('roles')->where('id', '=', $roleId)->first();
+        // if ($role->roleNameKh == RoleUnit::HEAD_OF_UNIT || $role->roleNameKh == RoleUnit::DEPUTY_HEAD_OF_UNIT) {
 
-            $user->departmentId = null;
-            $user->officeId = null;
-        } else if ($role->roleNameKh == RoleUnit::DIRECTOR_OF_DEPARTMENT || $role->roleNameKh == RoleUnit::DEPUTY_DIRECTOR_OF_DEPARTMENT) {
-            $user->departmentId = $request->input('departmentId');
-            $user->officeId = null;
-        } else {
-            $officeId = $request->input('officeId');
-            $department = DB::table('offices')->where('id', '=', $officeId)->first();
-            $user->departmentId = $department->departmentId;
-            $user->officeId = $officeId;
-        }
+        //     $user->departmentId = null;
+        //     $user->officeId = null;
+        // } else if ($role->roleNameKh == RoleUnit::DIRECTOR_OF_DEPARTMENT || $role->roleNameKh == RoleUnit::DEPUTY_DIRECTOR_OF_DEPARTMENT) {
+        //     $user->departmentId = $request->input('departmentId');
+        //     $user->officeId = null;
+        // } else {
+        //     $officeId = $request->input('officeId');
+        //     $department = DB::table('offices')->where('id', '=', $officeId)->first();
+        //     $user->departmentId = $department->departmentId;
+        //     $user->officeId = $officeId;
+        // }
 
         $user->firstNameKh = $request->input('firstNameKh');
         $user->lastNameKh = $request->input('lastNameKh');
@@ -131,12 +131,15 @@ class UserController extends Controller
         $user->pobAddress = $request->input('pobAddress');
         $user->currentAddress = $request->input('currentAddress');
         $user->referent = $request->input('referent');
+        $user->roleAction = $request->input('role_action');
         $user->codeEconomy = $request->input('codeEconomy');
         $user->passport = $request->input('passport');
         $user->identifyCard = $request->input('identifyCard');
         $user->exprireDateIdenCard = $request->input('exprireDateIdenCard');
         $user->exprirePassport = $request->input('exprirePassport');
         $user->engName=$request->input('engName');
+        $user->civilServantId = $request->input('civilServantId');
+
         $user->image = $filename;
         $user->save();
         return redirect('/users');
@@ -244,22 +247,22 @@ class UserController extends Controller
             $user->password = Hash::make($request->input('password'), ['rounds' => 12]);
         }
 
-        $roleId = $request->input('roleId');
-        $user->roleId = $roleId;
+        // $roleId = $request->input('roleId');
+        // $user->roleId = $roleId;
 
-        $role = DB::table('roles')->where('id', '=', $roleId)->first();
-        if ($role->roleNameKh == RoleUnit::HEAD_OF_UNIT || $role->roleNameKh == RoleUnit::DEPUTY_HEAD_OF_UNIT) {
-            $user->departmentId = null;
-            $user->officeId = null;
-        } else if ($role->roleNameKh == RoleUnit::DIRECTOR_OF_DEPARTMENT || $role->roleNameKh == RoleUnit::DEPUTY_DIRECTOR_OF_DEPARTMENT) {
-            $user->departmentId = $request->input('departmentId');
-            $user->officeId = null;
-        } else {
-            $officeId = $request->input('officeId');
-            $department = DB::table('offices')->where('id', '=', $officeId)->first();
-            $user->departmentId = $department->departmentId;
-            $user->officeId = $officeId;
-        }
+        // $role = DB::table('roles')->where('id', '=', $roleId)->first();
+        // if ($role->roleNameKh == RoleUnit::HEAD_OF_UNIT || $role->roleNameKh == RoleUnit::DEPUTY_HEAD_OF_UNIT) {
+        //     $user->departmentId = null;
+        //     $user->officeId = null;
+        // } else if ($role->roleNameKh == RoleUnit::DIRECTOR_OF_DEPARTMENT || $role->roleNameKh == RoleUnit::DEPUTY_DIRECTOR_OF_DEPARTMENT) {
+        //     $user->departmentId = $request->input('departmentId');
+        //     $user->officeId = null;
+        // } else {
+        //     $officeId = $request->input('officeId');
+        //     $department = DB::table('offices')->where('id', '=', $officeId)->first();
+        //     $user->departmentId = $department->departmentId;
+        //     $user->officeId = $officeId;
+        // }
 
         $user->firstNameKh = $request->input('firstNameKh');
         $user->lastNameKh = $request->input('lastNameKh');
@@ -271,6 +274,7 @@ class UserController extends Controller
         $user->status = $request->input('status');
         $user->nationality = $request->input('nationality');
         $user->pobAddress = $request->input('pobAddress');
+        $user->roleAction = $request->input('role_action');
         $user->referent = $request->input('referent');
         $user->codeEconomy = $request->input('codeEconomy');
         $user->passport = $request->input('passport');
@@ -278,6 +282,7 @@ class UserController extends Controller
         $user->exprireDateIdenCard = $request->input('exprireDateIdenCard');
         $user->exprirePassport = $request->input('exprirePassport');
         $user->engName=$request->input('engName');
+        $user->civilServantId = $request->input('civilServantId');
         $user->save();
         return redirect('/users');
     }
@@ -437,63 +442,7 @@ class UserController extends Controller
     public function add_user_infromation(Request $request)
     {
 
-        // $form_validation= $request->validate(
-
-        //     [
-        //         'constitution'                                  => ['bail', 'required'],
-
-        //         'position_enteing_public_service'               => ['bail', 'required'],
-
-        //         'ministry_enteing_public_service'               => ['bail', 'required'],
-
-        //         'office_enteing_public_service'                 => ['bail', 'required'],
-
-        //         'economy_enteing_public_service'                => ['bail', 'required'],
-
-        //         'date_enteing_public_service'                   => ['bail', 'required'],
-
-        //         'constitution'                                  => ['bail', 'required'],
-
-        //         'position_enteing_public_service'               => ['bail', 'required'],
-
-        //         'ministry_enteing_public_service'               => ['bail', 'required'],
-
-        //         'economy_enteing_public_service'                => ['bail', 'required'],
-
-        //         'office_enteing_public_service'                 => ['bail', 'required'],
-
-        //         'constitution_misitry_rank'                     => ['bail', 'required'],
-
-        //         'constitution_amendment_date'                   => ['bail', 'required'],
-
-        //         'position_current_job_situation'                => ['bail', 'required'],
-
-        //         'effective_date_of_last_promotion'              => ['bail', 'required'],
-
-        //         'economy_current_job_situation'                 => ['bail', 'required'],
-
-
-        //     ],
-        //     [
-        //         'constitution.required'                      =>"សូមធ្វើការបញ្ចូលទិន្ន័យ",
-
-        //         'position_enteing_public_service.required'   =>"សូមធ្វើការបញ្ចូលទិន្ន័យ",
-
-        //         'ministry_enteing_public_service.required'   =>"សូមធ្វើការបញ្ចូលទិន្ន័យ",
-
-        //         'office_enteing_public_service.required'     =>"សូមធ្វើការបញ្ចូលទិន្ន័យ",
-
-        //         'economy_enteing_public_service.required'    =>"សូមធ្វើការបញ្ចូលទិន្ន័យ",
-
-        //         'date_enteing_public_service.required'       =>"សូមធ្វើការបញ្ចូលទិន្ន័យ",
-
-        //         'comfirm_date.required'                      =>"សូមធ្វើការបញ្ចូលទិន្ន័យ",
-
-        //     ]
-        // );
-
-        // if($form_validation==true){
-
+    
         $id = intval($request->input("using_user_id"));
 
         $data = [
@@ -508,6 +457,8 @@ class UserController extends Controller
 
             'office_enteing_public_service'                 => $request->input('office_enteing_public_service'),
 
+            'department_enteing_public_service'             =>$request->input('department_enteing_public_service'),
+
             'economy_enteing_public_service'                => $request->input('economy_enteing_public_service'),
 
             'date_enteing_public_service'                   => $request->input('date_enteing_public_service'),
@@ -521,6 +472,10 @@ class UserController extends Controller
             'effective_date_of_last_promotion'              => $request->input('effective_date_of_last_promotion'),
 
             'position_current_job_situation'                => $request->input('position_current_job_situation'),
+
+            'department_current_job_situation'              =>$request->input('department_current_job_situation'),
+
+            'office_current_job_situation'                  =>$request->input('office_current_job_situation'),
 
             'economy_current_job_situation'                 => $request->input('economy_current_job_situation'),
 
@@ -549,10 +504,7 @@ class UserController extends Controller
 
         return redirect()->back()->with('msg', 'ត្រូវបានរក្សារទុកដោយជោគជ័យ');
 
-        // }
-        // else{
-        //     return redirect()->back();
-        // }
+        
 
     }
 
@@ -562,6 +514,18 @@ class UserController extends Controller
         $AdditionalPositionCurrentJob = AdditionalPositionCurrentJob::where('using_user_id', '=', $id)->get();
 
         $user_information = User_Infromation::where('using_user_id', '=', $id)->get()->first();
+
+        $user = User::where('id', '=', $id)->get()->first();
+
+   
+       
+        $roles = Role::select()->orderBy('id', 'desc')->get();
+
+        $departments=Department::select()->orderBy('id','desc')->get();
+
+        $offices = Office::all();
+
+
         $html = '';
         // // Check if the user exists
         // if ($user_information->isEmpty()) {
@@ -571,22 +535,33 @@ class UserController extends Controller
         // $html = View::make('components.user.user_form_information', ['id'=>$id,'AdditionalPositionCurrentJob'=>$AdditionalPositionCurrentJob,'user_information'=>$user_information])->render();
         if ($user_information === null) {
             // If $user_information is empty, render the view without it
-            $html = View::make('components.user.user_form_information', ['id' => $id])->render();
+            $html = View::make('components.user.user_form_information', ['id' => $id,'roles' => $roles,'departments'=>$departments,'offices'=>$offices,'user'=>$user])->render();
         } else {
             // If $user_information is not empty, render the view with all data
             $html = View::make('components.user.user_form_information', [
 
                 'id' => $id,
 
+                'user'=>$user,
+
                 'AdditionalPositionCurrentJob' => $AdditionalPositionCurrentJob,
 
-                'user_information' => $user_information
+                'user_information' => $user_information,
+
+                 'roles' => $roles,
+
+                 'departments'=>$departments,
+
+                 'offices'=>$offices
 
             ])->render();
         }
-
+     
         return response()->json(['html' => $html]);
     }
+
+    
+  
 
     public function detail(Request $request, $id)
     {
@@ -598,7 +573,13 @@ class UserController extends Controller
 
         $userWoringHistoryPrivateSetor = UserWoringHistoryPrivateSetor::where('using_user_id', '=', $id)->get();
 
-        $userWoringHistoryPrivateSetor = UserWoringHistoryPrivateSetor::where('using_user_id', '=', $id)->get();
+        $roles = Role::select()->orderBy('id', 'desc')->get();
+
+        $departments = Department::all();
+        
+        $offices = Office::all();
+
+        // $userWoringHistoryPrivateSetor = UserWoringHistoryPrivateSetor::where('using_user_id', '=', $id)->get();
 
         $userModalCertificate = UserModalCertificate::where('using_user_id', '=', $id)->get();
 
@@ -634,7 +615,14 @@ class UserController extends Controller
 
             'userFamily'    => $userFamily,
 
-            'userEducationLevel' => $userEducationLevel
+            'userEducationLevel' => $userEducationLevel,
+
+            'roles' => $roles,
+
+            'departments'=>$departments,
+            
+            'offices'=>$offices
+
 
         ])->render();
         // Return the HTML content as JSON
@@ -774,8 +762,6 @@ class UserController extends Controller
             ]
         );
         if ($form_validation == true) {
-
-
 
             $data = [
 

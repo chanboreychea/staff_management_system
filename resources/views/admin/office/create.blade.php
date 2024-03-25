@@ -21,20 +21,20 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2">
+                    {{-- <div class="col-lg-6 col-md-6 col-sm-12 pb-2">
                         <label for="exampleFormControlInput1">នាយកដ្នាន</label>
                         <div class="dropdown show">
                             <select id="department" class="form-control" name="departmentId">
                                 @foreach ($departments as $key => $department)
                                     <option value="{{ $department->id }}">{{ $department->departmentNameKh }}</option>
                                 @endforeach
-                                <option value="5">ssss</option>
+                             
                             </select>
                             @error('departmentId')
                                 <div class="error-message">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">មតិ</label>

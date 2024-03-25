@@ -25,6 +25,8 @@ class User_Infromation extends Model
 
         'date_enteing_public_service'                ,
 
+        'department_enteing_public_service',
+
         'comfirm_date'                                ,
 
         'constitution_misitry_rank'                    ,
@@ -44,6 +46,10 @@ class User_Infromation extends Model
         'equivalent'                                    ,
 
         'economy_additional_position_on_current_job',
+
+        'office_current_job_situation',
+
+        'department_current_job_situation',
 
         'document'              
     ];

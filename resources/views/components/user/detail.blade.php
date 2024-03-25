@@ -24,7 +24,7 @@
 <div>
 
 
-<style>
+    <style>
         
         
     .box{
@@ -61,7 +61,7 @@
     }
     .grid-row {
         display: grid;
-        grid-template-columns: repeat(4, 1fr); /* Create three equal columns */
+        grid-template-columns: repeat(3, 1fr); /* Create three equal columns */
         gap: 20px; /* Adjust the gap between cells */
        
     }
@@ -161,9 +161,9 @@
                         
                         <center><img src="{{ asset('images/logo2.png') }}" alt="" ></center>
                         
-                        <center  style="font-family: khmer mef2;color: #2F5496;font-size:14px;">អង្គភាពសវនកម្មផ្ទៃក្នុងនៃ</center>
-                        <center  style="font-family: khmer mef2;color: #2F5496;font-size:14px;">អាជ្ញាធរនៃសេវាហិរញវត្ថុមិនមែនធនាគា</center>
-
+                    
+                        <center  style="font-family: khmer mef2;color: #2F5496;font-size:13px;">អាជ្ញាធរនៃសេវាហិរញ្ញវត្ថុមិនមែនធនាគា</center>
+                        <center  style="font-family: khmer mef2;color: #2F5496;font-size:14px;">អង្គភាពសវនកម្មផ្ទៃក្នុង</center>
 
                     </div>
                     
@@ -184,12 +184,12 @@
                     
                 </div>
                 
-                <center style="font-family: khmer mef2;">ប្រវត្តិរូបមន្ត្រីរបស់</center>
+                <center style="font-family: khmer mef2;">ប្រវត្តិរូបមន្ត្រី</center>
                         
-                <center style="font-family: khmer mef2;"> អង្គភាពសវនកម្មផ្ទៃក្នុងនៃអាជ្ញាធរនៃសេវាហិរញវត្ថុមិនមែនធនាគារ <br></center>
+                <center style="font-family: khmer mef2;"> បម្រើការងារនៅអង្គភាពសវនកម្មផ្ទៃក្នុងនៃអាជ្ញាធរសេវាហិរញ្ញវត្ថុមិនមែនធនាគារ <br></center>
 
                 <!-- -------------------------------ព័ត៍មានផ្ទាល់ខ្លួន-------------------------------- -->
-                @component('components.table_detail_users.user_information2', ['user' => $user, 'user_information' => $user_information, 'additionalPCJ' => $additionalPCJ])
+                @component('components.table_detail_users.user_information2', ['user' => $user, 'user_information' => $user_information, 'additionalPCJ' => $additionalPCJ,'departments'=>$departments,'roles'=>$roles,'offices'=>$offices])
                     <!-- button -->
                 @endcomponent
 
@@ -284,7 +284,7 @@
     </div>
 </div>
 
-    <div id="page-content" hidden>
+<div id="page-content" hidden>
     
         <style>
         
@@ -423,8 +423,9 @@
                         
                         <center><img src="{{ asset('images/logo2.png') }}" alt="" ></center>
                         
-                        <center  style="font-family: khmer mef2;color: #2F5496;font-size:14px;">អង្គភាពសវនកម្មផ្ទៃក្នុងនៃ</center>
-                        <center  style="font-family: khmer mef2;color: #2F5496;font-size:14px;">អាជ្ញាធរនៃសេវាហិរញវត្ថុមិនមែនធនាគា</center>
+                                           
+                        <center  style="font-family: khmer mef2;color: #2F5496;font-size:13px;">អាជ្ញាធរនៃសេវាហិរញ្ញវត្ថុមិនមែនធនាគា</center>
+                        <center  style="font-family: khmer mef2;color: #2F5496;font-size:14px;">អង្គភាពសវនកម្មផ្ទៃក្នុង</center>
 
 
                     </div>
@@ -446,12 +447,12 @@
                     
                 </div>
                 
-                <center style="font-family: khmer mef2;">ប្រវត្តិរូបមន្ត្រីរបស់</center>
+                <center style="font-family: khmer mef2;">ប្រវត្តិរូបមន្ត្រី</center>
                         
-                <center style="font-family: khmer mef2;"> អង្គភាពសវនកម្មផ្ទៃក្នុងនៃអាជ្ញាធរនៃសេវាហិរញវត្ថុមិនមែនធនាគារ <br></center>
+                <center style="font-family: khmer mef2;"> បម្រើការងារនៅអង្គភាពសវនកម្មផ្ទៃក្នុងនៃអាជ្ញាធរសេវាហិរញ្ញវត្ថុមិនមែនធនាគារ <br></center>
 
                     <!-- -------------------------------ព័ត៍មានផ្ទាល់ខ្លួន-------------------------------- -->
-                    @component('components.table_detail_users.user_information', ['user' => $user, 'user_information' => $user_information, 'additionalPCJ' => $additionalPCJ])
+                    @component('components.table_detail_users.user_information', ['user' => $user, 'user_information' => $user_information, 'additionalPCJ' => $additionalPCJ,'departments'=>$departments,'roles'=>$roles,'offices'=>$offices])
                         <!-- button -->
                     @endcomponent
 
@@ -482,12 +483,7 @@
                         <!-- button -->
                     @endcomponent
                 
-                <style>
                 
-
-/* You can add more specific styles as per your requirement */
-
-                </style>
                 <div class=" container-fluid">
 
                 

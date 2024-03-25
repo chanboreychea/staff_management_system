@@ -11,7 +11,7 @@
                     <tr>
                         <th>លរ</th>
                         <th>ការិយាល័យ</th>
-                        <th>នាយកដ្ឋាន</th>
+                        {{-- <th>នាយកដ្ឋាន</th> --}}
                         <th>មតិ</th>
                         <th>ស្ថានភាព</th>
                         <th>សកម្មភាព</th>
@@ -21,7 +21,7 @@
                     <tr>
                         <td scope="row">{{ $office->id }}</td>
                         <td>{{ $office->officeNameKh }}</td>
-                        <td>{{ $office->department->departmentNameKh }}</td>
+                        {{-- <td>{{ $office->department->departmentNameKh }}</td> --}}
                         <td>{{ $office->description }}</td>
 
                         @if ($office->active == 1)

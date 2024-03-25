@@ -12,7 +12,7 @@
                     <tr>
                         <th>លរ</th>
                         <th>ការិយាល័យ</th>
-                        <th>នាយកដ្ឋាន</th>
+                        {{-- <th>នាយកដ្ឋាន</th> --}}
                         <th>មតិ</th>
                         <th>សកម្ម</th>
                         <th>សកម្មភាព</th>
@@ -23,7 +23,7 @@
                         <tr>
                             <td scope="row">{{ $key + 1 }}</td>
                             <td>{{ $item->officeNameKh }}</td>
-                            <td>{{ $item->department->departmentNameKh }}</td>
+                            {{-- <td>{{ $item->department->departmentNameKh }}</td> --}}
                             <td>{{ $item->description }}</td>
 
                             @if ($item->active == 1)

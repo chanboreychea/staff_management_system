@@ -3,8 +3,19 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h5 class="m-0"><a class="btn btn-dark btn-sm" href="/users">ថយក្រោយ</a></h5>
+            <div class="d-flex justify-content-between align-content-between">
+            {{-- <h5 class="m-0"><a class="btn btn-dark btn-sm" href="/users">ថយក្រោយ</a></h5> --}}
+            {{-- <div>
+                <select name="" id="" class="form-control">
+                    @foreach ($roles as $key => $role)
+                    <option value="{{ $role->id }}">{{ $role->roleNameKh }}
+                    </option>
+                @endforeach
+                </select>
+            </div> --}}
         </div>
+        </div>
+       
         <div class="card-body">
             <form action="/users" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -30,18 +41,18 @@
                 </div>
                 <br>
                 <div class="form-row">
-                    <div id="cardIdW" class="col-lg-4 col-md-6 col-sm-12">
+                    {{-- <div id="cardIdW" class="col-lg-6 col-md-6 col-sm-12">
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">អត្តលេខ</label>
+                            <label for="exampleFormControlInput1">អត្តលេខស្កេន</label>
                             <input type="text" name="idCard" value="{{ old('idCard') }}" class="form-control"
                                 id="exampleFormControlInput1" placeholder="អត្តលេខ">
                             @error('idCard')
                                 <div class="error-message">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
+                    </div> --}}
 
-                    <div id="roleW" class="col-lg-4 col-md-6 col-sm-12 pb-2">
+                    {{-- <div id="roleW" class="col-lg-4 col-md-6 col-sm-12 pb-2">
                         <label for="exampleFormControlInput1">តួនាទី</label>
                         <div class="dropdown show" id="exampleFormControlInput1">
                             <select onchange="getValue()" id="role" class="form-control" name="roleId">
@@ -54,8 +65,42 @@
                                 <div class="error-message">{{ $message }}</div>
                             @enderror
                         </div>
+                    </div> --}}
+{{-- 
+                    <div id="roleW" class="col-lg-4 col-md-6 col-sm-12 pb-2">
+                        <label for="exampleFormControlInput1">តួនាទី</label>
+                        <div class="dropdown show" id="exampleFormControlInput1">
+                            <select onchange="getValue()" id="role" class="form-control role" name="roleId">
+                                @foreach ($roles as $key => $role)
+                                    <option value="{{ $role->id }}" {{ $role->id == old('roleId') ? 'selected' : '' }}>
+                                        {{ $role->roleNameKh }}
+                                    </option>
+                                @endforeach
+                                
+                            </select>
+                            @error('roleId')
+                                <div class="error-message">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div> --}}
+                    
+                    <div id="roleW" class="col-lg-6 col-md-6 col-sm-12 pb-2">
+                        <label for="exampleFormControlInput1">សូមជ្រើសរើស</label>
+                        <div class="dropdown show" id="exampleFormControlInput1">
+                            <select onchange="getValue()" id="role_action" class="form-control role" name="role_action">
+                               
+                                <option value="0"  {{ 0 == old('role_action') ? 'selected' : '' }}>មន្រ្តីមុខងារសារធារណៈ</option>
+                                <option value="1"  {{ 1 == old('role_action') ? 'selected' : '' }}>មន្រ្តីលក្ខន្តិកៈ</option>
+                                
+                            </select>
+                            {{-- @error('role_action')
+                                <div class="error-message">{{ $message }}</div>
+                            @enderror --}}
+                        </div>
                     </div>
-
+                    
+                    <input type="hidden" id="hidden_dev_state" name="hiddenDevState" value="{{ old('hiddenDevState', 'hidden') }}">
+                    
                     <script>
                         var myRole = @json($roles);
 
@@ -121,7 +166,18 @@
                         }
                     </script>
 
-                    <div id="departmentW" style="display: none" class="col-lg-3 col-md-6 col-sm-12 pb-2">
+                    <div id="cardIdW" class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">អត្តលេខស្កេន</label>
+                            <input type="text" name="idCard" value="{{ old('idCard') }}" class="form-control"
+                                id="exampleFormControlInput1" placeholder="អត្តលេខ">
+                            @error('idCard')
+                                <div class="error-message">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    {{-- <div id="departmentW" style="display: none" class="col-lg-3 col-md-6 col-sm-12 pb-2">
                         <label for="exampleFormControlInput1">នាយកដ្ឋាន</label>
                         <div class="dropdown show" id="exampleFormControlInput1">
                             <select id="department" class="form-control" name="departmentId">
@@ -134,9 +190,9 @@
                                 <div class="error-message">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
+                    </div> --}}
 
-                    <div id="officeW" class="col-lg-4 col-md-6 col-sm-12 pb-2">
+                    {{-- <div id="officeW" class="col-lg-4 col-md-6 col-sm-12 pb-2">
                         <label for="exampleFormControlInput1">ការិយាល័យ</label>
                         <div class="dropdown show">
                             <select id="office" id="office" class="form-control" name="officeId">
@@ -148,7 +204,7 @@
                                 <div class="error-message">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
+                    </div> --}}
 
                 </div>
                 <div class="form-row">
@@ -177,11 +233,11 @@
                         <div class="form-group">
                             <label for="exampleFormControlInput1">ជាអក្សរឡាតាំង</label>
                             <input type="text" name="engName" value="{{ old('engName') }}" class="form-control"
-                                id="exampleFormControlInput1" placeholder="ជាអក្សរឡាតាំង">
+                                placeholder="ជាអក្សរឡាតាំង">
                            
                         </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-3 col-sm-12">
                         <div class="form-group">
                             <label for="exampleFormControlInput1">អ៊ីម៉ែល</label>
                             <input type="email" name="email" value="{{ old('email') }}" class="form-control"
@@ -232,7 +288,7 @@
 
                 </div>
                 <div class="form-row">
-                    <div class="col-lg-4 col-sm-6">
+                    <div class="col-lg-4 col-sm-12">
                         <div class="form-group">
                             <label for="dateOfBirth">ថ្ងៃ-ខែ-ឆ្នាំ កំណើត</label>
                             <input type="date" id="dateOfBirth" name="dateOfBirth" value="{{ old('dateOfBirth') }}"
@@ -243,7 +299,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-lg-4 col-sm-6">
+                    <div class="col-lg-4 col-sm-12">
                         <div class="form-group">
                             <label for="exampleFormControlInput1">សញ្ជាត្តិ</label>
                             <input type="text" name="nationality" value="{{ old('nationality') }}"
@@ -287,8 +343,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="form-row" id="hidden_dev">
+                    <div id="cardIdW" class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">អត្តលេខមន្រី្តរាជការ</label>
+                            <input type="text" name="civilServantId" value="{{ old('civilServantId') }}" class="form-control"
+                               placeholder="អត្តលេខមន្រី្តរាជការ">
+                           
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="currentAddress">លេខប័ណ្ណសម្គាល់មន្រ្តីសហវ</label>
                             <input type="text" name="referent" value="{{ old('referent')}}"
@@ -296,7 +360,7 @@
                            
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="currentAddress">លេខកូដក្នុងអង្គភាព</label>
                             <input type="text" name="codeEconomy" value="{{ old('codeEconomy')}}"
@@ -304,7 +368,11 @@
                            
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-12">
+                   
+                </div>
+                <div class="form-row">
+                    
+                    <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="currentAddress">អត្តសញ្ញាណប័ណ្ណ</label>
                             <input type="text" name="identifyCard" value="{{ old('identifyCard') }}"
@@ -312,7 +380,7 @@
                           
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-12">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="currentAddress">ការបរិច្ឆេទផុតកំណត់</label>
                             <input type="date" name="exprireDateIdenCard" value="{{ old('exprireDateIdenCard') }}"
@@ -321,8 +389,9 @@
                         </div>
                     </div>
                 </div>
-        
-                <div class="form-row">
+                <div class="form-row" >
+                    
+                    
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="currentAddress">លិខិតឆ្លងដែន</label>
@@ -342,7 +411,13 @@
                 </div>
 
                 <br>
-                <input type="submit" class="btn btn-primary btn-sm" value="រក្សាទុក">
+                {{-- <input type="submit" class="btn btn-primary btn-sm" value="រក្សាទុក"> --}}
+                <div class=" d-flex justify-between align-items-center">
+                    <input type="submit" class="btn btn-primary btn-sm" value="រក្សាទុក">
+                    <div class="card-header">
+                        <h5 class="m-0"><a class="btn btn-dark btn-sm" href="/users">ថយក្រោយ</a></h5>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

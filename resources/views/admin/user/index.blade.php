@@ -6,26 +6,36 @@
         <div class="card-header">
             <h5 class="m-0"><a href="/users/create" class="btn btn-success btn-sm">បន្ថែមមន្ត្រី</a></h5>
         </div>
-        <div class="card-body table-responsive">
+        <div class="card-body table-responsive" style="font-size: 12px;vertical-align:middle">
             <table class="table table-sm table-bordered">
-                <thead class="thead-dark ">
+                <thead class="thead-dark " style="background: rgb(5, 38, 103);color: white" >
                     <tr>
-                        <th>ល.រ</th>
-                        <th>ឈ្មោះ</th>
-                        <th>តួនាទី</th>
-                        <th>ភេទ</th>
-                        <th>លេខទូរស័ព្ទ</th>
-                        <th>អ៊ីម៉ែល</th>
-                        <th>រូបភាព</th>
-                        <th>សកម្មភាព</th>
+                        <th class="nowrap">ល.រ</th>
+                        <th class="nowrap">ឈ្មោះ</th>
+                        <th class="nowrap">មុខងារ</th>
+                        <th class="nowrap">ភេទ</th>
+                        <th class="nowrap">លេខទូរស័ព្ទ</th>
+                        <th class="nowrap">អ៊ីម៉ែល</th>
+                        <th class="nowrap">រូបភាព</th>
+                        <th class="nowrap">សកម្មភាព</th>
                     </tr>
                 </thead>
-                <tbody class="text-sm">
+                <tbody   style="font-size: 12px;" >
                     @foreach ($users as $key => $user)
-                        <tr>
+                        <tr style="vertical-align:middle">
                             <td scope="row">{{ $key + 1 }}</td>
                             <td>{{ $user->lastNameKh }} {{ $user->firstNameKh }}</td>
-                            <td>{{ $user->role->roleNameKh }}</td>
+                            <td class="nowrap">
+                                {{-- {{ optional($user->role)->roleNameKh }} --}}
+                              
+                                    @if ($user->roleAction==0)
+                                         មន្រ្តីសារធារណៈ
+                                    @else
+                                        មន្រ្តីលក្ខន្តិកៈ
+                                    
+                                    @endif
+                             
+                            </td>
                             <td>
                                 @if ($user->gender == 'f')
                                     ស្រី

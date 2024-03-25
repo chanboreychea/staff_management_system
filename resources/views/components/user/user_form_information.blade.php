@@ -19,7 +19,7 @@
                 
                 <div class="form-row">
                     
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-12">
                     
                         <label class="text-sm">ការបរិច្ឆេទចូលបំរើការងាររដ្ឋដំបូង</label>
                     
@@ -36,34 +36,15 @@
                                 
                                 placeholder="ថ្ងៃ-ខែ​​​-ឆ្នាំ">                    
                     </div>
-                    
-                    <div class="form-group col-md-6">
-                     
-                        <label class="text-sm">ការបរិច្ឆេទតាំងស៊ប់</label>
-                     
-                        <!-- <input type="text" class="form-control form-control-sm" placeholder="ការបរិច្ជេទចូលបំរើការងារដំបូង"> -->
-                        <input  type="date" 
-                        
-                                
-                                
-                                name="comfirm_date" 
-                                
-                                value="<?= !empty($user_information)?$user_information->comfirm_date:old('comfirm_date')?>"
-                                
-                                
 
-                                class="form-control form-control-sm"
-                                
-                                placeholder="ថ្ងៃ-ខែ​​​-ឆ្នាំ">
-                    </div>
-                   
+                 
                 </div>
                 
                 <div class="form-row">
                     
                     <div class="form-group col-md-6">
                     
-                        <label class="text-sm">ក្របខណ្ឌ</label>
+                        <label class="text-sm">ក្របខណ្ឌ​​ ឋានន្តរស័ក្ត​ និងថ្នាក់</label>
                     
                         <input  type="text" 
                                 
@@ -79,32 +60,7 @@
 
                                 placeholder="ក្របខណ្ឌ">
                     
-                    </div>  
-                    
-                    <div class="form-group col-md-6">
-                
-                        <label class="text-sm">មុខតំណែង</label>
-                
-                        <input  type="text" 
-                                
-                                class="form-control form-control-sm" 
-                                
-                                name="position_enteing_public_service" 
-                                
-                                 
-
-                                value="<?= !empty($user_information)?$user_information->position_enteing_public_service:old('position_enteing_public_service')?>"
-
-                                
-                                
-                                placeholder="មុខតំណែង">
-                
                     </div>
-                   
-                </div>
-                
-                <div class="form-row">
-                    
                     <div class="form-group col-md-6">
                     
                         <label class="text-sm">ក្រសួង/ស្ថាប័ន</label>
@@ -121,8 +77,47 @@
                                 
                                 placeholder="ក្រសួង/ស្ថាប័ន">
                     
-                    </div>
+                        </div>  
                     
+                   
+                </div>
+                
+                <div class="form-row">
+                    
+                   
+                    <div class="form-group col-md-6">
+                
+                        <label class="text-sm">មុខតំណែង</label>
+                
+                        {{-- <input  type="text" 
+                                
+                                class="form-control form-control-sm" 
+                                
+                                name="position_enteing_public_service" 
+                                
+                                 
+
+                                value="<?= !empty($user_information)?$user_information->position_enteing_public_service:old('position_enteing_public_service')?>"
+
+                                
+                                
+                                placeholder="មុខតំណែង"> --}}
+                       
+                            @if(isset($roles))
+                                <select onchange="getValue()" id="role" class="custom-select custom-select-sm role" name="position_enteing_public_service">
+                                    @foreach ($roles as $key => $role)
+                                        <option value="{{ $role->id }}" {{ $role->id == (!empty($user_information) ? $user_information->position_enteing_public_service : old('position_enteing_public_service')) ? 'selected' : '' }}
+                                            >
+                                            {{ $role->roleNameKh }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            @else
+                                <p>No roles found</p>
+                            @endif
+                            
+                    </div>
+                   
                     <div class="form-group col-md-6">
                 
                         <label class="text-sm">អង្គភាព</label>
@@ -146,24 +141,88 @@
                 <div class="form-row">
                     
                     <div class="form-group col-md-6 ">
-                
-                        <label class="text-sm">ការិយាល័យ</label>
-                
-                        <input  type="text" 
+                          
                         
-                                class="form-control form-control-sm" 
-                                
-                                name="office_enteing_public_service" 
-                                
-                                value="<?= !empty($user_information)?$user_information->office_enteing_public_service:old('office_enteing_public_service')?>"
-
-                                
-
-                                placeholder="ការិយាល័យ">
-                
+                        <label class="text-sm">ការិយាល័យ</label>          
+                        
+                                @if(isset($offices))
+                        
+                                    <select id="departmentSelect"  class="custom-select custom-select-sm " name="office_enteing_public_service"   >
+                            
+                                        @foreach ($offices as $key => $office)
+                            
+                                        <option value="{{ $office->id }}" {{ $office->id == (!empty($user_information) ? $user_information->office_enteing_public_service : old('office_enteing_public_service')) ? 'selected' : '' }}>
+                            
+                                            {{ $office->officeNameKh }}
+                            
+                                        </option>
+                            
+                                        @endforeach
+                            
+                                    </select>
+                                    
+                                @else
+                                    <p>No roles found</p>
+                                @endif
+                            
                     </div>
-                
+                    <div class="form-group col-md-6 ">
+                          
+                        
+                        <label class="text-sm">នាយកដ្ឋាន</label>
+                     
+                                @if(isset($departments))
+                        
+                                    <select  class="custom-select custom-select-sm " name="department_enteing_public_service"   >
+                            
+                                        @foreach ($departments as $key => $department)
+                            
+                                        <option value="{{ $department->id }}" {{ $department->id ==(!empty($user_information) ? $user_information->department_enteing_public_service : old('department_enteing_public_service')) ? 'selected' : '' }}>
+                            
+                                            {{ $department->departmentNameKh }}
+                            
+                                        </option>
+                            
+                                        @endforeach
+                            
+                                    </select>
+                                    
+                                @else
+                                    <p>No roles found</p>
+                                @endif
+                            
+                    </div>
+                 
                 </div> 
+                <div class="form-row">
+
+
+                    @if (isset($user))
+                
+                        @if ($user->roleAction==1)
+                                <p>   </p>
+                            @else
+                            
+                                <div class="form-group col-md-6">
+                                
+                                    <label class="text-sm">ការបរិច្ឆេទតាំងស៊ប់</label>
+                                
+                                    <!-- <input type="text" class="form-control form-control-sm" placeholder="ការបរិច្ជេទចូលបំរើការងារដំបូង"> -->
+                                    <input  type="date" 
+                                    
+                                            name="comfirm_date" 
+                                            
+                                            value="<?= !empty($user_information)?$user_information->comfirm_date:old('comfirm_date')?>"
+
+                                            class="form-control form-control-sm"
+                                            
+                                            placeholder="ថ្ងៃ-ខែ​​​-ឆ្នាំ">
+                                </div>
+                        @endif
+
+                   @endif
+                
+                </div>
                 
                 <!-- ស្ថានភាពមុខងារបច្ចុប្បន្ន -->
 
@@ -181,12 +240,9 @@
                                     
                                     class="form-control form-control-sm" 
                                     
-                                   
-                                    
                                     name="constitution_misitry_rank"  
                                     
                                     value="<?= !empty($user_information)?$user_information->constitution_misitry_rank:old('constitution_misitry_rank')?>"
-
 
                                     placeholder="ក្របខណ្ឌ​​ ឋានន្តរស័ក្ត​ និងថ្នាក់">
                     
@@ -199,16 +255,12 @@
                         <!-- <input type="text" class="form-control form-control-sm" placeholder="កាលបរិច្ឆេទប្តូរក្រខណ្ខ ឋានន្តរស័ក្ត និងថ្នាក់ចុងក្រោយ"> -->
                         <input  type="date" 
                                 
-                                
-                                
                                 name="constitution_amendment_date" 
                                 
                                 value="<?= !empty($user_information)?$user_information->constitution_amendment_date:old('constitution_amendment_date')?>"
 
                                 class="form-control form-control-sm" 
                                 
-
-
                                 placeholder="ថ្ងៃ-ខែ​​​-ឆ្នាំ">
                     </div>
                 
@@ -220,19 +272,25 @@
                     
                         <label class="text-sm" >មុខតំណែង</label>
                         
-                        <input  type="text" 
+                                @if(isset($roles))
                                 
-                                class="form-control form-control-sm" 
+                                <select onchange="getValue()" id="role" class="custom-select custom-select-sm  role" name="position_current_job_situation">
                                 
-                                name="position_current_job_situation" 
+                                    @foreach ($roles as $key => $role)
+                               
+                                    <option value="{{ $role->id }}" {{ $role->id ==(!empty($user_information) ? $user_information->position_current_job_situation : old('position_current_job_situation')) ? 'selected' : ''  }}>
                                 
-                              
-
-                                value="<?= !empty($user_information)?$user_information->position_current_job_situation:old('position_current_job_situation')?>"
-
-                                
-
-                                placeholder="មុខតំណែង">
+                                        {{ $role->roleNameKh }}
+                                    </option>
+                           
+                                    @endforeach
+                                </select>
+                           
+                            @else
+                            
+                                <p>No roles found</p>
+                            
+                            @endif
                     
                     </div>
                     
@@ -240,18 +298,13 @@
                     
                         <label class="text-sm" >កាលបរិច្ឆេទទទូលមុខតំណែងចុងក្រោយ</label>
                         
-                        <!-- <input type="text" class="form-control form-control-sm" placeholder="កាលបរិច្ឆេទទទូលមុខតំណែងចុងក្រោយ"> -->
                         <input  type="date" 
-                                
-                                
                                 
                                 name="effective_date_of_last_promotion" 
 
                                 value="<?= !empty($user_information)?$user_information->effective_date_of_last_promotion:old('effective_date_of_last_promotion')?>"
                                 
                                 class="form-control form-control-sm"
-
-                                
                                 
                                 placeholder="ថ្ងៃ-ខែ​​​-ឆ្នាំ">
                     </div>
@@ -272,52 +325,109 @@
 
                                 value="<?= !empty($user_information)?$user_information->economy_current_job_situation:old('economy_current_job_situation')?>"
                                 
-                                
-
                                 placeholder="អង្គភាព">
                     
                     </div>
-                   
+                    <div class="form-group col-md-6 ">
+                          
+                        <label class="text-sm">នាយកដ្ឋាន</label>
+                     
+                                @if(isset($departments))
+                        
+                                    <select   class="custom-select custom-select-sm " name="department_current_job_situation"   >
+                            
+                                        @foreach ($departments as $key => $department)
+                            
+                                        <option value="{{ $department->id }}" {{ $department->id ==(!empty($user_information) ? $user_information->department_current_job_situation : old('department_current_job_situation')) ? 'selected' : ''  }}>
+                            
+                                            {{ $department->departmentNameKh }}
+                            
+                                        </option>
+                            
+                                        @endforeach
+                            
+                                    </select>
+                                    
+                                @else
+                                    <p>No roles found</p>
+                                @endif  
+                    </div>
+                    
+                </div>
+                <div class="form-row">
+                     
+                    <div class="form-group col-md-6 ">
+                          
+                        
+                        <label class="text-sm">ការិយាល័យ</label>
+                     
+                        
+                                @if(isset($offices))
+                        
+                                    <select  class="custom-select custom-select-sm " name="office_current_job_situation"   >
+                            
+                                        @foreach ($offices as $key => $office)
+                            
+                                        <option value="{{ $office->id }}" {{ $office->id ==(!empty($user_information) ? $user_information->office_current_job_situation : old('office_current_job_situation')) ? 'selected' : ''   }}>
+                            
+                                            {{ $office->officeNameKh }}
+                            
+                                        </option>
+                            
+                                        @endforeach
+                            
+                                    </select>
+                                    
+                                @else
+                                    <p>No roles found</p>
+                                @endif
+                            
+                    </div>
                 </div>
                 
                 <!-- តួនាទីបន្ថែមលើមុខងារបច្ចុប្បន្ន -->
 
-                <h5 class="form-header d-flex align-items-center justify-content-between">
-                    <div><i class="fas fa-address-book"></i>តួនាទីបន្ថែមលើមុខងារបច្ចុប្បន្ន </div>
+                @if (isset($user))    
+                
+                @if ($user->roleAction==1)
                     
-                    <div>
+                    <p></p>
+                
+                @else        
+            
+                    <h5 class="form-header d-flex align-items-center justify-content-between">
+                        <div><i class="fas fa-address-book"></i>តួនាទីបន្ថែមលើមុខងារបច្ចុប្បន្ន </div>
                         
-                        @component('components.buttons.btn_count',['class'=>'btn_click'])
-                            <!-- button -->
-                        @endcomponent
-                    </div>
-                </h5> 
-
-                <div class="row" id="modal-body">
-
-               
-                @if(!empty($AdditionalPositionCurrentJob) )
-                   
-                    @component('components.user.form_edit_additional_current_on_job',['AdditionalPositionCurrentJob'=>$AdditionalPositionCurrentJob])
-                    
-                    @endcomponent
-                @else
-         
-                    <div class="row1">
-                 
-                        {{-- @component('components.user.form_additional_current_on_job')
+                        <div>
                             
-                        @endcomponent --}}
-                        
-                    </div>
-               
-                @endif
-            
+                            @component('components.buttons.btn_count',['class'=>'btn_click'])
+                                <!-- button -->
+                            @endcomponent
+                        </div>
+                    </h5> 
 
-              
-     
-                </div>
+                    <div class="row" id="modal-body">
+                
+                        @if(!empty($AdditionalPositionCurrentJob))
+                        
+                            @component('components.user.form_edit_additional_current_on_job',['AdditionalPositionCurrentJob'=>$AdditionalPositionCurrentJob,'roles'=>$roles])
+                            
+                            @endcomponent
+                        @else
+                
+                            <div class="row1">
+                        
+                                {{-- @component('components.user.form_additional_current_on_job')
+                                    
+                                @endcomponent --}}
+                                
+                            </div>
+                    
+                        @endif
             
+                    </div>
+                @endif
+                @endif
                 <!-- <button type="submit" class="btn btn-submit ">Create Account</button>  -->
 
                 <button type="submit" class="btn btn-sm" style=" background: #696cff; color:white">រក្សាទុក</button>
@@ -342,6 +452,11 @@
 }
 
 </style>
+@if(isset($roles))
+    <script>
+        var rolesData = @json($roles);
+    </script>
+@endif
 <script>
 
     // ---------------------------Alert Auto--------------------------------------------
@@ -375,6 +490,7 @@
     });
 
 //    ----------------------------Insert Row see only modal--------------------------------------
+
     $(document).ready(function(){
 
         $('.btn_click').click(function(){
@@ -383,13 +499,16 @@
 
                 // we use user_information cus it in user_information
 
-                var formHtml = `{!! view('components.user.form_additional_current_on_job', ['user_information' => $user_information])->render() !!}`;
+                var formHtml = `{!! view('components.user.form_additional_current_on_job', ['user_information' => $user_information,'roles' => $roles])->render() !!}`;
             
             @else
-        
-                var formHtml = `{!! view('components.user.form_additional_current_on_job')->render() !!}`;
-            
+          
+            @if(!empty($roles))
+                var formHtml = `{!! view('components.user.form_additional_current_on_job',['roles' => $roles])->render() !!}`;
             @endif
+           
+            @endif
+            
             
             // Insert the content of the additional_current_on_job component
          

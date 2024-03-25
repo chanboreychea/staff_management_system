@@ -35,14 +35,14 @@
                         </div>
                     </div>
 
-                    <div id="roleWw" class="col-lg-3 col-sm-12 pb-2">
+                    {{-- <div id="roleWw" class="col-lg-3 col-sm-12 pb-2">
                         <label for="exampleFormControlInput1">តួនាទី</label>
                         <div class="dropdown show">
                             <select id="active" class="form-control" name="roleId" disabled>
                                 <option value="{{ $user->roleId }}">{{ $user->role->roleNameKh }}</option>
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
 
                     @if ($user->departmentId)
                         <div id="departmentWw" class="col-lg-3 col-md-6 col-sm-12 pb-2">
@@ -67,7 +67,7 @@
                         </div>
                     @endif
 
-                    @if ($user->role->roleNameKh == 'ប្រធានអង្គភាព' || $user->role->roleNameKh == 'អនុប្រធានអង្គភាព')
+                    {{-- @if ($user->role->roleNameKh == 'ប្រធានអង្គភាព' || $user->role->roleNameKh == 'អនុប្រធានអង្គភាព')
                         <script>
                             var roleWw = document.getElementById("roleWw");
                             var idCardWw = document.getElementById("idCardWw");
@@ -85,7 +85,7 @@
                             idCardWw.className = "col-lg-4 col-md-6 col-sm-12 pb-2";
                             departmentWw.className = "col-lg-4 col-md-6 col-sm-12 pb-2";
                         </script>
-                    @endif
+                    @endif --}}
 
                 </div>
                 <div class="form-row">

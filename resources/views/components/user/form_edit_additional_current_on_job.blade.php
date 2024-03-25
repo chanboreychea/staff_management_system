@@ -47,13 +47,33 @@
                         <div class="input_width">
 
                             <input type="hidden" value="{{ $job['id']}}" name="additional_current_job_id[]">
+                            {{-- 
                             
                             <input type="text" class=" form-control-sm  form-control" 
                             
                             placeholder="មុខតំណែង" name="position_additional_position_on_current_job[]" 
                             
-                            value="{{ $job['position'] ?? old('position_additional_position_on_current_job.' . $index) }}">
+                            value="{{ $job['position'] ?? old('position_additional_position_on_current_job.' . $index) }}"> --}}
+                            
+                            @if(isset($roles))
+                                
+                            <select id="role" class="custom-select custom-select-sm" name="position_additional_position_on_current_job[]">
+                            
+                                @foreach ($roles as $key => $role)
+                           
+                                <option value="{{ $role->id }}" {{ $role->id ==  $job['position'] ? 'selected' : '' }}>
+                            
+                                    {{ $role->roleNameKh }}
+                                </option>
+                       
+                                @endforeach
+                            </select>
                         
+                            @else
+                            
+                                <p>No roles found</p>
+                            
+                            @endif
                         </div>
                     </td>
                     

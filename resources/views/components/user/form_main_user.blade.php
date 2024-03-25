@@ -25,29 +25,34 @@
         </div>
         <br>
         <div class="form-row">
-            <div class="col-lg-3 col-md-12 col-sm-12">
-                <div class="form-group">
-                    <label for="idCard">អត្តលេខ</label>
-                    <input type="text" name="idCard" value="{{ $user->idCard }}" class="form-control" id="idCard"
-                        placeholder="អត្តលេខ">
-                    @error('idCard')
-                        <div class="error-message">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 pb-2">
+           
+            {{-- <div class="col-lg-3 col-md-6 col-sm-12 pb-2">
                 <label for="roleId">តួនាទី</label>
                 <div class="dropdown show">
-                    <select id="active" class="form-control" name="roleId">
+                    <select id="active" class="form-control role" name="roleId">
                         <option value="{{ $user->roleId }}">{{ $user->role->roleNameKh }}</option>
                         @foreach ($roles as $key => $role)
                             <option value="{{ $role->id }}">{{ $role->roleNameKh }}</option>
                         @endforeach
                     </select>
                 </div>
+            </div> --}}
+            <div id="roleW" class="col-lg-6 col-md-6 col-sm-12 pb-2">
+                <label for="exampleFormControlInput1">សូមជ្រើសរើស</label>
+                <div class="dropdown show" id="exampleFormControlInput1">
+                    <select onchange="getValue()" id="role_action" class="form-control role" name="role_action">
+                       
+                        <option value="0"  {{ 0 == $user->roleAction ? 'selected':'' }}>មន្រ្តីមុខងារសារធារណៈ</option>
+                        <option value="1"  {{ 1 == $user->roleAction ? 'selected' : '' }}>មន្រ្តីលក្ខន្តិកៈ</option>
+                        
+                    </select>
+                    {{-- @error('role_action')
+                        <div class="error-message">{{ $message }}</div>
+                    @enderror --}}
+                </div>
             </div>
-
-            <div id="departmentW" class="col-lg-3 col-md-6 col-sm-12 pb-2">
+            <input type="hidden" id="hidden_dev_state" name="hiddenDevState" value="{{ old('hiddenDevState', 'hidden') }}">
+            {{-- <div id="departmentW" class="col-lg-3 col-md-6 col-sm-12 pb-2">
                 <label for="department">នាយកដ្ឋាន</label>
                 <div class="dropdown show" id="department">
                     <select id="department" class="form-control" name="departmentId">
@@ -61,10 +66,10 @@
                         @endforeach
                     </select>
                 </div>
-            </div>
+            </div> --}}
 
 
-            <div class="col-lg-3 col-md-6 col-sm-12 pb-2">
+            {{-- <div class="col-lg-3 col-md-6 col-sm-12 pb-2">
                 <label for="officeId">ការិយាល័យ</label>
                 <div class="dropdown show">
                     <select id="office" class="form-control" name="officeId">
@@ -75,6 +80,16 @@
                             <option value="{{ $office->id }}">{{ $office->officeNameKh }}</option>
                         @endforeach
                     </select>
+                </div>
+            </div> --}}
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="form-group">
+                    <label for="idCard">អត្តលេខស្កេន</label>
+                    <input type="text" name="idCard" value="{{ $user->idCard }}" class="form-control" id="idCard"
+                        placeholder="អត្តលេខ">
+                    @error('idCard')
+                        <div class="error-message">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 
@@ -105,7 +120,7 @@
                 <div class="form-group">
                     <label for="exampleFormControlInput1">ជាអក្សរឡាតាំង</label>
                     <input type="text" name="engName" value="{{ $user->engName }}" class="form-control"
-                        id="exampleFormControlInput1" placeholder="ជាអក្សរឡាតាំង">
+                       placeholder="ជាអក្សរឡាតាំង">
                    
                 </div>
             </div>
@@ -224,7 +239,34 @@
             </div>
 
         </div>
-        <div class="form-row">
+        <div class="form-row" id="hidden_dev">
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="form-group" id="hideValue" >
+                    <label for="exampleFormControlInput1">អត្តលេខមន្រី្តរាជការ</label>
+                    <input type="text" name="civilServantId" value="{{$user->civilServantId}}" class="form-control"
+                       placeholder="អត្តលេខមន្រី្តរាជការ">
+                   
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="form-group" id="hideValue" >
+                    <label for="currentAddress">លេខប័ណ្ណសម្គាល់មន្រ្តីសហវ</label>
+                    <input type="text" name="referent" value="{{ $user->referent}}"
+                        class="form-control" id="referent" placeholder="លេខប័ណ្ណសម្គាល់មន្រ្តីសហវ">
+                   
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="form-group" id="hideValue" >
+                    <label for="currentAddress">លេខកូដក្នុងអង្គភាព</label>
+                    <input type="text" name="codeEconomy" value="{{$user->codeEconomy}}"
+                        class="form-control" id="codeEconomy" placeholder="លេខកូដក្នុងអង្គភាព">
+                   
+                </div>
+            </div>
+           
+        </div>
+        {{-- <div class="form-row">
             <div class="col-lg-3 col-md-6 col-sm-12">
                 <div class="form-group">
                     <label for="currentAddress">លេខប័ណ្ណសម្គាល់មន្រ្តីសហវ</label>
@@ -257,8 +299,26 @@
                  
                 </div>
             </div>
+        </div> --}}
+        <div class="form-row">
+              
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="currentAddress">អត្តសញ្ញាណប័ណ្ណ</label>
+                    <input type="text" name="identifyCard" value="{{ $user->identifyCard}}"
+                        class="form-control" id="identifyCard" placeholder="អត្តសញ្ញាណប័ណ្ណ">
+                  
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="currentAddress">ការបរិច្ឆេទផុតកំណត់</label>
+                    <input type="date" name="exprireDateIdenCard" value="{{ $user->exprireDateIdenCard }}"
+                        class="form-control" id="exprireDateIdenCard" placeholder="ការបរិច្ឆេទផុតកំណត់">
+                    
+                </div>
+            </div>
         </div>
-
         <div class="form-row">
             <div class="col-lg-6 col-md-6 col-sm-12">
                 <div class="form-group">
@@ -277,6 +337,7 @@
                 </div>
             </div>
         </div>
+       
         <br>
         <div class=" d-flex justify-between align-items-center">
             <input type="submit" class="btn btn-primary btn-sm" value="ធ្វើបច្ចុប្បន្នភាព">

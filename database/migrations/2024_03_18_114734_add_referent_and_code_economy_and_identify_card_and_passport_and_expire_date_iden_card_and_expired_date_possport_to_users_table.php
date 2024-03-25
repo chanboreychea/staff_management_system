@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
+            $table->string('roleAction')->default(0);
             $table->string('referent', 255)->nullable();
             $table->string('engName', 255)->nullable();
             $table->string('codeEconomy', 100)->nullable();
             $table->string('passport', 255)->nullable(); // Corrected length to match the up method
             $table->string('identifyCard', 255)->nullable(); // Corrected length to match the up method
+            $table->string('civilServantId',255)->nullable();//អត្តលេខមន្រី្តរាជការ
             $table->date('exprireDateIdenCard')->nullable();
             $table->date('exprirePassport')->nullable();
            
@@ -50,6 +52,12 @@ return new class extends Migration
             }
             if (Schema::hasColumn('users', 'engName')) {
                 $table->dropColumn('engName');
+            }
+            if(Schema::hasColumn('users','civilServantId')){
+                $table->dropColumn('civilServantId');
+            }
+            if(Schema::hasColumn('users','roleAction')){
+                $table->dropColumn('roleAction');
             }
         });
     }
