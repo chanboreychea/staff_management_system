@@ -13,7 +13,8 @@ return new class extends Migration
     {
         // Add the roleId column again
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('roleId')->nullable()->constrained('departments')->onDelete('cascade');
+            $table->foreignId('roleId')->nullable()->change();
+
         });
     }
 
@@ -24,12 +25,9 @@ return new class extends Migration
     {
         // Drop the foreign key constraint
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['roleId']);
+            $table->foreignId('roleId')->nullable(false)->change();
         });
 
-        // Drop the roleId column
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('roleId');
-        });
+       
     }
 };
