@@ -36,30 +36,6 @@
                 @endforeach
 
             </ul> --}}
-<<<<<<< HEAD
-            <ul class="main-menu">
-              <li class="has-children"><a class="" href="#" style="font-family: khmer mef1">វត្តមាន</a></li>
-              <li class="has-children" ><a class="" href="/c" style="font-family: khmer mef1">កក់បន្ទប់ប្រជុំ</a></li>
-              <li class="has-children"><a class="" href="/user/dashboard" style="font-family: khmer mef1">ប្រវិត្តរូបមន្រ្តី</a>
-                {{-- {{session('user_id')}} --}}
-              </li>
-            
-             
-            </ul>
-          </nav>
-          <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span
-              class="burger-icon-mid"></span><span class="burger-icon-bottom"></span></div>
-        </div>
-        <div class="header-right">
-          <div class="block-signin">
-            <!-- <a class="text-link-bd-btom hover-up" href="page-register.html">Register</a> -->
-            @guest
-              @if(session('user_id'))
-                <a class="btn btn-default btn-shadow ml-40 hover-up" style="width: 200px" href="/user/dashboard">User Dashobard</a>
-              @else
-                <a class="btn btn-default btn-shadow ml-40 hover-up" href="{{ route('login') }}">Sign in</a>
-              @endif
-=======
                     <ul class="main-menu">
                         <li class="has-children"><a class="" href="/attendances/{{ session('user_id') }}"
                                 style="font-family: khmer mef1">វត្តមាន</a></li>
@@ -67,7 +43,6 @@
                                 style="font-family: khmer mef1">កក់បន្ទប់ប្រជុំ</a></li>
                         <li class="has-children"><a class="" href="/user/dashboard"
                                 style="font-family: khmer mef1">ប្រវិត្តរូបមន្រ្តី</a>{{ session('user_id') }}</li>
->>>>>>> 33aa5018e8cb910c2843dc21b4c959fca4ed2d81
 
 
                     </ul>
