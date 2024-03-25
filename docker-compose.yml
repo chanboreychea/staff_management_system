@@ -2,17 +2,17 @@ version: "3.8"
 services:
 
   # Database Server
-  database:
-    image: mysql:8.0
-    ports:
-      - 3306:3306
-    environment:
-      - MYSQL_DATABASE=${DB_DATABASE}
-      - MYSQL_USER=admin
-      - MYSQL_PASSWORD=${DB_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-    volumes:
-      - db-data:/var/lib/mysql
+  #  database:
+  #    image: mysql:8.0
+  #    ports:
+  #      - 3306:3306
+  #    environment:
+  #      - MYSQL_DATABASE=${DB_DATABASE}
+  #      - MYSQL_USER=admin
+  #      - MYSQL_PASSWORD=${DB_PASSWORD}
+  #      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+  #    volumes:
+  #      - db-data:/var/lib/mysql
 
   # PHP Service
   php:
@@ -29,8 +29,9 @@ services:
       - ./:/var/www
     ports:
       - 8070:8000
-    depends_on:
-      - database
 
-volumes:
-    db-data: ~
+#    depends_on:
+#      - database
+
+#volumes:
+#    db-data: ~
