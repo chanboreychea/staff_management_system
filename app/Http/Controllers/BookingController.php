@@ -32,7 +32,7 @@ class BookingController extends Controller
                 'description',
                 'isApprove'
             );
-            
+
         $a = clone $query;
         $b = clone $query;
 
