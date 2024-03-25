@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::table('offices', function (Blueprint $table) {
          // Add the departmentId column with nullable foreign key constraint
-         $table->foreignId('departmentId')->nullable()->constrained('departments')->onDelete('cascade');
+         $table->foreignId('departmentId')->nullable()->change();
+
       });
-       
+
     }
 
     /**
@@ -24,11 +25,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('offices', function (Blueprint $table) {
-             // Drop the foreign key constraint
-             $table->dropForeign(['departmentId']);
-            
-             // Drop the departmentId column
-             $table->dropColumn('departmentId');
+            $table->foreignId('departmentId')->nullable(false)->change();
         });
     }
 };
