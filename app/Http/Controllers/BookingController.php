@@ -13,11 +13,9 @@ class BookingController extends Controller
 {
     public function index()
     {
-        $booking = DB::table('booking')
+        $query = DB::table('booking')
             ->join('users', 'users.id', '=', 'booking.userId')
             ->where('booking.date', '>=', Carbon::now()->format('Y-m-d'))
-            ->where('isApprove', Approve::PENDING)
-            ->orderByDesc('date')
             ->select(
                 'booking.id',
                 'users.firstNameKh',
@@ -32,16 +30,24 @@ class BookingController extends Controller
                 'room',
                 'time',
                 'description',
-            )->get();
+                'isApprove'
+            );
+            
+        $a = clone $query;
+        $b = clone $query;
 
-        return view('admin.booking.index', compact('booking'));
+        $isApproveBooking = $a->where('isApprove', '!=', Approve::PENDING)->orderByDesc('date')->get();
+        $booking = $b->where('isApprove', Approve::PENDING)->orderByDesc('date')->get();
+
+
+        return view('admin.booking.index', compact('booking', 'isApproveBooking'));
     }
 
     public function userDestroy(Request $request, string $bookingId)
     {
         $booking = Booking::find($bookingId);
         $booking->delete();
-        return redirect('/c')->with('message', 'Update Successfully');
+        return redirect('/calendar')->with('message', 'Update Successfully');
     }
 
     public function adminApprove(Request $request, string $bookingId)
@@ -225,10 +231,10 @@ class BookingController extends Controller
             //hamm// $this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
 
             DB::commit();
-            return redirect('/c')->with('message', 'Booking Successfully.');
+            return redirect('/calendar')->with('message', 'Booking Successfully.');
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect('/c')->with('message', 'Please try again!!');
+            return redirect('/calendar')->with('message', 'Please try again!!');
         }
     }
 
