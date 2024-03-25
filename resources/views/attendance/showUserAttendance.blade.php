@@ -1,6 +1,7 @@
 @extends('frontend.layouts.master')
 
 @section('contents')
+{{-- link boostrap5 --}}
 
 
     <section class="section-box mt-120">
