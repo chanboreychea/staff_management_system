@@ -41,8 +41,8 @@
                                 style="font-family: khmer mef1">វត្តមាន</a></li>
                         <li class="has-children"><a class="" href="/calendar"
                                 style="font-family: khmer mef1">កក់បន្ទប់ប្រជុំ</a></li>
-                        <li class="has-children"><a class="" href="/user/dashboard"
-                                style="font-family: khmer mef1">ប្រវិត្តរូបមន្រ្តី</a>{{ session('user_id') }}</li>
+                        <li class="has-children"><a class="" href="/user/profile"
+                                style="font-family: khmer mef1">ប្រវិត្តរូបមន្រ្តី</a></li>
 
 
                     </ul>

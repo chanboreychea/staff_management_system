@@ -1,6 +1,16 @@
 @extends('frontend.layouts.master')
 
 @section('contents')
+<script>
+    var bootstrapCSS = document.createElement('link');
+       bootstrapCSS.href = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css';
+       bootstrapCSS.rel = 'stylesheet';
+       bootstrapCSS.integrity = 'sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH';
+       bootstrapCSS.crossOrigin = 'anonymous';
+
+       // Append the link element to the document body
+       document.body.appendChild(bootstrapCSS);
+</script>
     @if ($message = Session::get('message'))
         <div class="container position-relative" id="success-alert" style="z-index:999;">
 
@@ -28,24 +38,24 @@
     @endif
 
     <section class="section-box mt-120">
-        <div class="container" style="font-family: Khmer, sans-serif">
+        <div class="container fontKef1" >
             <div class="row pe-5 px-5 mt-5">
                 <div class="col-lg-8 col-sm-12">
                     <div class="card">
-                        <h5 class="card-header bg-info text-light" style="font-family: Khmer, sans-serif">
+                        <h6 class="card-header bg-default text-light fontKef2" >
                             ការកក់បន្ទប់ប្រជុំ
-                        </h5>
+                        </h6>
                         <div class="card-body">
                             <div class="container-fluid" id="myGroup">
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <button id="room1" class="btn btn-lg btn-primary w-100" data-toggle="collapse"
+                                        <button id="room1" class="btn btn-sm btn-primary w-100" data-toggle="collapse"
                                             value="A" href="#collapseExample" role="button" aria-expanded="false"
                                             aria-controls="collapseExample">បន្ទប់ A
                                         </button>
                                     </div>
                                     <div class="col-lg-6">
-                                        <button id="room2" class="btn btn-lg btn-primary w-100" data-toggle="collapse"
+                                        <button id="room2" class="btn btn-sm btn-primary w-100" data-toggle="collapse"
                                             value="B" data-target="#collapseExample2" aria-expanded="false"
                                             aria-controls="collapseExample2">បន្ទប់ B
                                         </button>
@@ -56,9 +66,9 @@
                                         <div class="collapse" id="collapseExample" data-parent="#myGroup">
                                             <div class="card card-body">
                                                 <div class="container" id="room1">
-                                                    <div class="row">
+                                                    <div class="row ">
                                                         @for ($i = 8; $i < 12; $i++)
-                                                            <div class="col">
+                                                            <div class="col nowrap">
                                                                 <button type="button"
                                                                     value="A {{ $i }}-{{ $i + 1 }}"
                                                                     data-value="A {{ $i }}-{{ $i + 1 }}"
@@ -71,7 +81,7 @@
 
                                                     <div class="row">
                                                         @for ($i = 1; $i < 5; $i++)
-                                                            <div class="col">
+                                                            <div class="col nowrap">
                                                                 <button type="button"
                                                                     value="A {{ $i }}-{{ $i + 1 }}"
                                                                     data-value="A {{ $i }}-{{ $i + 1 }}"
@@ -91,7 +101,7 @@
                                                 <div class="container">
                                                     <div class="row">
                                                         @for ($i = 8; $i < 12; $i++)
-                                                            <div class="col">
+                                                            <div class="col nowrap">
                                                                 <button type="button"
                                                                     value="B {{ $i }}-{{ $i + 1 }}"
                                                                     data-value="B {{ $i }}-{{ $i + 1 }}"
@@ -103,7 +113,7 @@
                                                     </div>
                                                     <div class="row">
                                                         @for ($i = 1; $i < 5; $i++)
-                                                            <div class="col">
+                                                            <div class="col nowrap">
                                                                 <button type="button"
                                                                     value="B {{ $i }}-{{ $i + 1 }}"
                                                                     data-value="B {{ $i }}-{{ $i + 1 }}"
@@ -120,8 +130,8 @@
                                     </div>
                                 </div>
                                 <div class="row mt-2">
-                                    <table class="table table-sm table-bordered">
-                                        <thead>
+                                    <table class="table table-sm table-bordered fontKef1">
+                                        <thead style="font-size:12px">
                                             <th class="text-center">ល.រ</th>
                                             <th class="text-center">ប្រធានបទ</th>
                                             <th class="text-center">ដឹកនាំដោយ</th>
@@ -130,7 +140,7 @@
                                             <th class="text-center">ម៉ោង</th>
                                             <th class="text-center">ឈ្មោះអ្នកកក់</th>
                                         </thead>
-                                        <tbody>
+                                        <tbody style="font-size:12px">
                                             @foreach ($booking as $key => $item)
                                                 <tr>
                                                     <td class="text-center">{{ $key + 1 }}</td>
@@ -152,10 +162,10 @@
                 </div>
                 <div class="col-lg-4 col-sm-12">
                     <div class="card">
-                        <h5 class="card-header bg-danger text-light" style="font-family: Khmer, sans-serif">ព័ត៌មានលម្អិត</h5>
-                        <form action="/booking" method="POST">
+                        <h6 class="card-header bg-danger text-light fontKef2" >ព័ត៌មានលម្អិត</h6>
+                        <form action="/booking" method="POST" style="font-size:13px;font-weight: bold">
                             @csrf
-                            <div class="card-body">
+                            <div class="card-body fontKef1">
                                 <div class="container">
                                     <input type="hidden" value="{{ $now }}" id="dateInput" name="date">
                                     <input type="hidden" name="userId" value="">
@@ -163,12 +173,12 @@
                                     <input type="hidden" id="timeInput" name="times">
 
                                     <div class="form-group text-muted m-0">
-                                        <label for="inputEmail3" class="text-info">កាលបរិច្ឆេទ:</label>
-                                        <h5 id="inputEmail3" style="font-family: Khmer, sans-serif">{{ $date }}</h5>
+                                        <label for="inputEmail3" class="fontKef1">កាលបរិច្ឆេទ:</label>
+                                        <h6 id="inputEmail3" class="fontKef1 text-success" style="font-size:13px;font-weight: bold" >{{ $date }}</h6>
                                     </div>
                                     <hr>
                                     <div class="form-group row text-muted">
-                                        <label for="roomDiv" class="col-form-label col-lg-3 text-info">បន្ទប់:</label>
+                                        <label for="roomDiv" class="col-form-label col-lg-3 ">បន្ទប់:</label>
                                         <div class="col-lg-9 d-flex align-items-center p-0">
                                             <div id="roomDiv"></div>
                                             {{-- @error('room')
@@ -179,7 +189,7 @@
                                     </div>
                                     <hr>
                                     <div class="form-group row text-muted">
-                                        <label for="timeDiv" class="col-form-label col-lg-3 text-info">ម៉ោង:</label>
+                                        <label for="timeDiv" class="col-form-label col-lg-3 ">ម៉ោង:</label>
                                         <div class="col-lg-9 d-flex align-items-center p-0">
                                             <div class="mb-0" id="timeDiv"></div>
                                             {{-- @error('times')
@@ -189,10 +199,10 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <div class="form-group row text-muted">
-                                        <label for="topic" class="col-form-label col-lg-5 text-info">ប្រធានបទ:</label>
+                                    <div class="form-group row text-muted align-middle">
+                                        <label for="topic" class="col-form-label col-lg-5" style="vertical-align: middle;">ប្រធានបទ:</label>
                                         <div class="col-lg-7">
-                                            <input type="text" class="form-control" name="topic" id="topic"
+                                            <input type="text" class="form-control-sm" name="topic" id="topic"
                                                 placeholder="ប្រធានបទ">
                                             @error('topic')
                                                 <small id="emailHelp"
@@ -200,12 +210,12 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <hr>
-                                    <div class="form-group row text-muted">
+                                    {{-- <hr> --}}
+                                    <div class="form-group row text-muted align-middle">
                                         <label for="directedBy"
-                                            class="col-form-label col-lg-5 text-info">ដឹកនាំដោយ:</label>
+                                            class="col-form-label col-lg-5  "  style="vertical-align: middle;">ដឹកនាំដោយ:</label>
                                         <div class="col-lg-7">
-                                            <input type="text" class="form-control" name="directedBy" id="directedBy"
+                                            <input type="text" class="form-control-sm" name="directedBy" id="directedBy"
                                                 placeholder="ឈ្មោះ">
                                             @error('directedBy')
                                                 <small id="emailHelp"
@@ -213,12 +223,12 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <hr>
-                                    <div class="form-group row text-muted">
+                                    {{-- <hr> --}}
+                                    <div class="form-group row text-muted align-middle">
                                         <label for="meetingLevel"
-                                            class="col-form-label col-lg-5 text-info">កម្រិតប្រជុំ:</label>
+                                            class="col-form-label col-lg-5 ">កម្រិតប្រជុំ:</label>
                                         <div class="col-lg-7">
-                                            <select name="meetingLevel" id="meetingLevel" class="form-control">
+                                            <select name="meetingLevel" id="meetingLevel" class="form-select form-select-sm">
                                                 <option value="ការិយាល័យ">ការិយាល័យ</option>
                                                 <option value="អន្តរការិយាល័យ">អន្តរការិយាល័យ</option>
                                                 <option value="នាយកដ្ឋាន">នាយកដ្ឋាន</option>
@@ -229,12 +239,12 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <div class="form-group row text-muted">
+                                    <div class="form-group row text-muted align-middle">
                                         <label for="member"
-                                            class="col-form-label col-lg-5 text-info">ចំនួនសមាជិក:</label>
+                                            class="col-form-label col-lg-5 "  style="vertical-align: middle;">ចំនួនសមាជិក:</label>
                                         <div class="col-lg-7">
                                             <input type="number" min="2" max="50"
-                                                class="form-control w-100" name="member" id="member"
+                                                class="form-control-sm borderNone w-100" name="member" id="member"
                                                 placeholder="ចំនួន">
                                             @error('member')
                                                 <small id="emailHelp"
@@ -243,10 +253,10 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <div class="form-group row text-muted">
-                                        <label for="description" class="form-label col-lg-4 text-info">គោលបំណង:</label>
+                                    <div class="form-group row text-muted align-middle">
+                                        <label for="description" class="form-label col-lg-4 " style="vertical-align: middle;" >គោលបំណង:</label>
                                         <div class="col-lg-8">
-                                            <textarea name="description" id="description" class="form-control" cols="30" rows="3"></textarea>
+                                            <textarea name="description" id="description" class="form-control-sm" cols="30" rows="3"></textarea>
                                         </div>
                                     </div>
                                 </div>

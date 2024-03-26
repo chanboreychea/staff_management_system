@@ -1,6 +1,17 @@
 @extends('frontend.layouts.master')
 
 @section('contents')
+
+<script>
+     var bootstrapCSS = document.createElement('link');
+        bootstrapCSS.href = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css';
+        bootstrapCSS.rel = 'stylesheet';
+        bootstrapCSS.integrity = 'sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH';
+        bootstrapCSS.crossOrigin = 'anonymous';
+
+        // Append the link element to the document body
+        document.body.appendChild(bootstrapCSS);
+</script>
     @if ($message = Session::get('message'))
         <div class="container position-relative" id="success-alert" style="z-index:999;">
 
@@ -27,7 +38,7 @@
         </div>
     @endif
 
-    <section class="section-box mt-120">
+    <section class="section-box mt-120 fontKef1" style="font-size: 12px;">
         <div class="container" style="font-family: Khmer, sans-serif">
             <div class="row">
                 <div class="col-lg-12 mb-50">

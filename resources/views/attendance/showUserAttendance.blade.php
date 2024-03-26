@@ -1,15 +1,22 @@
 @extends('frontend.layouts.master')
 
 @section('contents')
-{{-- link boostrap5 --}}
+<script>
+    var bootstrapCSS = document.createElement('link');
+       bootstrapCSS.href = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css';
+       bootstrapCSS.rel = 'stylesheet';
+       bootstrapCSS.integrity = 'sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH';
+       bootstrapCSS.crossOrigin = 'anonymous';
 
-
-    <section class="section-box mt-120">
+       // Append the link element to the document body
+       document.body.appendChild(bootstrapCSS);
+</script>
+    <section class="section-box mt-120 fontKef1" style="font-size:12px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 mb-50">
                     <div class="content-single">
-                        <h3 class="mt-0 mb-0 color-brand-1" style="font-family: Khmer, sans-serif">វត្តមានរបស់អ្នក</h3><br>
+                        <h3 class="mt-0 mb-0 color-brand-1 fontKef2" >វត្តមានរបស់អ្នក</h3><br>
                         {{-- <div class="dashboard_overview"> --}}
 
                         <div class="card">
@@ -38,7 +45,7 @@
                                         </div>
 
                                         <div class="col-lg-4">
-                                            <input class="btn btn-warning w-100" type="submit" value="Filter">
+                                            <input class="btn btn-sm btn-warning w-100 text-white" type="submit" value="Filter">
                                         </div>
                                     </div>
                                 </form>

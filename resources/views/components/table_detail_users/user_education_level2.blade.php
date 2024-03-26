@@ -88,9 +88,7 @@
                     </tr>   
                     @endif 
                     @endforeach
-                    <tr>
-                     <td style="text-align:left;font-size:12px" colspan="5">គ្រឿងឥស្សរិយយស ប័ណ្ណសរសើរ</td>
-                </tr>
+                    
                     @foreach($userEducationLevel as $row )
 
                     @if($row->status==3)

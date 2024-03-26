@@ -4,6 +4,7 @@
 
 @section('content')
 
+
     @if ($message = Session::get('message'))
         <div class="container position-relative" id="success-alert">
 

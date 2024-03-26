@@ -1364,8 +1364,8 @@
         input[type=time],
         input[type=tel] {
             border: 1px solid #1ca7741a;
-            border-radius: 0;
-            height: 50px;
+            /* border-radius: 0; */
+            /* height: 50px; */
             box-shadow: none;
             padding-left: 20px;
             font-size: 14px;
@@ -1434,8 +1434,8 @@
         
         .form-group input {
             background: #fff;
-            border: 1px solid #1ca7741a;
-            height: 53px;
+            /* border: 1px solid #1ca7741a; */
+            /* height: 53px; */
             box-shadow: none;
             padding-left: 20px;
             font-size: 16px;
@@ -9619,8 +9619,11 @@
             padding: 8px 15px 7px 15px;
             margin-left: 5px;
         }
-        /* vouch */
         
         .fontKef2 {
             font-family: khmer mef2;
+        }
+        
+        .fontKef1 {
+            font-family: khmer mef1;
         }
