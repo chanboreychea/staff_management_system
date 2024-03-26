@@ -8,10 +8,12 @@ RUN apt-get install -y unzip libpq-dev libcurl4-gnutls-dev \
     libpng-dev \
     libzip-dev \
     zip \
-&& docker-php-ext-install zip \
-&& docker-php-ext-install sockets \
-&& docker-php-ext-configure gd --with-freetype --with-jpeg \
-&& docker-php-ext-install -j$(nproc) gd
+    && docker-php-ext-install zip \
+    && docker-php-ext-install sockets \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-configure calendar \
+    && docker-php-ext-install calendar
 RUN apt-get install libzip-dev -y
 
 RUN docker-php-ext-install pdo pdo_mysql bcmath
