@@ -32,7 +32,7 @@ class BookingController extends Controller
                 'description',
                 'isApprove'
             );
-            
+
         $a = clone $query;
         $b = clone $query;
 
@@ -63,13 +63,19 @@ class BookingController extends Controller
         }
         if ($request->input('approve')) {
             $booking->isApprove = Approve::APPROVE;
+            $message = "យល់ព្រម" . PHP_EOL . "ប្រធានបទស្តីពី៖ $booking->topicOfMeeting" . PHP_EOL .
+                "ប្រភេទបន្ទប់ប្រជុំ៖ បន្ទប់ប្រជុំ $booking->room" . PHP_EOL . "ម៉ោង៖ $booking->time";
         }
         if ($request->input('reject')) {
             $booking->isApprove = Approve::REJECT;
+            $message = "បដិសេធ" . PHP_EOL . "ប្រធានបទស្តីពី៖ $booking->topicOfMeeting" . PHP_EOL .
+                "ប្រភេទបន្ទប់ប្រជុំ៖ បន្ទប់ប្រជុំ $booking->room" . PHP_EOL . "ម៉ោង៖ $booking->time";
         }
 
         $booking->save();
 
+
+        $this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
         return redirect('/booking')->with('message', 'Update Successfully');
     }
 
@@ -227,8 +233,8 @@ class BookingController extends Controller
                 "កាលបរិច្ឆេទកិច្ចប្រជុំ៖ $date " . PHP_EOL .
                 "ម៉ោង៖ $times" . PHP_EOL . "កាលបរិច្ឆេទស្នើសុំ៖ $today" . PHP_EOL . "អ៊ីមែល: $user->email" . PHP_EOL . "ឈ្មោះមន្រ្តីស្នើសុំ៖ $user->lastNameKh $user->firstNameKh";
 
-            $this->sendMessage(1499573227, $message, "7016210108:AAFqqisOdt9lCixJ7Hg1y9HYJosomMam2fc");
-            //hamm// $this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
+            // $this->sendMessage(1499573227, $message, "7016210108:AAFqqisOdt9lCixJ7Hg1y9HYJosomMam2fc");
+            $this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
 
             DB::commit();
             return redirect('/calendar')->with('message', 'Booking Successfully.');
@@ -236,12 +242,6 @@ class BookingController extends Controller
             DB::rollback();
             return redirect('/calendar')->with('message', 'Please try again!!');
         }
-    }
-
-    public function send(Request $request, string $message)
-    {
-        // return $this->sendMessage(1499573227, $message, "7016210108:AAFqqisOdt9lCixJ7Hg1y9HYJosomMam2fc");
-        // return $this->sendMessage(2100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
     }
 
     public function sendMessage($chatId, $message, $token)
