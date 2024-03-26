@@ -63,12 +63,12 @@ class BookingController extends Controller
         }
         if ($request->input('approve')) {
             $booking->isApprove = Approve::APPROVE;
-            $message = "យល់ព្រម" . PHP_EOL . "ប្រធានបទស្តីពី៖ $booking->topicOfMeeting" . PHP_EOL .
+            $message = "បន្ទប់ទំនេរ" . PHP_EOL . "ប្រធានបទស្តីពី៖ $booking->topicOfMeeting" . PHP_EOL .
                 "ប្រភេទបន្ទប់ប្រជុំ៖ បន្ទប់ប្រជុំ $booking->room" . PHP_EOL . "ម៉ោង៖ $booking->time";
         }
         if ($request->input('reject')) {
             $booking->isApprove = Approve::REJECT;
-            $message = "បដិសេធ" . PHP_EOL . "ប្រធានបទស្តីពី៖ $booking->topicOfMeeting" . PHP_EOL .
+            $message = "បន្ទប់ជាប់រវល់" . PHP_EOL . "ប្រធានបទស្តីពី៖ $booking->topicOfMeeting" . PHP_EOL .
                 "ប្រភេទបន្ទប់ប្រជុំ៖ បន្ទប់ប្រជុំ $booking->room" . PHP_EOL . "ម៉ោង៖ $booking->time";
         }
 
